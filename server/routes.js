@@ -12,9 +12,12 @@ export default (app) => {
         .get( (req, res) => {
           User.find({}).then( (users) => res.json(users))
           .catch( (err) => console.log('err: ', err))
+        })
+        .post( (req, res) => {
 
         })
 
+  router.route('/api/users/:id')
   return router
 }
 
