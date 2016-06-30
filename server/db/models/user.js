@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const UserSchema = new mongoose.Schema({
-  id: { type: number }
   email: {  type: String,
             unique: true,
             lowercase: true,

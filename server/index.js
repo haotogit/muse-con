@@ -7,10 +7,14 @@ import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import configRoutes from './routes'
 import connect from './db/config'
+import morgan from 'morgan'
+import dotenv from 'dotenv'
+
 
 const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
+dotenv.config()
 
 if(isDevelop){
   const compiler = webpack(devConfig)
@@ -32,10 +36,12 @@ if(isDevelop){
   })
 
   connect()
+  app.use(morgan('dev'))
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(middleware)
   app.use(webpackHotMiddleware(compiler))
+
 
   app.use(configRoutes(app))
   app.get('/', function(req, res){
