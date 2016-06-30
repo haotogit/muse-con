@@ -7,7 +7,6 @@ const Dashboard = ({text, updateText}) => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <EventContain />
     </div>
   )
 }
