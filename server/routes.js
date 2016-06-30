@@ -3,6 +3,7 @@ import User from './db/models/user'
 import bluebird from 'bluebird'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
 
 mongoose.Promise = bluebird
 
@@ -15,22 +16,34 @@ export default (app) => {
           .catch( (err) => console.log('err: ', err))
         })
         .post( (req, res) => {
+          const newUser = Object.assign(new User(), req.body) 
 
+          bcrypt.genSalt( (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              newUser.password = hash
+              
+              newUser.save( err => {
+                if(err) console.log('err creating user: ', err)
+
+                return res.json({ sucess: true, userCreated: newUser })
+              })
+            })
+          })
         })
 
   router.route('/api/authenticate')
         .post( (req, res) => {
-          User.findOne(req.body)
-              .then( user => {
+          console.log('reqb: ', req.body)
+          User.findOne({email: req.body.email})
+              .then( (user) => {
                 if(!user) res.json({ success: false, message: 'Authentication failed, no user found' })
                 else {
-                  if(user.password !== req.body.password) {
-                    res.json({ success: false, message: 'Auth failed, wrong password' })
-                  } else {
+                  bcrypt.compare(req.body.password, user.password, (err, result) => {
+                    if(!result) res.json({ success: false, message: 'Auth fail, wrong password' })
+
                     const jwtToken = jwt.sign(user, process.env.JWT_SECRET) 
-                    
                     res.json({ success: true, token: jwtToken })
-                  }
+                  })
                 }
               })
         })

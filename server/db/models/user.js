@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
             required: true
          },
   password: { type: String, required: true },
-  user_type: { type: String, required: true },
+  user_type: { type: String },
   name: String,
   date_added: { Date },
   company: { type: Schema.Types.ObjectId, ref: 'Company' },
