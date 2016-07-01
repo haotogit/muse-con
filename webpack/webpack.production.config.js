@@ -1,5 +1,3 @@
-var dotenv = require('dotenv').config()
-
 var path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin')
