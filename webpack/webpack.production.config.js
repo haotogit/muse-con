@@ -1,4 +1,4 @@
-require('dotenv').load()
+var dotenv = require('dotenv').config()
 
 var path = require('path'),
     webpack = require('webpack'),
