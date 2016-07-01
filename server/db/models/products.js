@@ -7,4 +7,6 @@ const productsSchema = new mongoose.Schema({
   description: String
 })
 
-export default const Products = mongoose.model('Products', productsSchema)
+const Products = mongoose.model('Products', productsSchema)
+
+export default Products

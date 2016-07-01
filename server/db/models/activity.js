@@ -7,4 +7,6 @@ const activitySchema = new mongoose.Schema({
   description: String
 })
 
-export default const activity = mongoose.model('activity', activitySchema)
+const Activity = mongoose.model('Activity', activitySchema)
+
+export default Activity

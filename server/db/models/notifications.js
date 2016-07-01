@@ -8,4 +8,6 @@ const notificationsSchema = new mongoose.Schema({
   description: { type: String, required: true }
 })
 
-export default const Notifications = mongoose.model('Notifications', notificationsSchema)
+const Notifications = mongoose.model('Notifications', notificationsSchema)
+
+export default Notifications

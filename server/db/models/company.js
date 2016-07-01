@@ -9,4 +9,6 @@ const companySchema = new mongoose.Schema({
   clients: [{ type: Schema.Types.ObjectId, ref: 'Clients' }]
 })
 
-export default const Company = mongoose.model('Company', companySchema)
+const Company = mongoose.model('Company', companySchema)
+
+export default Company

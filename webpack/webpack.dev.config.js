@@ -3,7 +3,7 @@ var webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: 'app/index.html',
+  template: path.join(__dirname, '..', 'app/index.html'),
   inject: 'body',
   filename: 'index.html'
 })
@@ -11,11 +11,11 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    path.join(__dirname, 'app/index'),
+    path.join(__dirname, '..', 'app'),
     'webpack-hot-middleware/client?reload=true'
   ],
   output: {
-    path: path.join(__dirname, '/dist/'),
+    path: path.join(__dirname, '..', 'dist'),
     filename: 'index.js',
     publicPath: '/'
   },
@@ -23,11 +23,11 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        include: /app/,
+        include: path.join(__dirname, '..', 'app'),
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          "presets": ["react", "es2015", "stage-0", "react-hmre"]
+          'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
         }
       }
     ]
