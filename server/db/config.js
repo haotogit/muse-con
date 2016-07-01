@@ -23,4 +23,3 @@ export default () => {
     mongoose.connection.on('disconnected', connect)
 
 }
-
