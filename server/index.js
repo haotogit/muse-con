@@ -18,7 +18,7 @@ const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
 // connect mongodb at ../db/config
-connect()
+connect(isDevelop)
 
 if(isDevelop){
   const compiler = webpack(devConfig)
