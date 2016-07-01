@@ -4,7 +4,7 @@
   "description": "Where to?",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf dist && rimraf compiled && npm cache clear && rimraf node_modules",
+    "clean": "rimraf dist && rimraf compiled",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,dist",
     "dev": "nodemon server/index.js --exec babel-node --presets es2015,stage-0",
     "build:prod": "cross-env NODE_ENV=production webpack --colors --progress --config ./webpack/webpack.production.config.js",
