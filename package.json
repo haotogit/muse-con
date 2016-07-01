@@ -10,7 +10,7 @@
     "build:prod": "cross-env NODE_ENV=production webpack --colors --progress --config ./webpack/webpack.production.config.js",
     "build:node": "cross-env  NODE_ENV=production npm run babel -- ./server -d ./compiled",
     "build": "npm run clean && npm run build:prod",
-    "start": "cross-env NODE_ENV=production node --r dotenv/config --r babel-register server/index.js --presets es2015,stage-0",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config -r babel-register server/index.js --presets es2015,stage-0",
     "postinstall": "npm run build"
   },
   "author": "",
