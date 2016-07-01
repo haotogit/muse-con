@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.load()
 
 import express from 'express'
 import path from 'path'
