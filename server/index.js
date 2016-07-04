@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.load()
+dotenv.config()
 
 import express from 'express'
 import path from 'path'
@@ -18,7 +18,6 @@ const port = isDevelop ? 3000 : process.env.PORT
 
 // connect mongodb at ../db/config
 connect(app)
-console.log(app.get('env'))
 
 if(isDevelop){
   const compiler = webpack(devConfig)
