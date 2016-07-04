@@ -10,7 +10,7 @@
     "build:prod": "cross-env NODE_ENV=production webpack --colors --progress --config ./webpack/webpack.production.config.js",
     "build:node": "cross-env  NODE_ENV=production npm run babel -- ./server -d ./compiled",
     "build": "npm run clean && npm run build:prod && npm run build:node",
-    "start": "cross-env NODE_ENV=production node compiled/index.js",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config -r babel-register compiled/index.js",
     "postinstall": "npm run build"
   },
   "author": "",

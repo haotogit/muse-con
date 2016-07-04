@@ -16,6 +16,7 @@ const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
+  console.log(process.env.JWT_SECRET)
 // connect mongodb at ../db/config
 connect(isDevelop)
 
