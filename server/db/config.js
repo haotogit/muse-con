@@ -1,8 +1,10 @@
 import mongoose from 'mongoose'
 import User from './models/user'
 
-export default () => {
+export default (isDevelop) => {
+  console.log(isDevelop)
     const db = process.env.MONGOLAB_URI || 'mongodb://localhost/test'
+
     const options = {
         server: {
           socketOptions: { keepAlive: 1 }
