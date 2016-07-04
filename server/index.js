@@ -18,6 +18,7 @@ const port = isDevelop ? 3000 : process.env.PORT
 
 // connect mongodb at ../db/config
 connect(isDevelop)
+console.log(process.env.JWT_SECRET)
 
 if(isDevelop){
   const compiler = webpack(devConfig)
