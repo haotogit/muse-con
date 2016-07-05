@@ -2,8 +2,6 @@ var path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin')
 
-require('dotenv').load()
-
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: path.join(__dirname, '..', 'app/index.html'),
   inject: 'body',
@@ -54,10 +52,7 @@ module.exports = {
       }
     }),
     new webpack.DefinePlugin([{
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.JWT_SECRET': JSON.stringify(process.env.JWT_SECRET),
-      'process.env.MONGOLAB_URI': JSON.stringify(process.env.MONGOLAB_URI),
-      'proces.env.NPM_CONFIG_PRODUCTION': JSON.stringify(process.env.NPM_CONFIG_PRODUCTION)
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }])
   ]
 }
