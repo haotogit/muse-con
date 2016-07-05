@@ -2,8 +2,10 @@ import mongoose from 'mongoose'
 import User from './models/user'
 
 export default (isDevelop) => {
-  console.log(isDevelop)
-    const db = process.env.MONGOLAB_URI || 'mongodb://localhost/test'
+  let db  = ''
+
+    if(isDevelop) db = 'mongodb://localhost/test'
+    else  db = process.env.MONGOLAB_URI || 'mongodb://localhost/express_prod'
 
     const options = {
         server: {
