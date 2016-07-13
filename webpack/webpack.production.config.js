@@ -47,12 +47,13 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        warnings: false,
-        screw_ie8: true
+        warnings: true
       }
     }),
     new webpack.DefinePlugin([{
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env':{
+        'NODE_ENV': JSON.stringify('production')
+      }
     }])
   ]
 }
