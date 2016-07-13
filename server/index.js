@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+// need to refactor such that webpack plugins requires it from env.js file
 import dotenv from 'dotenv'
 dotenv.config()
 

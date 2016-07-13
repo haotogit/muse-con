@@ -8,7 +8,7 @@
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,dist",
     "dev": "nodemon server/index.js --exec babel-node --require 'dotenv/config' --require 'babel/register' --presets es2015,stage-0",
     "build:prod": "cross-env NODE_ENV=production webpack --colors --progress --config ./webpack/webpack.production.config.js",
-    "build:node": "cross-env  NODE_ENV=production npm run babel -- ./server -d ./compiled",
+    "build:node": "cross-env NODE_ENV=production npm run babel -- ./server -d ./compiled",
     "build": "npm run clean && npm run build:prod && npm run build:node",
     "start": "cross-env NODE_ENV=production node compiled/index.js",
     "postinstall": "npm run build"

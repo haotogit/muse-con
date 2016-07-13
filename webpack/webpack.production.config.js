@@ -1,6 +1,7 @@
 var path = require('path'),
     webpack = require('webpack'),
-    HtmlWebpackPlugin = require('html-webpack-plugin')
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    envVars = require('../server/env')
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: path.join(__dirname, '..', 'app/index.html'),
@@ -52,7 +53,10 @@ module.exports = {
     }),
     new webpack.DefinePlugin([{
       'process.env':{
-        'NODE_ENV': JSON.stringify('production')
+        'NODE_ENV': JSON.stringify('production'),
+        'JWT_SECRET': JSON.stringify(envVars.JWT_SECRET),
+        'MONGOLAB_URI': JSON.stringify(envVars.MONGOLAB_URI),
+        'NPM_PRODUCTION': JSON.stringify(envVars.NPM_PRODUCTION)
       }
     }])
   ]
