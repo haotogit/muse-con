@@ -10,6 +10,8 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 })
 
 module.exports = {
+  cache: true,
+  debug: true,
   devtool: 'eval-source-map',
   entry: [
     path.join(__dirname, '..', 'app'),
@@ -36,6 +38,9 @@ module.exports = {
   resolve: {
     root: [path.join(__dirname, '..', 'app')],
     extensions: ['', '.js', '.jsx']
+  },
+  devServer: {
+    historyApiFallback: true
   },
   plugins: [
     HtmlWebpackPluginConfig,

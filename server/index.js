@@ -1,8 +1,5 @@
 import 'babel-polyfill'
-// need to refactor such that webpack plugins requires it from env.js file
 import dotenv from 'dotenv'
-dotenv.config()
-
 import express from 'express'
 import path from 'path'
 import webpack from 'webpack'
@@ -14,13 +11,13 @@ import configRoutes from './routes'
 import connect from './db/config'
 import morgan from 'morgan'
 
+dotenv.config()
 const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
 // connect mongodb at ../db/config
 connect(isDevelop)
-console.log('fuk: ', process.env.JWT_SECRET)
 
 if(isDevelop){
   const compiler = webpack(devConfig)
@@ -32,7 +29,7 @@ if(isDevelop){
       colors: true,
       hash: false,
       timings: true,
-      chunks: false,
+      chunks: true,
       chunkModules: false,
       modules: false,
     },
@@ -45,7 +42,7 @@ if(isDevelop){
   app.use(webpackHotMiddleware(compiler))
   app.use(morgan('dev'))
 
-  app.get('/', function(req, res){
+  app.get('/', (req, res) => {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')))
     res.end()
   })
