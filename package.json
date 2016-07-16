@@ -1,7 +1,7 @@
 {
-  "name": "where_to",
+  "name": "dryclean",
   "version": "1.0.0",
-  "description": "Where to?",
+  "description": "Dry Cleaning",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist && rimraf compiled",
