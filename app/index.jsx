@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
@@ -6,7 +7,7 @@ import { syncHistoryWithStore, routerReducer as routing, routerMiddleware } from
 import makeRoutes from './routes'
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
 import reducer from './reducers'
-import { initialize, loadEvents } from './actions'
+import { initialize, loadEvents, login, changeText, auth } from './actions'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
@@ -27,7 +28,8 @@ if(process.env.NODE_ENV === 'development') {
 
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, {}, builtMiddle)
-store.dispatch(loadEvents())
+//store.dispatch(loadEvents())
+store.dispatch(changeText('heelo'))
 const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)
 

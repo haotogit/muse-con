@@ -3,14 +3,15 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const clientSchema = new mongoose.Schema({
-  name: { type: String, unique: true, required: true },
+  status: String,
+  name: { type: String, required: true },
   email: String,
   password: String,
-  phone: {},
-  address: {},
+  access_token: String,
+  phone: Number,
+  address: String,
   orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
-  status: {},
-  preferences: [{}]
+  preferences: String,
 }, { timestamps: true })
 
 const Client = mongoose.model('Client', clientSchema)

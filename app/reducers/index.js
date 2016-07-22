@@ -14,7 +14,19 @@ export default function reducer(state={}, action) {
 
     case 'USER_LOGIN':
       return Object.assign({}, state, {
-        user : true
+        isAuthed : true
+      })
+    break;
+
+    case 'LOGOUT':
+      return Object.assign({}, state, {
+        isAuthed: false
+      })
+    break;
+
+    case 'AUTH':
+      return Object.assign({}, state, {
+        isAuthed: action.payload
       })
     break;
 

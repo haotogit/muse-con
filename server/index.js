@@ -10,6 +10,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import configRoutes from './routes'
 import connect from './db/config'
 import morgan from 'morgan'
+import expressSession from 'express-session'
 
 dotenv.config()
 const app = express()
@@ -17,7 +18,7 @@ const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
 // connect mongodb at ../db/config
-connect(isDevelop)
+//connect(isDevelop)
 
 if(isDevelop){
   const compiler = webpack(devConfig)
@@ -42,9 +43,9 @@ if(isDevelop){
   app.use(webpackHotMiddleware(compiler))
   app.use(morgan('dev'))
 
-  app.get('/', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')))
-    res.end()
+  // need to refactor for route get * cuz navigation via url doesn't function
+  app.get('*', (req, res) => {
+    res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')))
   })
 } else {
     app.use(express.static(path.join(__dirname, '..', 'dist')))
@@ -53,9 +54,9 @@ if(isDevelop){
     })
 }
 
-app.use(configRoutes(app))
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(configRoutes(app))
 
 app.listen(port, (err) => {
   if(err) console.log('error on server: ', err)

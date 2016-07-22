@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 //need to make it more detailed and broken down
-const notificationsSchema = new mongoose.Schema({
+const notificationSchema = new mongoose.Schema({
   user_id: { type: Schema.Types.ObjectId, ref: 'User' },
   description: { type: String, required: true }
 })
 
-const Notifications = mongoose.model('Notifications', notificationsSchema)
+const Notification = mongoose.model('Notification', notificationSchema)
 
-export default Notifications
+export default Notification

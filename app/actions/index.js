@@ -6,7 +6,7 @@ export function initialize(message){
 }
 
 export function changeText(message){
-  return {type: 'CHANGE_TEXT', message: message.target.value}
+  return {type: 'CHANGE_TEXT', message}
 }
 
 export function updateText(e){
@@ -14,8 +14,16 @@ export function updateText(e){
   return changeText(e)
 }
 
-export function userLogin(){
+export function login(){
   return { type: 'USER_LOGIN' }
+}
+
+export function logout () {
+  return { type: 'LOGOUT' }
+}
+
+export function auth(opt){
+  return { type: 'AUTH', payload: opt }
 }
 
 function requestEvents(options){

@@ -15,11 +15,11 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: [
     path.join(__dirname, '..', 'app'),
-    'webpack-hot-middleware/client?reload=true'
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
   ],
   output: {
     path: path.join(__dirname, '..', 'dist'),
-    filename: 'index.js',
+    filename: '[name].js',
     publicPath: '/'
   },
   module: {
