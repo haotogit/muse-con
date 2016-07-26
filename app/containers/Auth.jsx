@@ -18,7 +18,7 @@ export function requireAuth (Component) {
 
     authenticate (props, location, nextLocation) {
       if (!props.isAuthed) {
-        return props.dispatch(routerActions.replace(`/login?next=${nextLocation}`))
+        return props.dispatch(routerActions.replace(`/login`))
       }
     }
 
@@ -36,12 +36,14 @@ export function requireAuth (Component) {
     }
 
   }
-  const mapStateToProps = (state) => ({
+  function mapStateToProps (state) {
     //token: state.reducer.auth.token,
     //userName: state.reducer.auth.userName,
-    isAuthed: state.reducer.isAuthed,
-    state: state
-  })
+    return {
+      state: state,
+      isAuthed: state.reducer.isAuthed
+    }
+  }
 
   return connect(mapStateToProps)(AuthedComp)
 
