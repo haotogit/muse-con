@@ -1,46 +1,52 @@
 import React, { Component } from 'react'
-import { login } from '../actions'
+import * as actionCreators from '../actions'
 import { connect } from 'react-redux'
-import { routerActions } from 'react-router-redux'
+import { bindActionCreators } from 'redux'
 
 class Login extends Component {
   constructor (props) {
     super(props)
-    this.dispatch = props.dispatch
-    this.state = props.state
-    this.isAuthed = this.props.isAuthed
-    console.log('porra', props)
+  }
+
+  componentWillReceiveProps (nextProps) {
   }
 
   render () {
+    let { state, userAuth } = this.props
+
     return (
       <div>
         <h1>Login</h1>
         <form>
           <input type='text' ref='username' placeholder='Username' />
           <input type='password' ref='password' placeholder='Password' />
-          <input type='button' onClick={(event) => this.sendLogin(event)} value='Login' />
-          <p>{this.isAuthed ? this.isAuthed : 'nope'}</p>
+          <input type='button' onClick={this.login.bind(this)} value='Login' />
         </form>
+        <p>{userAuth ? 'true' : 'nope'}</p>
       </div>
     )
   }
 
-  sendLogin (event) {
+  login () {
     const username = this.refs.username,
           password = this.refs.password,
           opts = {
-            username: username.value,
-            password: password.value
+            //username: username.value,
+            //password: password.value
+            username: 'test',
+            password: 'password'
           }
-    this.props.dispatch({type: 'USER_LOGIN', opts})
-    //this.props.dispatch(routerActions.replace(''))
+
+    this.props.actions.login(opts)
   }
 }
 
 const mapStateToProps = (state) => ({
-  state: state,
-  isAuthed: state.reducer.isAuthed
+  userAuth: state.reducer.userAuth
 })
 
-export default connect(mapStateToProps)(Login)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actionCreators, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

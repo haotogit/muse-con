@@ -14,10 +14,6 @@ class Dashboard extends Component{
   }
 }
 
-Dashboard.propTypes = {
-  text: PropTypes.string,
-  doAuth: PropTypes.object.isRequired
-}
 
 const mapStateToProps = (state) => ({
   text: state.reducer.text

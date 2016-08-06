@@ -1,30 +1,42 @@
 import * as e_t from '../event_types'
 import popsicle from 'popsicle'
+import { push, routerActions } from 'react-router-redux'
 
-export function initialize(message){
-  return { type: 'INIT', message }
+export function login(opts){
+  return (dispatch) => {
+    dispatch(loginRequest())
+    popsicle({
+      method: 'post',
+      url: '/api/authenticate',
+      body: opts
+    })
+    .then(res => {
+      console.log('prizPopsicle: ', res)
+      dispatch(loginSuccess(res.body))
+      dispatch(push(``))
+    })
+
+  }
 }
 
-export function changeText(message){
-  return {type: 'CHANGE_TEXT', message}
+export function loginSuccess (payload) {
+  return {
+    type: 'LOGIN_SUCCESS',
+    payload
+  }
 }
 
-export function updateText(e){
-  console.log('updateTaction: ', e)
-  return changeText(e)
-}
-
-export function login(){
-  return { type: 'USER_LOGIN' }
+export function loginRequest () {
+  return {
+    type: 'LOGIN_REQUEST'
+  }
 }
 
 export function logout () {
-  return { type: 'LOGOUT' }
+  return { type: 'LOGOUT', null }
 }
 
-export function auth(opt){
-  return { type: 'AUTH', payload: opt }
-}
+
 
 function requestEvents(options){
   return {

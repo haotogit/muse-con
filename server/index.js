@@ -18,7 +18,11 @@ const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
 // connect mongodb at ../db/config
-//connect(isDevelop)
+connect(isDevelop)
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(configRoutes(app))
 
 if(isDevelop){
   const compiler = webpack(devConfig)
@@ -44,7 +48,7 @@ if(isDevelop){
   app.use(morgan('dev'))
 
   // need to refactor for route get * cuz navigation via url doesn't function
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
     res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')))
   })
 } else {
@@ -54,9 +58,6 @@ if(isDevelop){
     })
 }
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(configRoutes(app))
 
 app.listen(port, (err) => {
   if(err) console.log('error on server: ', err)

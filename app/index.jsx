@@ -29,7 +29,6 @@ if(process.env.NODE_ENV === 'development') {
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, builtMiddle)
 //store.dispatch(loadEvents())
-store.dispatch(changeText('heelo'))
 const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)
 

@@ -1,32 +1,15 @@
 export default function reducer(state={}, action) {
   switch(action.type){
-    case 'INIT':
-      return Object.assign({}, state, {
-               user: action.message
-             })
-    break;
 
-    case 'CHANGE_TEXT':
+    case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
-               text: action.message
-             })
-    break;
-
-    case 'USER_LOGIN':
-      return Object.assign({}, state, {
-        isAuthed : true
+        userAuth: action.payload
       })
     break;
 
     case 'LOGOUT':
       return Object.assign({}, state, {
-        isAuthed: false
-      })
-    break;
-
-    case 'AUTH':
-      return Object.assign({}, state, {
-        isAuthed: action.payload
+        userAuth: action.payload
       })
     break;
 

@@ -40,7 +40,12 @@ export default (app) => {
                     if(!result) res.json({ success: false, message: 'Auth fail, wrong password' })
                     else {
                       const jwtToken = jwt.sign(user, process.env.JWT_SECRET)
-                      res.json({ success: true, token: jwtToken })
+                      const currUser = {
+                        id: user._id,
+                        username: user.username,
+                        token: jwtToken
+                      }
+                      res.json(currUser)
                     }
                   })
                 }

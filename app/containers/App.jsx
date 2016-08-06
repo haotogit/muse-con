@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Dashboard from './Dashboard'
 import Navigation from './Navigation'
 import { connect } from 'react-redux'
@@ -16,10 +16,13 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  children: PropTypes.object
+}
+
 function mapStateToProps(state) {
   console.log('@app: ', state)
   return {state: state}
 }
-
 
 export default connect(mapStateToProps)(App)

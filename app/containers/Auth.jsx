@@ -7,27 +7,26 @@ export function requireAuth (Component) {
   class AuthedComp extends Component{
 
     componentWillMount () {
-      if (!this.props.isAuthed) {
-        this.authenticate(this.props, this.props.location, this.props.location.pathname)
+      if (!this.props.userAuth) {
+        this.authenticate(this.props)
       }
     }
 
     componentWillReceiveProps (nextProps) {
-      this.authenticate(nextProps, nextProps.location, nextProps.location.pathname)
+      this.authenticate(nextProps)
     }
 
-    authenticate (props, location, nextLocation) {
-      if (!props.isAuthed) {
-        return props.dispatch(routerActions.replace(`/login`))
+    authenticate (props) {
+      if (!props.userAuth) {
+        return props.dispatch(routerActions.push(`/login`))
       }
     }
 
     render () {
       return (
         <div>
-          { this.props.isAuthed ?
+          { this.props.userAuth ?
             ( <div>
-                <Navigation />
                 <Component {...this.props} />
               </div>
             ) : null }
@@ -36,14 +35,11 @@ export function requireAuth (Component) {
     }
 
   }
-  function mapStateToProps (state) {
+  const mapStateToProps = (state) => ({
     //token: state.reducer.auth.token,
     //userName: state.reducer.auth.userName,
-    return {
-      state: state,
-      isAuthed: state.reducer.isAuthed
-    }
-  }
+    userAuth: state.reducer.userAuth
+  })
 
   return connect(mapStateToProps)(AuthedComp)
 
