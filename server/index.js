@@ -17,9 +17,6 @@ const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
-// connect mongodb at ../db/config
-connect(isDevelop)
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(configRoutes(app))
@@ -37,9 +34,6 @@ if(isDevelop){
       chunks: true,
       chunkModules: false,
       modules: false,
-    },
-    proxy: {
-      '/api': 'http://localhost:3000'
     }
   })
 
@@ -48,16 +42,15 @@ if(isDevelop){
   app.use(morgan('dev'))
 
   // need to refactor for route get * cuz navigation via url doesn't function
-  app.get('/', (req, res) => {
+  app.get('*', (req, res) => {
     res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')))
   })
 } else {
     app.use(express.static(path.join(__dirname, '..', 'dist')))
-    app.get('/', (req, res) => {
+    app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, 'dist/index.html'))
     })
 }
-
 
 app.listen(port, (err) => {
   if(err) console.log('error on server: ', err)

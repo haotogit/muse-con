@@ -22,7 +22,6 @@ class Login extends Component {
           <input type='password' ref='password' placeholder='Password' />
           <input type='button' onClick={this.login.bind(this)} value='Login' />
         </form>
-        <p>{userAuth ? 'true' : 'nope'}</p>
       </div>
     )
   }

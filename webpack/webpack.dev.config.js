@@ -49,8 +49,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('development'),
-        'JWT_SECRET': JSON.stringify(envVars.JWT_SECRET)
+        'NODE_ENV': JSON.stringify('development')
       }
     })
   ]
