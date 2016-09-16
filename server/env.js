@@ -1,4 +1,6 @@
 module.exports = {
-  "JWT_SECRET": "superawesomesecret89",
-  "MONGOLAB_URI": "mongodb://heroku_n45m6b75:r5b6gup797k9greuo5pg63hvkg@ds011725.mlab.com:11725/heroku_n45m6b75"
+  "FOURSQ_CLIENT_ID":"Z50I5Y1CNTZTPIFFAY2WWUYCFNS5RYI4XTFIATDACTZKNOTL",
+  "FOURSQ_CLIENT_SECRET":"S4WEDX3WRCCUT5ZHEPWBPD33HA0EIDORLIFIBYX42TOVK35O",
+  "FOURSQ_API":"https://api.foursquare.com/v2/",
+  "BASE_URI":"http://localhost:8888/"
 }

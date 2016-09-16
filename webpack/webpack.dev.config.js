@@ -1,7 +1,7 @@
 var webpack = require('webpack'),
     path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    envVars = require('../server/env')
+    envVar = require('../server/env')
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: path.join(__dirname, '..', 'app/index.html'),
@@ -49,7 +49,11 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('development')
+        'NODE_ENV': JSON.stringify('development'),
+        'FOURSQ_CLIENT_ID': JSON.stringify(envVar['FOURSQ_CLIENT_ID']),
+        'FOURSQ_CLIENT_SECRET': JSON.stringify(envVar['FOURSQ_CLIENT_SECRET']),
+        'FOURSQ_API': JSON.stringify(envVar['FOURSQ_API']),
+        'BASE_URI': JSON.stringify(envVar['BASE_URI'])
       }
     })
   ]
