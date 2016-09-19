@@ -4,6 +4,8 @@ import bluebird from 'bluebird'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import qString from 'query-string'
+import popsicle from 'popsicle'
 
 mongoose.Promise = bluebird
 
@@ -11,46 +13,42 @@ mongoose.Promise = bluebird
 export default (app) => {
   const router = express.Router()
 
-  router.route('/api/users')
-        .get( (req, res) => {
-          User.find({}).then(users => res.json(users))
-              .catch( (err) => console.log('err: ', err))
-        })
-        .post( (req, res) => {
-          const newUser = Object.assign(new User(), req.body)
-          bcrypt.genSalt( (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-              newUser.password = hash
-
-              newUser.save( err => {
-                if(err) console.log('err creating user: ', err)
-                else res.json({ sucess: true, userCreated: newUser })
-              })
-            })
-          })
+  router.route('/login-spotify')
+        .get((req, res) => {
+          let scope = 'playlist-read-private'
+          res.redirect('https://accounts.spotify.com/authorize?' + 
+          qString.stringify({
+            response_type: 'code',
+            client_id: process.env.SPOTIFY_CLIENT_ID,
+            client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+            scope: scope,
+            redirect_uri: process.env.SPOTIFY_REDIRECT
+          }))
         })
 
-  router.route('/api/authenticate')
-        .post( (req, res) => {
-          User.findOne({username: req.body.username})
-              .then( (user) => {
-                if(!user) res.json({ success: false, message: 'Authentication failed, no user found' })
-                else {
-                  bcrypt.compare(req.body.password, user.password, (err, result) => {
-                    if(!result) res.json({ success: false, message: 'Auth fail, wrong password' })
-                    else {
-                      const jwtToken = jwt.sign(user, process.env.JWT_SECRET)
-                      const currUser = {
-                        id: user._id,
-                        username: user.username,
-                        token: jwtToken
-                      }
-                      res.json(currUser)
-                    }
+  router.route('/spotify-redirect')
+        .get((req, res) => {
+          let authOptions = {
+            method: 'POST',
+            url: 'https://accounts.spotify.com/api/token',
+            form: {
+              code: req.query.code || null,
+              redirect_uri: process.env.redirect_uri,
+              grant_type: 'authorization_code'
+            },
+            headers: {
+              'Authorization': `Basic ${new Buffer(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')}`
+            },
+            json: true
+          }
+
+          popsicle.request(authOptions)
+                  .then((err, response) =>{
+                    console.log('haloo', response)
+            
                   })
-                }
-              })
         })
+
   return router
 }
 

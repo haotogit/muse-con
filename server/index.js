@@ -21,6 +21,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(configRoutes(app))
 
+app.get('/login-spotify', (req, res) => {
+  let scope = 'playlist-read-private'
+
+  res.redirect('https://accounts.spotify.com/authorize?' + 
+  qString.stringify({
+    response_type: 'code',
+    client_id: process.env.SPOTIFY_CLIENT_ID,
+    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+    scope: scope,
+    redirect_uri: process.env.SPOTIFY_REDIRECT
+  }))
+})
+
 if(isDevelop){
   const compiler = webpack(devConfig)
   const middleware = webpackMiddleware(compiler, {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import EventContain from './EventContain'
 import * as actionCreators from '../actions'
 import { bindActionCreators } from 'redux'
-import * as Rx from 'rxjs'
 
 class Dashboard extends Component{
   render(){
@@ -11,17 +10,12 @@ class Dashboard extends Component{
       <div>
         <h1>Wilkommen</h1>
         <h4>Search your venue</h4>
-        <input type="search" onInput={this.querySearch}/>
+        
       </div>
     )
   }
 
   querySearch (e) {
-    console.log('hello there', typeof e.currentTarget.value)
-    console.log('hi', Rx)
-    let query = e.currentTarget.value.split()
-    let queryObs = Rx.Observable.from(query)
-    console.log('query', query)
   }
 }
 

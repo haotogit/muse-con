@@ -50,9 +50,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('develop'),
-        'FOURSQ_CLIENT_ID': JSON.stringify(envVar['FOURSQ_CLIENT_ID']),
-        'FOURSQ_CLIENT_SECRET': JSON.stringify(envVar['FOURSQ_CLIENT_SECRET']),
-        'FOURSQ_API': JSON.stringify(envVar['FOURSQ_API']),
+        'SPOTIFY_BASE_URI': JSON.stringify(envVar['SPOTIFY_API']),
         'BASE_URI': JSON.stringify(envVar['BASE_URI'])
       }
     })

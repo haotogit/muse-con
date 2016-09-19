@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router'
 import { connect } from 'react-redux'
 import { logout } from '../actions'
 
-const sections = ['users', 'events']
+const sections = ['users', 'events', 'user']
 
 const Navigation = ({userAuth, logout}) => {
   const style = {
