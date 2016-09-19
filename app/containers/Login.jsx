@@ -32,7 +32,7 @@ class Login extends Component {
           opts = {
             //username: username.value,
             //password: password.value
-            username: 'test',
+            username: 'samuca',
             password: 'password'
           }
 

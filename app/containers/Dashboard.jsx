@@ -17,9 +17,11 @@ class Dashboard extends Component{
   }
 
   querySearch (e) {
-    console.log('hello there', e.currentTarget.value)
+    console.log('hello there', typeof e.currentTarget.value)
     console.log('hi', Rx)
-    let query = e.currentTarget.value
+    let query = e.currentTarget.value.split()
+    let queryObs = Rx.Observable.from(query)
+    console.log('query', query)
   }
 }
 

@@ -12,8 +12,11 @@ export function login(opts){
     })
     .then(res => {
       console.log('prizPopsicle: ', res)
-      dispatch(loginSuccess(res.body))
-      dispatch(push(``))
+      if (res.error) console.log('bad pw: ', res)
+      else {
+        dispatch(loginSuccess(res.body))
+        dispatch(push(``))
+      }
     })
 
   }
