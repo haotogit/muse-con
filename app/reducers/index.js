@@ -20,6 +20,11 @@ export default function reducer(state={}, action) {
       })
     break;
 
+      //case 'THIRD_PARTY_TOKEN':
+      //return Object.assign({}, state {
+      //})
+      // break;
+
     default:
       return state
     break;

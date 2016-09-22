@@ -10,29 +10,15 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import configRoutes from './routes'
 import connect from './db/config'
 import morgan from 'morgan'
-import expressSession from 'express-session'
 
 dotenv.config()
 const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(configRoutes(app))
-
-app.get('/login-spotify', (req, res) => {
-  let scope = 'playlist-read-private'
-
-  res.redirect('https://accounts.spotify.com/authorize?' + 
-  qString.stringify({
-    response_type: 'code',
-    client_id: process.env.SPOTIFY_CLIENT_ID,
-    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
-    scope: scope,
-    redirect_uri: process.env.SPOTIFY_REDIRECT
-  }))
-})
 
 if(isDevelop){
   const compiler = webpack(devConfig)

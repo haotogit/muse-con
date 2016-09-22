@@ -18,7 +18,6 @@ export function login(opts){
         dispatch(push(``))
       }
     })
-
   }
 }
 
@@ -39,6 +38,12 @@ export function logout () {
   return { type: 'LOGOUT', null }
 }
 
+export function thirdPartyToken (payload) {
+  return {
+    type: 'THIRD_PARTY_TOKEN',
+    payload
+  }
+}
 
 
 function requestEvents(options){
