@@ -7,7 +7,7 @@ export function login(opts){
     dispatch(loginRequest())
     popsicle({
       method: 'post',
-      url: 'http://localhost:8888/api/authenticate',
+      url: 'http://localhost:3000/api/authenticate',
       body: opts
     })
     .then(res => {
@@ -44,7 +44,6 @@ export function thirdPartyToken (payload) {
     payload
   }
 }
-
 
 function requestEvents(options){
   return {

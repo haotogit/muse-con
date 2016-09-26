@@ -10,11 +10,39 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import configRoutes from './routes'
 import connect from './db/config'
 import morgan from 'morgan'
+import mongoose from 'mongoose'
+import session from 'express-session'
 
 dotenv.config()
 const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
+
+connect(isDevelop)
+const configMongoStore = { 
+  mongooseConnection: mongoose.connection,
+  collection: 'sessions'
+}
+
+const MongoStore = require('connect-mongo')(session)
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    store: new MongoStore(configMongoStore),
+    resave: false,
+    domain: '127.0.0.1:3000',
+    saveUninitialized: true,
+    cookie: {
+      secure: false,
+      maxAge: 60000 
+    }
+}))
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '127.0.0.1:3000')
+  res.header('Access-Control-Allow-Credentials', 'true')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -33,6 +61,9 @@ if(isDevelop){
       chunks: true,
       chunkModules: false,
       modules: false,
+    },
+    proxy: {
+      'api/': 'http://localhost:3000'
     }
   })
 

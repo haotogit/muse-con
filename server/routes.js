@@ -14,7 +14,7 @@ export default (app) => {
   const router = express.Router()
 
   app.get('/auth-spotify', (req, res) => {
-    let scope = 'playlist-read-private'
+    let scope = 'playlist-read-private user-top-read user-library-read'
 
     res.redirect('https://accounts.spotify.com/authorize?' + 
     qString.stringify({
@@ -42,21 +42,92 @@ export default (app) => {
       },
       json: true
     }
-    request.post(authOptions, (err, result, body) => {
-      if (!err && result.statusCode === 200) {
-        let tokens = {
-          url: 'http://localhost:8888/api/third-party',
-          form: {
-            accessToken: body.access_token,
-            refreshToken: body.refresh_token
-          }
+    console.log('@spotifyCallback::', req)
+
+    
+
+    request.post(authOptions, (err, response, body) => {
+      if (!err && response.statusCode === 200) {
+        console.log('bod::', body)
+        let spotifyObj = {
+          url: 'https://api.spotify.com/v1/me',
+          headers: {
+            'Authorization': `Bearer ${body.access_token}`
+          },
+          json: true
         }
-        request.post(tokens)
-        res.redirect(`/`)
+        let tokens = {
+          access_token: body.access_token,
+          refresh_token: body.refresh_token
+        }
+        let currUser
+        request.get(spotifyObj, (err, resp, bod) => {
+          tokens.id = bod.id
+
+          req.sessionStore.get(req.sessionID, (err, session) => {
+
+          console.log('SessionUSERRR:::', session)
+            console.log('token:::', tokens)
+          User.findOne({username: session.user.username})
+              .then((user) => {
+                console.log('fuken finally::', user)
+                //look up how to make public method on user model work
+                
+                user.spotify = tokens
+                user.save()
+                
+                currUser = {
+                  id: user._id,
+                  username: user.username,
+                  spotify: user.spotify
+                }
+              })
+          })
+          
+        })
+        res.redirect('/user')
         //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
       }
     })
   })
+
+  app.get('/test', (req, res) => {
+          console.log('testRoute::', req.user)
+          console.log('testRoute::', req.session)
+        
+          req.sessionStore.get(req.sessionID, (err, session) => {
+            console.log('PUHLEASEEEE::', session)
+          })
+
+          
+        })
+
+  router.route('/api/authenticate')
+        .post( (req, res, next) => {
+          User.findOne({username: req.body.username})
+              .then( (user) => {
+                if(!user) res.json({ success: false, message: 'Authentication failed, no user found' })
+                else {
+                  user.comparePassword(req.body.password, (err, result) => {
+                    if(!result) res.json({ error: true, message: 'Auth fail, wrong password' })
+                    else {
+                      req.session.user = user
+                      req.user = req.session.user
+                      req.session.save()
+                      next()
+
+                      let currUser = {
+                        id: user._id,
+                        username: user.username,
+                        spotify: user.spotify
+                      }
+                      
+                      res.json(currUser)
+                    }
+                  })
+                }
+              })
+        })
 
   return router
 }

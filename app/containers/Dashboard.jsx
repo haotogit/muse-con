@@ -11,14 +11,8 @@ class Dashboard extends Component{
       <div>
         <h1>Wilkommen</h1>
         <h4>Search your venue</h4>
-        <div onClick={this.callServer}><h1>hi</h1></div>       
       </div>
     )
-  }
-
-  callServer () {
-    popsicle({ url: 'http://localhost:8888/test', method: 'GET' })
-            .then(res => console.log('howdd: ', res))
   }
 
   querySearch (e) {
