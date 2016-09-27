@@ -102,6 +102,13 @@ export default (app) => {
           
         })
 
+  router.route('/api/evalSpotify')
+        .get((req, res) => {
+          req.sessionStore.get(req.sessionID, (err, session) => {
+            console.log('PUHLEASEEEE::', session)
+          })
+        })
+
   router.route('/api/authenticate')
         .post( (req, res, next) => {
           User.findOne({username: req.body.username})
