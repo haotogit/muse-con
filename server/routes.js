@@ -103,10 +103,9 @@ export default (app) => {
         })
 
   router.route('/api/evalSpotify')
-        .get((req, res) => {
-          req.sessionStore.get(req.sessionID, (err, session) => {
-            console.log('PUHLEASEEEE::', session)
-          })
+        .get(isAuthenticated, (req, res) => {
+          console.log('isAuthed')
+          res.end()
         })
 
   router.route('/api/authenticate')
@@ -139,3 +138,11 @@ export default (app) => {
   return router
 }
 
+function isAuthenticated (req, res, next) {
+  req.sessionStore.get(req.sessionID, (err, session) => {
+    if (session.user) {
+      next()
+    }
+    res.json({error: "No session found"})
+  })
+}

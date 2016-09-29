@@ -1,8 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { push, routerActions } from 'react-router-redux'
 import popsicle from 'popsicle'
 import { popWrap } from '../helpers'
+import { bindActionCreators } from 'redux'
 
-const Spotify = () =>{
+const Spotify = ({analyzeSpotify}) =>{
   return (
     <div>
       <a href="/auth-spotify">Link Spotify</a>
@@ -12,7 +15,21 @@ const Spotify = () =>{
 }
 
 function analyzeSpotify () {
-  popWrap('get', 'api/evalSpotify')
+  return (dispatch) => {
+  console.log('rannnnn')
+    popWrap('get', 'api/evalSpotify')
+      .then(resp => {
+        if (resp.body.error) {
+          dispatch(routerActions.push('/login'))
+        }
+      })
+  }
 }
 
-export default Spotify
+function mapDispatchToProps(dispatch) {
+  return {
+    analyzeSpotify: bindActionCreators(analyzeSpotify, dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Spotify)

@@ -27,12 +27,12 @@ if(process.env.NODE_ENV === 'develop') {
 }
 
 const initialState = {reducer: {userAuth: process.env.NODE_ENV === 'develop' ? true: false}}
+//const initialState = {}
 
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, initialState, builtMiddle)
 console.log('stow', store)
 
-//if (process.env.NODE_ENV === 'develop') state['userAuth'] = true
 //store.dispatch(loadEvents())
 const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)
