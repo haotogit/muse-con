@@ -104,8 +104,12 @@ export default (app) => {
 
   router.route('/api/evalSpotify')
         .get(isAuthenticated, (req, res) => {
-          console.log('isAuthed')
-          res.end()
+          console.log('perfavor:::', req.session.user)
+          // make request to spotify,
+          // start with top read
+          // calculate: top artists, genres, 
+          // on response User.find and append each artist and genres
+          // respond with updated user obj
         })
 
   router.route('/api/authenticate')
@@ -141,8 +145,11 @@ export default (app) => {
 function isAuthenticated (req, res, next) {
   req.sessionStore.get(req.sessionID, (err, session) => {
     if (session.user) {
+      console.log('authed::', session)
       next()
+    } else {
+      console.log('NOTauthed::', session)
+      res.json({error: "No session found"})
     }
-    res.json({error: "No session found"})
   })
 }

@@ -16,11 +16,17 @@ const Spotify = ({analyzeSpotify}) =>{
 
 function analyzeSpotify () {
   return (dispatch) => {
-  console.log('rannnnn')
     popWrap('get', 'api/evalSpotify')
       .then(resp => {
+        // move this error handling to the popwrap helper,
+        // otherwise need to handle no session redirect on
+        // every request
+
         if (resp.body.error) {
+          console.log('resppp::', resp)
           dispatch(routerActions.push('/login'))
+        } else {
+          console.log('authed::', resp)
         }
       })
   }
