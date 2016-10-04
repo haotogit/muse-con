@@ -1,9 +1,12 @@
 import popsicle from 'popsicle'
 
 export function popWrap (...args) {
-  console.log('args::', args)
-  let opts = {
-    method:
-  }
-  return popsicle({method: args[0], url: args[1], body:args[2]})
+  let optsArr = ['method', 'url', 'body'],
+      opts = {}
+
+  optsArr.forEach((each, i) => {
+    opts[each] = args[i]
+  })
+
+  popsicle(opts)
 }
