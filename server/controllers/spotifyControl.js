@@ -90,9 +90,6 @@ function spotifyCallback (req, res) {
 function evalSpotify (req, res) {
   User.findOne({_id: req.session.user._id})
       .then(user => {
-        let artistObj = {},
-            artistArr = []
-
         let opts = {
           method: 'get',
           url: `${process.env.SPOTIFY_BASE}/me/top/artists?limit=50`,
@@ -101,22 +98,22 @@ function evalSpotify (req, res) {
           }
         }
         popsicle(opts)
-          .then(res => {
-            if (res.body.items) {
-              console.log('fak::', res.body.items)
-             
-              res.body.items.forEach((artist) => {
-                artistObj['name'] = artist['name']
-                artistObj['genres'] = artist['genres']
-                artistObj['image'] = artist['images'][1]['url']
-                
-                artistArr.push(artistObj)
+          .then(resp => {
+            if (resp.body.items) {
+              let artistList = resp.body.items.map(artist => {
+                return {
+                  name: artist.name,
+                  genres: artist.genres,
+                  image: artist.images[1].url
+                }
               })
 
-              console.log('artistarr::', artistArr)
-              //user.spotify.artists = artistArr
-              //user.save()
-              //res.json(user)
+              user.spotify.artists = artistList
+              user.save()
+              res.json(user)
+            } else {
+              console.log('uhoh::', resp)
+              res.json({error: resp})
             }
           })
 
