@@ -8,5 +8,5 @@ export function popWrap (...args) {
     opts[each] = args[i]
   })
 
-  popsicle(opts)
+  return popsicle(opts)
 }
