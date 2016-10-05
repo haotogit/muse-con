@@ -26,7 +26,7 @@ function analyzeSpotify () {
           console.log('resppp::', resp)
           dispatch(routerActions.push('/login'))
         } else {
-          console.log('authed::', resp)
+          console.log('evalResponse::', resp)
         }
       })
   }

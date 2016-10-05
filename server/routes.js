@@ -21,10 +21,8 @@ export default (app) => {
 function isAuthenticated (req, res, next) {
   req.sessionStore.get(req.sessionID, (err, session) => {
     if (session && session.user) {
-      console.log('authed::', session)
       next()
     } else {
-      console.log('NOTauthed::', session)
       res.json({error: "No session found"})
     }
   })

@@ -14,8 +14,10 @@ const UserSchema = new mongoose.Schema({
   name: String,
   spotify: {
     id: String,
+    profile_pic: String,
     access_token: String,
-    refresh_token: String
+    refresh_token: String,
+    artists: Array
   },
   actvity_id: [{ type: Schema.Types.ObjectId, ref: 'activity' }],
   notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]

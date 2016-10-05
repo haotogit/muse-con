@@ -3,8 +3,8 @@ import bluebird from 'bluebird'
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import qString from 'query-string'
-import popsicle from 'popsicle'
 import request from 'request'
+import popsicle from 'popsicle'
 
 mongoose.Promise = bluebird
 
@@ -88,7 +88,39 @@ function spotifyCallback (req, res) {
 }
 
 function evalSpotify (req, res) {
-  console.log('perr::', req)
+  User.findOne({_id: req.session.user._id})
+      .then(user => {
+        let artistObj = {},
+            artistArr = []
+
+        let opts = {
+          method: 'get',
+          url: `${process.env.SPOTIFY_BASE}/me/top/artists?limit=50`,
+          headers: {
+            Authorization: `Bearer ${user.spotify.access_token}`
+          }
+        }
+        popsicle(opts)
+          .then(res => {
+            if (res.body.items) {
+              console.log('fak::', res.body.items)
+             
+              res.body.items.forEach((artist) => {
+                artistObj['name'] = artist['name']
+                artistObj['genres'] = artist['genres']
+                artistObj['image'] = artist['images'][1]['url']
+                
+                artistArr.push(artistObj)
+              })
+
+              console.log('artistarr::', artistArr)
+              //user.spotify.artists = artistArr
+              //user.save()
+              //res.json(user)
+            }
+          })
+
+      })
 }
 
 export { authSpotify, spotifyCallback, evalSpotify }
