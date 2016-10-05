@@ -57,26 +57,30 @@ function spotifyCallback (req, res) {
           tokens.id = bod.id
 
           req.sessionStore.get(req.sessionID, (err, session) => {
-
-          console.log('SessionUSERRR:::', session)
-            console.log('token:::', tokens)
-          User.findOne({username: session.user.username})
-              .then((user) => {
-                console.log('fuken finally::', user)
-                //look up how to make public method on user model work
-                
-                user.spotify = tokens
-                user.save()
-                
-                currUser = {
-                  id: user._id,
-                  username: user.username,
-                  spotify: user.spotify
-                }
+          
+            if (session && session.user) {
+              User.findOne({username: session.user.username})
+                .then((user) => {
+                  console.log('fuken finally::', user)
+                  //look up how to make public method on user model work
+                  
+                  user.spotify = tokens
+                  user.save()
+                  
+                  currUser = {
+                    id: user._id,
+                    username: user.username,
+                    spotify: user.spotify
+                  }
               })
+            } else {
+              res.redirect('/login')
+            }
+          
           })
           
         })
+        // need figure out a way to keep current session and resend user info to page
         res.redirect('/user')
         //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
       }

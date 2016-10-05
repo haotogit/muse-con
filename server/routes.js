@@ -3,6 +3,7 @@ import { authSpotify, spotifyCallback, evalSpotify, authUser } from './controlle
 
 export default (app) => {
   const router = express.Router()
+  // how come these spotify routes need to be off app, and the others it's cool to router?
 
   app.get('/auth-spotify', authSpotify)
 
