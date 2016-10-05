@@ -6,8 +6,8 @@ import qString from 'query-string'
 
 class User extends Component {
   
-  componentDidMount (props) {
-    this.getThirdPartyToken()
+  componentDidMount () {
+    console.log('herro::', this)
   }
 
   render () {
@@ -19,15 +19,6 @@ class User extends Component {
     )
   }
 
-  getThirdPartyToken () {
-    let currUser = Object.assign(this.props.userAuth, qString.parse(window.location.search))
-
-    console.log('currUser:', currUser)
-    console.log('props:', this.props)
-    if (window.location.search) {
-      //this.props.dispatch(thirdPartyToken())
-    }
-  }
 }
 
 
