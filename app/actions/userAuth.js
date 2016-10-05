@@ -10,7 +10,6 @@ function login(opts){
       body: opts
     })
     .then(res => {
-      console.log('prizPopsicle: ', res)
       if (res.error) console.log('bad pw: ', res)
       else {
         dispatch(loginSuccess(res.body))

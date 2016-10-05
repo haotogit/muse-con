@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { analyzeSpotify } from '../actions'
 import { bindActionCreators } from 'redux'
 
-const Spotify = ({analyzeSpotify}) =>{
+const Spotify = ({analyzeSpotify}) => {
   return (
     <div>
       <a href="/auth-spotify">Link Spotify</a>

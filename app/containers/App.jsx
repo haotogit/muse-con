@@ -21,7 +21,6 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  console.log('@app: ', state)
   return {state: state}
 }
 
