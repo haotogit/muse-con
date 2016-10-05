@@ -21,8 +21,6 @@ class User extends Component {
 
 }
 
-
-
 function mapStateToProps(state) {
   return {
     state: state
