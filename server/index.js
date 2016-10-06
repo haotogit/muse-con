@@ -5,7 +5,7 @@ import path from 'path'
 import webpack from 'webpack'
 import devConfig from '../webpack/webpack.dev.config'
 import bodyParser from 'body-parser'
-import webpackMiddleware from 'webpack-dev-middleware'
+import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import configRoutes from './routes'
 import connect from './db/config'
@@ -50,7 +50,7 @@ app.use(configRoutes(app))
 
 if(isDevelop){
   const compiler = webpack(devConfig)
-  const middleware = webpackMiddleware(compiler, {
+  const middleware = webpackDevMiddleware(compiler, {
     publicPath: devConfig.output.publicPath,
     contentBase: 'app',
     hot: true,
