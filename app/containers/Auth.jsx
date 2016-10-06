@@ -20,7 +20,6 @@ export function requireAuth (Component) {
       if (!props.userAuth) {
         return props.dispatch(routerActions.push(`/login`))
       }
-
     }
 
     render () {

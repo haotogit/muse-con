@@ -14,7 +14,7 @@ const Navigation = ({userAuth, logout}) => {
 
   return  userAuth ? (
     <div>
-      <IndexLink to="/"><h4 style={style}>Home</h4></IndexLink>
+      <IndexLink to=""><h4 style={style}>Dashboard</h4></IndexLink>
       {sections.map( each => <Link  key={each} to={each}><h4 style={style}>{each}</h4></Link>)}
       <input type="button" value="logout" onClick={logout} />
     </div>
