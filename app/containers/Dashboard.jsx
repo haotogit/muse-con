@@ -10,7 +10,7 @@ class Dashboard extends Component{
     return (
       <div>
         <h1>Wilkommen</h1>
-        <h4>Search your venue</h4>
+        <h4>Need event module, which is calendar and list view</h4>
       </div>
     )
   }
