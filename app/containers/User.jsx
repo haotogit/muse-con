@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Spotify from '../components/Spotify'
-import { thirdPartyToken } from '../actions'
-import qString from 'query-string'
+import { bindActionCreators } from 'redux'
+import { analyzeSpotify } from '../actions'
 
 class User extends Component {
-  
-  componentDidMount () {
-    console.log('herro::', this)
+  constructor (props) {
+    super(props)
   }
-
+  
   render () {
     return (
       <div>
         <h1>HOla</h1>
-        <Spotify />
+        <Spotify 
+          currUser={this.props.userAuth} 
+          analyzeSpotify={this.props.analyzeSpotify}/>
       </div>
     )
   }
@@ -27,4 +28,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(User)
+function mapDispatchToProps(dispatch) {
+  return {
+    analyzeSpotify: bindActionCreators(analyzeSpotify, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User)

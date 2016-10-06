@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { analyzeSpotify } from '../actions'
-import { bindActionCreators } from 'redux'
 
-const Spotify = ({analyzeSpotify}) => {
+const Spotify = (props) => {
+  const { userAuth, analyzeSpotify } = props
   return (
     <div>
       <a href="/auth-spotify">Link Spotify</a>
@@ -12,10 +11,4 @@ const Spotify = ({analyzeSpotify}) => {
   )
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    analyzeSpotify: bindActionCreators(analyzeSpotify, dispatch)
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Spotify)
+export default Spotify
