@@ -44,6 +44,10 @@ module.exports = {
     }),
     new webpack.LoaderOptionsPlugin({
       postcss: [autoprefixer]
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['app', 'vendor'],
+      minChunks: 2
     })
   ]
 }
