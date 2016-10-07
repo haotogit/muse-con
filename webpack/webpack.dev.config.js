@@ -12,7 +12,6 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = {
   cache: true,
-  debug: true,
   devtool: 'eval-source-map',
   entry: {
     'app': path.join(__dirname, '..', 'app'),
@@ -35,36 +34,20 @@ module.exports = {
           'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
         }
       },
-      {
-        test: /\.css$/,
-        loaders: [
-          'style',
-          'css?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]',
-          'postcss',
-        ],
-      },
-      {
-        test: /\.scss$/,
-        loaders: [
-          'style',
-          'css?modules&importLoaders=2&localIdentName=[name]__[local]__[hash:base64:5]',
-          'postcss',
-          'sass',
-        ],
-      },
+      { test: /\.scss/, exclude: /node_modules/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!sass?outputStyle=expanded&sourceMap&includePaths[]=node_modules/compass-mixins/lib'},
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url?limit=10000',
       },
       {
         test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        loader: 'file',
+        loader: 'url',
       }
     ]
   },
   resolve: {
-    root: [path.join(__dirname, '..', 'app')],
-    extensions: ['', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true
@@ -86,7 +69,8 @@ module.exports = {
       $: 'jquery'
     }),
     new webpack.LoaderOptionsPlugin({
-      postcss: [autoprefixer]
+      postcss: [autoprefixer],
+      debug: true
     })
   ]
 }

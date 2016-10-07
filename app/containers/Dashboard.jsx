@@ -8,7 +8,7 @@ import popsicle from 'popsicle'
 class Dashboard extends Component{
   render(){
     return (
-      <div>
+      <div className='container'>
         <h1>Wilkommen</h1>
         <h4>Search your venue</h4>
       </div>
