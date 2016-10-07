@@ -4,7 +4,7 @@ var path = require('path'),
     webpackMerge = require('webpack-merge'),
     commonConfig = require('./webpack.common')
 
-module.exports = {
+module.exports = webpackMerge(commonConfig, {
   module: {
     loaders: [
       {
@@ -41,4 +41,4 @@ module.exports = {
       }
     }])
   ]
-}
+})
