@@ -12,7 +12,7 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = {
   cache: true,
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     'app': path.join(__dirname, '..', 'app'),
     'vendor': path.join(__dirname, '..', 'app/vendor'),
@@ -42,8 +42,9 @@ module.exports = {
       },
       {
         test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        loader: 'url',
-      }
+        loader: 'file'
+      },
+      { test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' }
     ]
   },
   resolve: {
