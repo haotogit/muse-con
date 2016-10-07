@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import path from 'path'
 import webpack from 'webpack'
-import devConfig from '../webpack/webpack.dev.config'
+import devConfig from '../config/webpack.dev.config'
 import bodyParser from 'body-parser'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
@@ -78,7 +78,7 @@ if(isDevelop){
 } else {
     app.use(express.static(path.join(__dirname, '..', 'dist')))
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'dist/index.html'))
+      res.sendFile(path.join(__dirname, '..', 'dist/index.html'))
     })
 }
 
