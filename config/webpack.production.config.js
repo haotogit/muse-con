@@ -1,24 +1,10 @@
 var path = require('path'),
     webpack = require('webpack'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    envVars = require('../server/env')
-
-var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: path.join(__dirname, '..', 'app/index.html'),
-  inject: 'body',
-  filename: 'index.html'
-})
+    envVars = require('../server/env'),
+    webpackMerge = require('webpack-merge'),
+    commonConfig = require('./webpack.common')
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
-  entry: [
-    path.join(__dirname, '..', 'app')
-  ],
-  output: {
-    path: path.join('dist'),
-    filename: '[name]-[hash].js',
-    publicPath: '/'
-  },
   module: {
     loaders: [
       {
@@ -39,11 +25,7 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
-  },
   plugins: [
-    HtmlWebpackPluginConfig,
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
