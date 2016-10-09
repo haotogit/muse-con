@@ -5,7 +5,7 @@ export default (isDevelop) => {
   let db  = ''
 
     if(isDevelop) db = 'mongodb://localhost/test'
-    else  db = process.env.MONGOLAB_URI || 'mongodb://localhost/express_prod'
+    else  db = process.env.MONGODB_URI || 'mongodb://localhost/express_prod'
 
     const options = {
         server: {
