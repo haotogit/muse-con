@@ -23,7 +23,7 @@ function isAuthenticated (req, res, next) {
     if (session && session.user) {
       next()
     } else {
-      res.json({error: "No session found"})
+      res.json({error: "No session found, please login"})
     }
   })
 }
