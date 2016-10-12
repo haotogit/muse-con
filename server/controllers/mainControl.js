@@ -2,6 +2,7 @@ import User from '../db/models/user'
 import bluebird from 'bluebird'
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import popsicle from 'popsicle'
 
 function authUser (req, res, next) {
   User.findOne({username: req.body.username})
@@ -29,4 +30,15 @@ function authUser (req, res, next) {
       })
 }
 
-export { authUser }
+function testing (req, res) {
+  popsicle({
+    method: 'get',
+    url: req.body.url,
+    headers: {
+      Authorization: req.body.headers
+    }
+  })
+  .then(resp => res.json({user: resp.body}))
+}
+
+export { authUser, testing }

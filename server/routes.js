@@ -1,5 +1,5 @@
 import express from 'express'
-import { authSpotify, spotifyCallback, evalSpotify, authUser } from './controllers'
+import { authSpotify, spotifyCallback, evalSpotify, authUser, testing } from './controllers'
 
 export default (app) => {
   const router = express.Router()
@@ -14,6 +14,9 @@ export default (app) => {
 
   router.route('/api/authenticate')
         .post(authUser)
+
+  router.route('/test')
+        .post(testing)
 
   return router
 }
