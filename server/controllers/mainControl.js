@@ -38,7 +38,7 @@ function testing (req, res) {
       Authorization: req.body.headers
     }
   })
-  .then(resp => res.json({user: resp.body}))
+  .then(resp => res.json(resp.body))
 }
 
 export { authUser, testing }
