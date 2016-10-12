@@ -31,7 +31,6 @@ function authUser (req, res, next) {
 }
 
 function testing (req, res) {
-  let obj
   popsicle({
     method: 'get',
     url: req.body.url,
@@ -39,9 +38,9 @@ function testing (req, res) {
       Authorization: req.body.headers
     }
   })
-  .then(resp => obj = {user: res.body})
-
-  res.json(obj)
+  .then(resp => {
+    res.json(resp.body)
+  })
 }
 
 export { authUser, testing }
