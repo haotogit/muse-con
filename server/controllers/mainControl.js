@@ -41,9 +41,6 @@ function testing (req, res) {
   .then(resp => {
     res.json(resp.body)
   })
-  .catch(err => {
-    res.json({error: err})
-  })
 }
 
 export { authUser, testing }
