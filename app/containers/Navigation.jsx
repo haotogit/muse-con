@@ -110,7 +110,7 @@ const Navigation = ({userAuth, logout}) => {
                       </li>
                       <li className="divider"></li>
                       <li>
-                          <a href="#"><i className="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a value="logout" onClick={logout}>Log Out</a>
                       </li>
                   </ul>
               </li>
@@ -134,7 +134,6 @@ const Navigation = ({userAuth, logout}) => {
 
             { sections.map( each => <li key={each}><Link key={each} to={each}><h4>{each}</h4></Link></li>) }
           </ul>
-          <input type="button" value="logout" onClick={logout} />
         </div>
       </nav>
     </div>

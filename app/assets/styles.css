@@ -12,3 +12,7 @@ body {
 .navbar-inverse {
   background-color:#363e42;
 }
+
+.active {
+  border-left:1em double #ff2b71;
+}
