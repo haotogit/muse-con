@@ -2,7 +2,8 @@ var path = require('path'),
     webpack = require('webpack'),
     envVars = require('../server/env'),
     webpackMerge = require('webpack-merge'),
-    commonConfig = require('./webpack.common')
+    commonConfig = require('./webpack.common'),
+    ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
   module: {
@@ -26,6 +27,7 @@ module.exports = webpackMerge(commonConfig, {
     ]
   },
   plugins: [
+    new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

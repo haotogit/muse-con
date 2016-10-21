@@ -1,0 +1,14 @@
+body {
+  font-family: 'meslo';
+}
+
+@font-face {
+  font-family: 'meslo';
+  src: url('./MesloLGMDZ-RegularForPowerline.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.navbar-inverse {
+  background-color:#363e42;
+}

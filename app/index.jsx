@@ -31,9 +31,7 @@ const initialState = {reducer: {userAuth: process.env.NODE_ENV === 'develop' ? t
 
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, initialState, builtMiddle)
-console.log('stow', store)
 
-//store.dispatch(loadEvents())
 const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)
 

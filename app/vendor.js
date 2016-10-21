@@ -1,1 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
+import './assets/sb-admin.css'
+import './assets/morris.css'
+import './assets/styles.css'
+import './assets/MesloLGMDZ-RegularForPowerline.ttf'

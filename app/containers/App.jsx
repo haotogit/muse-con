@@ -7,9 +7,12 @@ import popsicle from 'popsicle'
 class App extends Component {
 
   render(){
+    let { userAuth } = this.props.state.reducer
     return(
-      <div>
-        <Navigation />
+      <div id="wrapper">
+        {
+          userAuth ? <Navigation /> : ''
+        }
         { this.props.children }
       </div>
     )
