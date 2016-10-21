@@ -6,7 +6,7 @@ function login(opts){
     dispatch(loginRequest())
     popsicle({
       method: 'post',
-      url: 'http://localhost:3000/api/authenticate',
+      url: 'api/authenticate',
       body: opts
     })
     .then(res => {

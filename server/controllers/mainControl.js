@@ -15,7 +15,6 @@ function authUser (req, res, next) {
               req.session.user = user
               req.user = req.session.user
               req.session.save()
-              next()
 
               let currUser = {
                 id: user._id,
