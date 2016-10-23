@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 const Spotify = (props) => {
   const { userAuth, analyzeSpotify } = props

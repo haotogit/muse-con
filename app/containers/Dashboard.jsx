@@ -4,6 +4,7 @@ import EventContain from './EventContain'
 import * as actionCreators from '../actions'
 import { bindActionCreators } from 'redux'
 import popsicle from 'popsicle'
+import UserTaste from '../components/UserTaste'
 
 class Dashboard extends Component{
   render(){
@@ -12,6 +13,7 @@ class Dashboard extends Component{
         <h1>Wilkommen</h1>
         <h4>Need event module, which is calendar and list view</h4>
         <p>Adding</p>
+        <UserTaste currUser={this.props.userAuth}/>
       </div>
     )
   }
@@ -22,7 +24,8 @@ class Dashboard extends Component{
 
 
 const mapStateToProps = (state) => ({
-  text: state.reducer.text
+  text: state.reducer.text,
+  userAuth: state.reducer.userAuth
 })
 
 const mapDispatchToProps = (dispatch) => ({
