@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router'
 import { connect } from 'react-redux'
 import { logout } from '../actions'
 
-const sections = ['users', 'events', 'user']
+const sections = ['events']
 
 const Navigation = ({userAuth, logout}) => {
   const style = {
@@ -97,7 +97,7 @@ const Navigation = ({userAuth, logout}) => {
                   </ul>
               </li>
               <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user"></i> John Smith <b className="caret"></b></a>
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user"></i> {userAuth.username || 'User'} <b className="caret"></b></a>
                   <ul className="dropdown-menu">
                       <li>
                           <a href="#"><i className="fa fa-fw fa-user"></i> Profile</a>
@@ -128,11 +128,11 @@ const Navigation = ({userAuth, logout}) => {
         <div className="collapse navbar-collapse navbar-ex1-collapse">
 
           <ul className="nav navbar-nav side-nav">
-            <li className="active">
-              <IndexLink to=""><h4>Dashboard</h4></IndexLink>
+            <li>
+              <IndexLink activeClassName="active" to=""><h4>dashboard</h4></IndexLink>
             </li>
 
-            { sections.map( each => <li key={each}><Link key={each} to={each}><h4>{each}</h4></Link></li>) }
+            { sections.map( each => <li key={each}><Link key={each} to={each} activeClassName="active"><h4>{each}</h4></Link></li>) }
           </ul>
         </div>
       </nav>
