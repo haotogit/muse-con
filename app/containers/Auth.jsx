@@ -36,8 +36,6 @@ export function requireAuth (Component) {
 
   }
   const mapStateToProps = (state) => ({
-    //token: state.reducer.auth.token,
-    //userName: state.reducer.auth.userName,
     userAuth: state.reducer.userAuth
   })
 

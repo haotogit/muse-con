@@ -61,7 +61,6 @@ function spotifyCallback (req, res) {
             if (session && session.user) {
               User.findOne({username: session.user.username})
                 .then((user) => {
-                  console.log('fuken finally::', user)
                   //look up how to make public method on user model work
                   
                   user.spotify = tokens

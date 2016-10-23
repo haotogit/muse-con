@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { Component } from 'react'
+import * as d3 from 'd3'
 
-const UserTaste = (props) => {
-  let { currUser } = props
-  return (
-    <h1>Ni Hao</h1>
-  )
+class UserTaste extends Component {
+  constructor (props) {
+    super(props)
+  }
+
+  componentDidMount () {
+    
+
+
+    
+
+    
+
+
+  }
+  
+  render () {
+
+    return (
+      <div id="genresGraph">
+        <div className="header">Top Genres</div>
+        <div ref="genresGraph"></div>
+      </div>
+    )
+  }
+
+  
 }
 
 export default UserTaste
