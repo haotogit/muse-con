@@ -22,7 +22,7 @@ class UserTaste extends Component {
       <div id='genresGraph'>
         <div className='header'><h3>Top Overall</h3></div>
         <PieChart width={800} height={600}>
-          <Pie data={top10} cx='45%' cy='45%' outerRadius={250} innerRadius={200} labelLine={false} label={this.whichLabel} paddingAngle={4}>
+          <Pie data={top10} cx='35%' cy='30%' outerRadius={100} innerRadius={80} labelLine={false} label={this.whichLabel} paddingAngle={6}>
           {
             top10.map((entry, index) => {
               currColor = this.whichColor()
