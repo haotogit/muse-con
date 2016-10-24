@@ -7,12 +7,9 @@ import popsicle from 'popsicle'
 import UserTaste from '../components/UserTaste'
 
 class Dashboard extends Component{
-  constructor (props) {
-    super()
-  }
 
   componentWillMount () {
-    if (this.props.userAuth.username) {
+    if (this.props.userAuth.username && !this.props.userAuth.spotify['genres']) {
       let spotify = this.props.userAuth.spotify
       let genresObj = {}
       let currIndex
@@ -27,18 +24,7 @@ class Dashboard extends Component{
         })
       })
 
-      this.props.userAuth.spotify['genres'].sort((a, b) => {
-        if (a.value > b.value) {
-          return -1
-        }
-
-        if (a.value < b.value) {
-          return 1
-        }
-
-        return 0
-      })
-
+     this.props.userAuth.spotify['genres'].sort(this.sortArr) 
     }
   }
 
@@ -47,15 +33,25 @@ class Dashboard extends Component{
   }
 
   render(){
-  
     return (
       <div className='container'>
         <h1>Wilkommen</h1>
         <h4>Need event module, which is calendar and list view</h4>
-        <p>Adding</p>
         <UserTaste spotify={this.props.userAuth.spotify}/>
       </div>
     )
+  }
+
+  sortArr (a, b) {
+    if (a.value > b.value) {
+      return -1
+    }
+
+    if (a.value < b.value) {
+      return 1
+    }
+
+    return 0
   }
 
 }
