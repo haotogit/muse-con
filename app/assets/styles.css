@@ -9,6 +9,10 @@ body {
   font-style: normal;
 }
 
+h1 {
+  color:#fff;
+}
+
 .navbar-inverse {
   background-color:#363e42;
 }
@@ -18,5 +22,5 @@ body {
   background-color:black;
 }
 
-.top-spotify-label {
+.label-text {
 }

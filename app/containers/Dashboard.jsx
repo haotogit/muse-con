@@ -7,7 +7,7 @@ import popsicle from 'popsicle'
 import UserTaste from '../components/UserTaste'
 
 class Dashboard extends Component{
-
+  
   componentWillMount () {
     if (this.props.userAuth.username && !this.props.userAuth.spotify['genres']) {
       let spotify = this.props.userAuth.spotify
@@ -25,6 +25,7 @@ class Dashboard extends Component{
       })
 
      this.props.userAuth.spotify['genres'].sort(this.sortArr) 
+     this.props.userAuth.spotify['top10'] = this.props.userAuth.spotify['genres'].splice(0, 10)
     }
   }
 

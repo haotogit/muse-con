@@ -4,28 +4,29 @@ import { PieChart, Pie, Cell } from 'recharts'
 class UserTaste extends Component {
   constructor (props) {
     super(props)
+    
+  }
+
+  componentWillMount () {
   }
 
   componentDidMount () {
 
-
   }
   
   render () {
-    let { genres } = this.props.spotify
-    let top10 = this.props.spotify.genres.splice(0, 10)
-    let currColor
-    console.log('10', top10)
+    let currColor,
+        top10 = this.props.spotify.top10
 
     return (
       <div id='genresGraph'>
-        <div className='header'><h3>Top Genres</h3></div>
-        <PieChart width={600} height={600}>
-          <Pie data={top10} cx='50%' cy='35%' outerRadius={190} innerRadius={150} labelLine={false} label={this.label} paddingAngle={3}>
+        <div className='header'><h3>Top Overall</h3></div>
+        <PieChart width={800} height={600}>
+          <Pie data={top10} cx='45%' cy='45%' outerRadius={250} innerRadius={200} labelLine={false} label={this.whichLabel} paddingAngle={4}>
           {
             top10.map((entry, index) => {
               currColor = this.whichColor()
-              return <Cell stroke={`${currColor}`} strokeWidth='1' key={`cell-${index}`} fill='#363e42' onMouseOver={this.showLabel.bind(this)} />
+              return <Cell key={`${entry.label}`} stroke={`${currColor}`} strokeWidth='1' fill='#363e42' onMouseEnter={this.showLabel} onMouseLeave={this.showLabel} />
             })
           }
           </Pie>
@@ -34,28 +35,27 @@ class UserTaste extends Component {
     )
   }
 
-  label (obj) {
+  showLabel (event) {
+    let currColor = event.type === 'mouseenter' ? event.target.getAttribute('stroke') : '#363e42'
+    event.target.setAttribute('fill', currColor)
+  }
+
+  whichLabel (obj) {
     let { cx, cy, midAngle, innerRadius, outerRadius, percent, index, label } = obj
     const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x  = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy  + radius * Math.sin(-midAngle * RADIAN);
- 
+
     return (
-      <text className='top-spotify-label' key='index' x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      <text fill='#fff' x={x} y={y} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
         {`${label}: ${(percent * 100).toFixed(0)}%`}
       </text>
     )
   }
 
-  showLabel (event) {
-    console.log('event::', event)
-    console.log('this::', this)
-    
-  }
-
   whichColor () {
-    let colors = ['#ff2b71', '#ff5ed2', '#3aa198', '#42d4ff']
+    let colors = ['#ff2b71', '#ff5ed2', '#3aa198', '#42d4ff', '#19647E', '#8B1E3F']
 
     return colors[Math.round(Math.random() * ((colors.length - 1) - 0))]
 
