@@ -56,6 +56,7 @@ class UserTaste extends Component {
         .text((d, i) => {
           return `${d.data.label}: ${((d.data.value / totalCount) * 100).toFixed(0)}%`
         })
+        .attr('fill', '#fff')
   }
   
   render () {
