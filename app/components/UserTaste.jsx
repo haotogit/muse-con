@@ -12,30 +12,27 @@ class UserTaste extends Component {
   }
 
   componentDidMount () {
+    let w = 800, h = 600, r = 200
+    let colors = ['#ff2b71', '#ff5ed2', '#3aa198', '#42d4ff', '#19647E', '#8B1E3F'],
+        totalCount = 0
 
-    //<PieChart width={800} height={600}>
-    //      <Pie data={top10} cx='35%' cy='30%' outerRadius={100} innerRadius={80} labelLine={false} label={this.whichLabel} paddingAngle={6}>
-    //      {
-    //        top10.map((entry, index) => {
-    //          currColor = this.whichColor()
-    //          return <Cell key={`${entry.label}`} stroke={`${currColor}`} strokeWidth='1' fill='#363e42' onMouseEnter={this.showLabel} onMouseLeave={this.showLabel} />
-    //        })
-    //      }
-    //      </Pie>
-    //    </PieChart>
-  
-    let w = 800, h = 600, r = h / 2
-    let colors = ['#ff2b71', '#ff5ed2', '#3aa198', '#42d4ff', '#19647E', '#8B1E3F']
+    this.props.spotify.top10.forEach(each => totalCount += each.value)
 
     let svg = d3.select('body').select('svg')
                 .data([this.props.spotify.top10])
                 .attr('width', w)
                 .attr('height', h)
                 .append('svg:g')
-                .attr('transform', `translate(${r}, ${r})`)
+                .attr('transform', `translate(250, 250)`)
 
-    let pie = d3.layout.pie().value((d) => d.value)
-    let arc = d3.svg.arc().outerRadius(r)
+    let pie = d3.layout.pie()
+                .sort(null)
+                .value((d) => d.value)
+                .padAngle(.04)
+
+    let arc = d3.svg.arc()
+                    .outerRadius(r)
+                    .innerRadius(125)
 
     let arcs = svg.selectAll('g.slice')
                   .data(pie)
@@ -44,8 +41,21 @@ class UserTaste extends Component {
                   .attr('class', 'slice')
 
     arcs.append('svg:path')
-        .attr('fill', (d, i) =>  colors[i % (colors.length - 1)])
+        .attr('stroke-width', 2)
+        .attr('stroke', (d, i) =>  colors[i % (colors.length - 1)])
+        .attr('fill', '#363e42')
         .attr('d', (d) => arc(d))
+
+    arcs.append('svg:text')
+        .attr('transform', (d) => {
+          d.innerRadius = 0;
+          d.outerRadius = r;
+          return `translate(${arc.centroid(d)})`
+        })
+        .attr('text-anchor', 'middle')
+        .text((d, i) => {
+          return `${d.data.label}: ${((d.data.value / totalCount) * 100).toFixed(0)}%`
+        })
   }
   
   render () {
