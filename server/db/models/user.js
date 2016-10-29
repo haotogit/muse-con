@@ -6,7 +6,7 @@ mongoose.Promise = bluebird
 
 const Schema = mongoose.Schema
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   access_token: String,
@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
     profile_pic: String,
     access_token: String,
     refresh_token: String,
-    artists: Array
+    genres: Array,
+    top10: Array
   },
   actvity_id: [{ type: Schema.Types.ObjectId, ref: 'activity' }],
   notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]

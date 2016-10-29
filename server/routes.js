@@ -21,6 +21,7 @@ export default (app) => {
   return router
 }
 
+// look at potentially passing session.user with next()
 function isAuthenticated (req, res, next) {
   req.sessionStore.get(req.sessionID, (err, session) => {
     if (session && session.user) {

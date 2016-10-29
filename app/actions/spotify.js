@@ -11,7 +11,7 @@ function analyzeSpotify () {
 
         if (resp.body.error) {
           console.log('resppp::', resp)
-          dispatch(routerActions.push('/login'))
+          //dispatch(routerActions.push('/login'))
         } else {
           console.log('evalResponse::', resp)
         }
