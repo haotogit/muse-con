@@ -22,7 +22,7 @@ function login(opts){
 function loginSuccess (payload) {
   return {
     type: 'LOGIN_SUCCESS',
-    payload
+    userAuth: payload
   }
 }
 
@@ -36,4 +36,15 @@ function logout () {
   return { type: 'LOGOUT', null }
 }
 
-export { login, logout }
+function currUserLocation (payload) {
+  // save user location to db
+  return (dispatch) => {
+    let currObj = {
+          type: 'CURR_USER_LOCATION',
+          payload
+        }
+    dispatch(currObj)
+  }
+}
+
+export { login, logout, currUserLocation }

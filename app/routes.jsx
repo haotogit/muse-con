@@ -13,7 +13,7 @@ export default (store) => {
 
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={requireAuth(Dashboard)}  />
+      <IndexRoute component={requireAuth(Dashboard)} />
       <Route path="login" component={Login} />
       <Route path="users" component={requireAuth(UserContain)} />
       <Route path="events" component={requireAuth(EventContain)} />

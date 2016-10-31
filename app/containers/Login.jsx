@@ -8,7 +8,7 @@ class Login extends Component {
     super(props)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillMount () {
   }
 
   render () {

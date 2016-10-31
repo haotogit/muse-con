@@ -56,28 +56,19 @@ mongoose.Promise = bluebird
           request.get(spotifyObj, (err, resp, bod) => {
             tokens.id = bod.id
 
-            req.sessionStore.get(req.sessionID, (err, session) => {
-            
-              if (session && session.user) {
-                User.findOne({username: session.user.username})
-                  .then((user) => {
-                    //look up how to make public method on user model work
-                    
-                    user.spotify = tokens
-                    user.save()
-                    
-                    currUser = {
-                      id: user._id,
-                      username: user.username,
-                      spotify: user.spotify
-                    }
-                })
-              } else {
-                res.redirect('/login')
-              }
-            
+            User.findOne({username: session.user.username})
+              .then((user) => {
+                //look up how to make public method on user model work
+                
+                user.spotify = tokens
+                user.save()
+                
+                currUser = {
+                  id: user._id,
+                  username: user.username,
+                  spotify: user.spotify
+                }
             })
-            
           })
           // need figure out a way to keep current session and resend user info to page
           res.redirect('/user')
@@ -110,7 +101,7 @@ mongoose.Promise = bluebird
         .then((user) => {
           let opts = {
             method: 'get',
-            url: `${process.env.SPOTIFY_BASE}/me/top/artists?limit=50`,
+            url: `${process.env.SPOTIFY_URL}/me/top/artists?limit=50`,
             headers: {
               Authorization: `Bearer ${user.spotify.access_token}`
             }
@@ -119,24 +110,17 @@ mongoose.Promise = bluebird
           popsicle(opts)
             .then((resp) => {
               if (resp.body.items) {
-                
-                resp.body.items.forEach((artist) => {
+                let artistList = resp.body.items.map(artist => {
                   artist.genres.forEach((each, i) => {
                     let currArtist = {},
                         genreKey = keyMaker(each),
-                        genre
+                        genre,
+                        genreIndex,
+                        artistIndex
 
                     if (genres.find((ea) => ea.label === genreKey)) {
+                      genreIndex = genres.findIndex((ea) => ea.label === genreKey)
                       genres[genres.findIndex((ea) => ea.label === genreKey)].value++
-
-                      // need to figure out how to add frequency of ea artist 
-                      if (!genres[genres.findIndex((ea) => ea.label === genreKey)].artists.find(ea => ea.name === artist.name)) {
-                        currArtist = {
-                          name: artist.name,
-                          image: artist.images[1].url
-                        }
-                        genres[genres.findIndex((ea) => ea.label === genreKey)].artists.push(currArtist)
-                      }
 
                     } else {
                       genre = {
@@ -148,15 +132,21 @@ mongoose.Promise = bluebird
                       genres.push(genre)
                     }
                   })
-                })
 
+                  return {
+                    name: artist.name,
+                    genres: artist.genres,
+                    image: artist.images[1].url
+                  }
+                })
+                
                 genres = genres.sort(sortArr)
                 user.spotify.top10 = genres.slice(0, 10)
+                user.spotify.artists = artistList
                 user.spotify.genres = genres
                 user.save()
                 res.json(user)
               } else {
-              console.log('bot')               
                 let base64Str = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
                 let opts = {
                   method: 'post',

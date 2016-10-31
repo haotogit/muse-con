@@ -2,7 +2,10 @@ var webpack = require('webpack'),
     path = require('path'),
     envVar = require('../server/env'),
     webpackMerge = require('webpack-merge'),
-    commonConfig = require('./webpack.common')
+    commonConfig = require('./webpack.common'),
+    dotenv = require('dotenv')
+
+dotenv.config()
 
 module.exports = webpackMerge(commonConfig, {
   cache: true,
@@ -24,7 +27,15 @@ module.exports = webpackMerge(commonConfig, {
     ]
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    hostname: 'localhost',
+    port: '3000',
+    proxy: {
+      '/v2/**': {
+        target: process.env.TICKETMASTER_URL,
+        changeOrigin: true
+      }
+    }
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -33,8 +44,8 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('develop'),
-        'SPOTIFY_BASE_URI': JSON.stringify(envVar['SPOTIFY_API']),
-        'BASE_URI': JSON.stringify(envVar['BASE_URI'])
+        'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
+        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
       }
     }),
     new webpack.LoaderOptionsPlugin({

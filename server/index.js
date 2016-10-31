@@ -1,5 +1,4 @@
 import 'babel-polyfill'
-import dotenv from 'dotenv'
 import express from 'express'
 import path from 'path'
 import webpack from 'webpack'
@@ -12,8 +11,8 @@ import connect from './db/config'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
 import session from 'express-session'
+import proxy from 'http-proxy-middleware'
 
-dotenv.config()
 const app = express()
 const isDevelop = process.env.NODE_ENV !== 'production'
 const port = isDevelop ? 3000 : process.env.PORT
@@ -40,10 +39,12 @@ app.use(session({
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Credentials', 'true')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
 
+app.use('/v2/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(configRoutes(app))
@@ -61,9 +62,6 @@ if(isDevelop){
       chunks: true,
       chunkModules: false,
       modules: false,
-    },
-    proxy: {
-      'api/**': 'http://localhost:3000'
     }
   })
 
@@ -72,7 +70,7 @@ if(isDevelop){
   app.use(morgan('dev'))
 
   // need to refactor for route get * cuz navigation via url doesn't function
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
     res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')))
   })
 } else {

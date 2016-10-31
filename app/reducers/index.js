@@ -1,10 +1,9 @@
 export default function reducer(state={}, action) {
-
   switch(action.type){
 
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
-        userAuth: action.payload
+        userAuth: action.userAuth
       })
     break;
 
@@ -18,6 +17,10 @@ export default function reducer(state={}, action) {
       return Object.assign({}, state, {
         events: action.events
       })
+    break;
+
+    case 'CURR_USER_LOCATION':
+      return Object.assign({}, state, {userAuth: action.payload})
     break;
 
     default:

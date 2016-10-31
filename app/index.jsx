@@ -7,7 +7,6 @@ import { syncHistoryWithStore, routerReducer as routing, routerMiddleware } from
 import makeRoutes from './routes'
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
 import reducer from './reducers'
-import { initialize, loadEvents, login, changeText, auth } from './actions'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
@@ -26,8 +25,7 @@ if(process.env.NODE_ENV === 'develop') {
   middleware.push(logger)
 }
 
-const initialState = {reducer: {userAuth: process.env.NODE_ENV === 'develop' ? true: false}}
-//const initialState = {}
+const initialState = {reducer: {userAuth: false}}
 
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, initialState, builtMiddle)

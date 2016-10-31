@@ -8,7 +8,7 @@ const Spotify = (props) => {
       <a href="/auth-spotify">Link Spotify</a>
       <button onClick={analyzeSpotify}>Evaluate Spotify</button>
       <div id='genresGraph'>
-        <div className='header'><h3>Top Overall</h3></div>
+        <div className='header'><h3>Spotify Overall</h3></div>
         <svg></svg>
       </div>
     </div>
