@@ -122,6 +122,14 @@ mongoose.Promise = bluebird
                       genreIndex = genres.findIndex((ea) => ea.label === genreKey)
                       genres[genres.findIndex((ea) => ea.label === genreKey)].value++
 
+                      if (!genres[genreIndex].artists.find(ea => ea.name === artist.name)) {
+                        currArtist = {
+                          name: artist.name,
+                          image: artist.images[1].url
+                        }
+                        genres[genreIndex].artists.push(currArtist)
+                      }
+
                     } else {
                       genre = {
                         label: genreKey,
