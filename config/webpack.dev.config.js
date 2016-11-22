@@ -27,15 +27,7 @@ module.exports = webpackMerge(commonConfig, {
     ]
   },
   devServer: {
-    historyApiFallback: true,
-    hostname: 'localhost',
-    port: '3000',
-    proxy: {
-      '/v2/**': {
-        target: process.env.TICKETMASTER_URL,
-        changeOrigin: true
-      }
-    }
+    historyApiFallback: true
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),

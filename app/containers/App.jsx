@@ -9,7 +9,7 @@ class App extends Component {
   render(){
     let { userAuth } = this.props.state.reducer
     return(
-      <div id="wrapper">
+      <div id="container">
         {
           userAuth ? <Navigation /> : ''
         }

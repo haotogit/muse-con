@@ -36,15 +36,16 @@ function logout () {
   return { type: 'LOGOUT', null }
 }
 
-function currUserLocation (payload) {
+function locationFound (payload) {
   // save user location to db
+  
   return (dispatch) => {
     let currObj = {
-          type: 'CURR_USER_LOCATION',
-          payload
-        }
+      type: 'CURR_USER_LOCATION',
+      payload
+    }
     dispatch(currObj)
   }
 }
 
-export { login, logout, currUserLocation }
+export { login, logout, locationFound }

@@ -16,15 +16,23 @@ function authUser (req, res, next) {
               req.user = req.session.user
               req.session.save()
 
-              let currUser = {
-                id: user._id,
-                username: user.username,
-                spotify: user.spotify
-              }
-              
-              res.json(currUser)
+              res.json(user)
             }
           })
+        }
+      })
+}
+
+function userLocated (req, res, next) {
+  User.findOne({id: req.session.user.id})
+      .then(user => {
+        if (!user) res.json({ error: 'No user found, please login' })
+        else {
+          user.lat = req.body.lat
+          user.long = req.body.long
+          user.save()
+
+          res.json(user)
         }
       })
 }
@@ -40,4 +48,4 @@ function testing (req, res) {
   .then(resp => res.json({user: resp.body}))
 }
 
-export { authUser, testing }
+export { authUser, testing, userLocated }

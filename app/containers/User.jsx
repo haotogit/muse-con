@@ -16,7 +16,7 @@ class User extends Component {
   
   render () {
     return (
-      <div>
+      <div className='wrapper'>
         <Spotify spotify={this.props.userAuth.spotify} 
                  analyzeSpotify={this.props.analyzeSpotify} />
       </div>

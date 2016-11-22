@@ -1,5 +1,5 @@
 import popsicle from 'popsicle'
-import qString from 'query-string'
+import * as actions from '../actions'
 
 function popWrap (...args) {
   let optsArr = ['method', 'url', 'body'],
@@ -12,26 +12,32 @@ function popWrap (...args) {
   return popsicle(opts)
 }
 
-function getEvents (user) {
-  let latLong = `${user.lat},${user.long}`,
-      radius = 50
-  let qStr = {
-    apikey: `${process.env.TICKETMASTER_KEY}`,
-    latlong: latLong,
-    radius: radius
-  }
-  let query = qString.stringify(qStr)
+function locateUser (currUser) {
 
-  let url = `/v2/events.json&${query}`
+  return new Promise(resolve => {
+    let latLong,
+        userObj,
+        opts = {
+          method: 'post',
+          url: '/api/users'
+        }
 
-  let opts = {
-    method: 'GET'
-  }
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        latLong = {
+          lat: pos.coords.latitude,
+          long: pos.coords.longitude
+        }
+        userObj = Object.assign(currUser, latLong)
 
-  fetch(url, opts)
-    .then(resp => console.log('resp', resp))
+        opts.body = latLong
 
-  //popsicle(opts).then((resp) => console.log('hello there::', resp))
+        popsicle(opts)
+
+        resolve(userObj)
+      })
+    }
+  })
 }
 
-export { popWrap, getEvents }
+export { popWrap, locateUser }

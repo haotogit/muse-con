@@ -1,5 +1,11 @@
 body {
   font-family: 'meslo';
+  background-color: #363e42;
+}
+
+.wrapper {
+  margin-top: 4em;
+  padding: 1em;
 }
 
 @font-face {
@@ -24,4 +30,13 @@ h1 {
 
 .label-text {
   display: none;
+}
+
+.third-party-widget {
+  display: inline-block;
+}
+
+.tab-content {
+  height: 11em;
+  overflow: auto;
 }

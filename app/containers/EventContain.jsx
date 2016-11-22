@@ -5,31 +5,22 @@ import { bindActionCreators } from 'redux'
 
 const EventContain = ({ events }) => {
   let styles = {
-    height: "19em",
-    width: "18em",
-    padding: "2em",
+    height: "30em",
+    padding: "1em",
     overflow: "auto",
     border: "2px solid black"
   }
 
   return (
     <div style={styles}>
-      <h1>EventContain</h1>
-      {events ? Object.keys(events).map( key => <p key={key}>{key}: {events[key]}</p>) : 'Loading'}
+      <button>hello</button>
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    events: state.reducer.events
   }
 }
-
-//const mapDispatchToProps = (dispatch) => {
-//  return {
-//    load: (payload) => dispatch(loadEvents(payload))
-//  }
-//}
 
 export default connect(mapStateToProps)(EventContain)

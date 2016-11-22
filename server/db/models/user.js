@@ -12,6 +12,8 @@ const UserSchema = new Schema({
   access_token: String,
   user_type: String,
   name: String,
+  lat: Number,
+  long: Number,
   spotify: {
     id: String,
     profile_pic: String,
@@ -40,9 +42,10 @@ UserSchema.pre('save', function(next) {
   })
 })
 
-UserSchema.static.public = function() {
-  delete this.hash
-  return this
+// how do you make this work ??
+UserSchema.methods.public = function(cb) {
+  delete this.password
+  return cb(this)
 }
 
 UserSchema.methods.comparePassword = function(password, cb) {
