@@ -8,6 +8,7 @@ import UserTaste from '../components/UserTaste'
 import Spotify from '../components/Spotify'
 import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
+import Rx from 'rxjs'
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
