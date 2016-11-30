@@ -32,22 +32,6 @@ class Dashboard extends Component{
       <div className='wrapper'>
         <h1>Wilkommen</h1>
         <h4>Need event module, which is calendar and list view</h4>
-        <div className='third-party-widget'>
-          <h3>Spotify</h3>
-          <ul className='nav nav-tabs' role='tablist'>
-            <li role='presentation' className='active'><a href='#artists' aria-controls='artists' role='tab' data-toggle='tab'>Artists</a></li>
-            <li role='presentation'><a href='#genres' aria-controls='genres' role='tab' data-toggle='tab'>Genres</a></li>
-          </ul>
-
-          <div className='tab-content'>
-            <div role='tabpanel' className='tab-pane active' id='artists'>
-              {this.props.userAuth.spotify.artists.map(each => <p key={each.name}>{each.name}</p>)}
-            </div>
-            <div role='tabpanel' className='tab-pane' id='genres'>
-              {this.props.userAuth.spotify.genres.map(each => <p key={each.label}>{each.label}</p>)}
-            </div>
-          </div>
-        </div>
         <EventContain />
       </div>
     )
