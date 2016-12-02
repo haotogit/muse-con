@@ -44,8 +44,12 @@ function loadEvents(options) {
   }
 }
 
-function toggleSearchOpt (e) {
-  console.log('howdy', e.currentTarget.id)
+function toggleSearchOpt (key, currState) {
+  currState[key].exclude = currState[key].exclude ? false : true
+
+  return (dispatch) => {
+    dispatch({type: 'TOGGLE_SEARCH_OPT', payload: currState})
+  }
 }
 
 export { loadEvents, toggleSearchOpt }

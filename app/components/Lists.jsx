@@ -18,7 +18,7 @@ const Lists = (props) => {
 
         <div className='tab-content'>
           <div role='tabpanel' className='tab-pane active' id='artists'>
-            {thirdParty.artists.map((each, i) => <p key={each.name} id={each.name} onClick={toggleSearchOpt}>{each.name}</p>)}
+            {thirdParty.artists.map((each, i) => <p key={each.name} id={each.name} onClick={(dispatch) => toggleSearchOpt(i, thirdParty.artists)}>{each.name}</p>)}
           </div>
           <div role='tabpanel' className='tab-pane' id='genres'>
             {thirdParty.genres.map(each => <p key={each.label} id={each.label} onClick={toggleSearchOpt}>{each.label}</p>)}
