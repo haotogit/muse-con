@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loadEvents } from '../actions'
+import * as actions from '../actions'
 import { bindActionCreators } from 'redux'
+import Lists from '../components/Lists'
 
-const EventContain = ({ events }) => {
+const EventContain = ({ userAuth, actions }) => {
   let styles = {
     height: "30em",
     padding: "1em",
@@ -12,15 +13,24 @@ const EventContain = ({ events }) => {
   }
 
   return (
-    <div style={styles}>
+    <div className='container' style={styles}>
       <button>hello</button>
+
+      <Lists thirdParty={userAuth.spotify}/>
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
+    userAuth: state.reducer.userAuth
   }
 }
 
-export default connect(mapStateToProps)(EventContain)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventContain)

@@ -24,8 +24,16 @@ h1 {
 }
 
 .active {
-  border-left:1em double #ff2b71;
-  background-color:black;
+  background-color:none;
+}
+
+.nav-tabs {
+  border: none;
+  background-color:none;
+}
+
+a:active {
+  background-color:none;
 }
 
 .label-text {
@@ -33,7 +41,6 @@ h1 {
 }
 
 .third-party-widget {
-  display: inline-block;
 }
 
 .tab-content {
