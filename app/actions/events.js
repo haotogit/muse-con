@@ -15,7 +15,7 @@ function loadedEvents(events){
   }
 }
 
-export function loadEvents(options){
+function loadEvents(options){
   // apikey, latlong, keyword, classificationName, radius 
   let latLong = `${options.lat},${options.long}`,
       radius = 50
@@ -42,3 +42,11 @@ export function loadEvents(options){
             .then((resp) => dispatch(loadedEvents(resp.body)))
   }
 }
+
+function toggleArtist (artistObj) {
+  console.log('art', artistObj.currentTarget)
+  // why do i have to return a function for dispatch to be avail ?
+  return (dispatch) => dispatch({ type: 'TOGGLE_ARTIST', artistObj })
+}
+
+export { loadEvents, toggleArtist }

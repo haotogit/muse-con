@@ -70,7 +70,7 @@ if(isDevelop){
   app.use(morgan('dev'))
 
   // need to refactor for route get * cuz navigation via url doesn't function
-  app.get('/', (req, res) => {
+  app.get('*', (req, res) => {
     res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')))
   })
 } else {

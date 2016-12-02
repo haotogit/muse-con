@@ -1,5 +1,5 @@
 import popsicle from 'popsicle'
-import { push, routerActions } from 'react-router-redux'
+import { push } from 'react-router-redux'
 
 function login(opts){
   return (dispatch) => {
@@ -13,6 +13,7 @@ function login(opts){
       if (res.error) console.log('bad pw: ', res)
       else {
         dispatch(loginSuccess(res.body))
+        dispatch(tixMasterOpts(res.body))
         dispatch(push(``))
       }
     })
@@ -47,5 +48,15 @@ function locationFound (payload) {
     dispatch(currObj)
   }
 }
+
+function tixMasterOpts (currUser) {
+  console.log('hallo', currUser)
+  let opts = currUser
+
+  return (dispatch) => dispatch({type: 'TIX_MASTER_OPTS', opts})
+  
+}
+
+
 
 export { login, logout, locationFound }

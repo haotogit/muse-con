@@ -13,7 +13,7 @@ const EventContain = ({ userAuth, actions }) => {
   }
 
   return (
-    <div style={styles}>
+    <div className='container' style={styles}>
       <button>hello</button>
 
       <Lists thirdParty={userAuth.spotify}/>

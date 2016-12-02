@@ -15,7 +15,7 @@ class Login extends Component {
     let { state, userAuth } = this.props
 
     return (
-      <div>
+      <div className='wrapper'>
         <h1>Login</h1>
         <form>
           <input type='text' ref='username' placeholder='Username' />

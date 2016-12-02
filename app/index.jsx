@@ -25,7 +25,7 @@ if(process.env.NODE_ENV === 'develop') {
   middleware.push(logger)
 }
 
-const initialState = {reducer: {userAuth: false}}
+const initialState = {reducer: {userAuth: {}}}
 
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, initialState, builtMiddle)
