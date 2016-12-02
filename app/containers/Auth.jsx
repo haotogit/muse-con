@@ -7,7 +7,7 @@ export function requireAuth (Component) {
   class AuthedComp extends Component{
 
     componentWillMount () {
-      if (!this.props.userAuth) {
+      if (!this.props.userAuth.username) {
         this.authenticate(this.props)
       }
     }
@@ -17,7 +17,7 @@ export function requireAuth (Component) {
     }
 
     authenticate (props) {
-      if (!props.userAuth) {
+      if (!props.userAuth.username) {
         return props.dispatch(routerActions.push(`/login`))
       }
     }
@@ -25,7 +25,7 @@ export function requireAuth (Component) {
     render () {
       return (
         <div>
-          { this.props.userAuth ?
+          { this.props.userAuth.username ?
             ( <div>
                 <Component {...this.props} />
               </div>
@@ -42,5 +42,3 @@ export function requireAuth (Component) {
   return connect(mapStateToProps)(AuthedComp)
 
 }
-
-

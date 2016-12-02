@@ -1,7 +1,7 @@
 import popsicle from 'popsicle'
 import { push, routerActions } from 'react-router-redux'
 
-function login(opts){
+function login(opts, userAuth){
   return (dispatch) => {
     dispatch(loginRequest())
     popsicle({
@@ -12,7 +12,8 @@ function login(opts){
     .then(res => {
       if (res.error) console.log('bad pw: ', res)
       else {
-        dispatch(loginSuccess(res.body))
+        let stateObj = Object.assign(res.body, userAuth)
+        dispatch(loginSuccess(stateObj))
         dispatch(push(``))
       }
     })

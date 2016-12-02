@@ -44,7 +44,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/v2/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
+app.use('/discovery/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(configRoutes(app))
@@ -70,7 +70,7 @@ if(isDevelop){
   app.use(morgan('dev'))
 
   // need to refactor for route get * cuz navigation via url doesn't function
-  app.get('/', (req, res) => {
+  app.get('*', (req, res) => {
     res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')))
   })
 } else {

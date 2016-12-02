@@ -25,7 +25,20 @@ if(process.env.NODE_ENV === 'develop') {
   middleware.push(logger)
 }
 
-const initialState = {reducer: {userAuth: false}}
+const initialState = { 
+  reducer: { 
+    userAuth: { 
+      tixMaster: { 
+        currSrc: 'spotify',
+        searchOpts: {
+          by: 'artists',
+          radius: 50,
+          apikey: `${process.env.TICKETMASTER_KEY}`
+        }
+      } 
+    } 
+  } 
+}
 
 const builtMiddle = compose(applyMiddleware(...middleware))
 const store = createStore(reducerCombo, initialState, builtMiddle)

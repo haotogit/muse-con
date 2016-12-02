@@ -12,7 +12,7 @@ const Navigation = ({userAuth, logout}) => {
     margin: '0.5em 0.5em'
   }
 
-  return  userAuth ? (
+  return  userAuth.username ? (
       <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <ul className="nav navbar-right top-nav">
           <li className="dropdown">

@@ -1,10 +1,10 @@
+import * as actions from '../actions'
 import React from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../actions'
 import { bindActionCreators } from 'redux'
-import Lists from '../components/Lists'
+ 
 
-const EventContain = ({ userAuth, actions }) => {
+const EventContain = ({ userAuth, actions, events }) => {
   let styles = {
     height: "30em",
     padding: "1em",
@@ -14,16 +14,16 @@ const EventContain = ({ userAuth, actions }) => {
 
   return (
     <div className='container' style={styles}>
-      <button>hello</button>
-
-      <Lists thirdParty={userAuth.spotify}/>
+      <button onClick={() => actions.loadEvents(userAuth)}>hello</button>
+      {events ? Object.keys(events).map(each => <p key={each}>{each}</p>) : ''}
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    userAuth: state.reducer.userAuth
+    userAuth: state.reducer.userAuth,
+    events: state.reducer.events
   }
 }
 

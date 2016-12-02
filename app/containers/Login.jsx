@@ -12,15 +12,15 @@ class Login extends Component {
   }
 
   render () {
-    let { state, userAuth } = this.props
+    const { userAuth } = this.props
 
     return (
-      <div>
+      <div className='wrapper'>
         <h1>Login</h1>
         <form>
           <input type='text' ref='username' placeholder='Username' />
           <input type='password' ref='password' placeholder='Password' />
-          <input type='button' onClick={this.login.bind(this)} value='Login' />
+          <input type='button' onClick={() => this.login()} value='Login' />
         </form>
       </div>
     )
@@ -36,7 +36,7 @@ class Login extends Component {
             password: 'password'
           }
 
-    this.props.actions.login(opts)
+    this.props.actions.login(opts, this.props.userAuth)
   }
 }
 
