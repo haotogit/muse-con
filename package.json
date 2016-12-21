@@ -65,6 +65,7 @@
     "inline-environment-variables-webpack-plugin": "^1.0.0",
     "jquery": "^3.0.0",
     "jsonwebtoken": "^7.0.1",
+    "moment": "^2.17.1",
     "mongoose": "^4.5.2",
     "morgan": "^1.7.0",
     "node-uuid": "^1.4.7",

@@ -2,6 +2,7 @@ import * as actions from '../actions'
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import EventBlock from '../components/EventBlock'
  
 
 const EventContain = ({ userAuth, actions, events }) => {
@@ -15,7 +16,7 @@ const EventContain = ({ userAuth, actions, events }) => {
   return (
     <div className='container' style={styles}>
       <button onClick={() => actions.loadEvents(userAuth)}>hello</button>
-      {events ? Object.keys(events).map(each => <p key={each}>{each}</p>) : ''}
+      {events ? <EventBlock events={events} /> : ''}
     </div>
   )
 }

@@ -16,8 +16,6 @@ function loadedEvents(events){
   }
 }
 
-
-
 function loadEvents(options) {
   let load = [],
       evObj = {}  
@@ -29,7 +27,6 @@ function loadEvents(options) {
     eventLoader(options)
       .then(resp => {
         resp.forEach((each, i) => {
-          console.log('here', resp)
           let str = each.query.keyword
           let key = str.split(/\-|\s/).length === 1 ? str : str.split(/\-|\s/).map((eachWord, i) => i === 0 ? eachWord : eachWord.replace(eachWord[0], (match) => match.toUpperCase())).join('')
 
