@@ -44,7 +44,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/v2/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
+app.use('/discovery/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(configRoutes(app))

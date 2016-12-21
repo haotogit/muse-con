@@ -1,3 +1,4 @@
+import { eventLoader } from '../helpers'
 import popsicle from 'popsicle'
 import qString from 'query-string'
 
@@ -15,38 +16,37 @@ function loadedEvents(events){
   }
 }
 
-function loadEvents(options){
-  // apikey, latlong, keyword, classificationName, radius 
-  let latLong = `${options.lat},${options.long}`,
-      radius = 50
-  let qParams = {
-    apikey: `${process.env.TICKETMASTER_KEY}`,
-    latlong: latLong,
-    radius: radius
-  }
-  let query = `/discovery/events.json?${qString.stringify(qParams)}`
-
-  let url = `${process.env.TICKETMASTER_URL}${query}`
-
-  let opts = {
-    method: 'GET',
-    url
-  }
+function loadEvents(options) {
+  let load = [],
+      evObj = {}  
   
   return (dispatch) => {
     // signal initializing request
     dispatch(requestEvents(options))
-    // return from dispatch from thunkmiddleware
 
-    return popsicle(opts)
-            .then((resp) => dispatch(loadedEvents(resp.body)))
+    eventLoader(options)
+      .then(resp => {
+        resp.forEach((each, i) => {
+          let str = each.query.keyword
+          let key = str.split(/\-|\s/).length === 1 ? str : str.split(/\-|\s/).map((eachWord, i) => i === 0 ? eachWord : eachWord.replace(eachWord[0], (match) => match.toUpperCase())).join('')
+
+          evObj[key] = []
+          if (each.body._embedded && each.body._embedded.events) {
+            each.body._embedded.events.forEach(ev => evObj[key].push(ev))
+          }
+        })
+
+        dispatch(loadedEvents(evObj))
+      })
   }
 }
 
-function toggleArtist (artistObj) {
-  console.log('art', artistObj.currentTarget)
-  // why do i have to return a function for dispatch to be avail ?
-  return (dispatch) => dispatch({ type: 'TOGGLE_ARTIST', artistObj })
+function toggleSearchOpt (key, currState) {
+  currState[key].exclude = currState[key].exclude ? false : true
+
+  return (dispatch) => {
+    dispatch({type: 'TOGGLE_SEARCH_OPT', payload: currState})
+  }
 }
 
-export { loadEvents, toggleArtist }
+export { loadEvents, toggleSearchOpt }

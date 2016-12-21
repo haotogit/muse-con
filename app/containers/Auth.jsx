@@ -42,5 +42,3 @@ export function requireAuth (Component) {
   return connect(mapStateToProps)(AuthedComp)
 
 }
-
-

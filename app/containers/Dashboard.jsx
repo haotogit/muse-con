@@ -8,6 +8,8 @@ import UserTaste from '../components/UserTaste'
 import Spotify from '../components/Spotify'
 import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
+import Lists from '../components/Lists'
+import Rx from 'rxjs'
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
@@ -30,9 +32,13 @@ class Dashboard extends Component{
   render(){
     return (
       <div className='wrapper'>
-        <h1>Wilkommen</h1>
-        <h4>Need event module, which is calendar and list view</h4>
-        <EventContain />
+        <div className='container'>
+          <h1>Wilkommen</h1>
+          <h4>Need event module, which is calendar and list view</h4>
+
+          <Lists thirdParty={this.props.userAuth.spotify}/>
+          <EventContain />
+        </div>
       </div>
     )
   }
