@@ -1,29 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../actions'
 import { bindActionCreators } from 'redux'
+import * as actions from '../actions'
+import { keyMaker } from '../helpers'
 
-const Lists = (props) => {
-  const { thirdParty, toggleSearchOpt } = props
+const Lists = ({userAuth, events}) => {
+  const thirdParty = userAuth[userAuth.searchOpts.currSrc]
+  console.log('ev', events)
 
   return (
-    <div className='third-party-widget row'>
-      <div className='col-sm-3'>
-        <h3>Spotify</h3>
-        <ul className='nav nav-tabs' role='tablist'>
-          <li role='presentation' className='active'><a href='#artists' aria-controls='artists' role='tab' data-toggle='tab'>Artists</a></li>
-          <li role='presentation'><a href='#genres' aria-controls='genres' role='tab' data-toggle='tab'>Genres</a></li>
-        </ul>
-
-        <div className='tab-content'>
-          <div role='tabpanel' className='tab-pane active' id='artists'>
-            {thirdParty.artists.map((each, i) => <p key={each.name} id={each.name} onClick={(dispatch) => toggleSearchOpt(i, thirdParty.artists)}>{each.name}</p>)}
-          </div>
-          <div role='tabpanel' className='tab-pane' id='genres'>
-            {thirdParty.genres.map(each => <p key={each.label} id={each.label} onClick={toggleSearchOpt}>{each.label}</p>)}
-          </div>
-        </div>
-      </div>
+    <div className='third-party-widget col-md-2 col-md-offset-1'>
+      <nav className='sidebar'>
+          <h3>{userAuth.searchOpts.currSrc}</h3>
+          <ul id='sidebar' className='nav nav-stacked'>
+            {
+              thirdParty.artists.map(each => 
+                <li key={`#${keyMaker(each.name)}`}>
+                  <span className='glyphicon glyphicon-equalizer'></span>
+                  <a href={`#${keyMaker(each.name)}`}>{each.name}</a>
+                  
+                  <ul className='nav nav-stacked'>
+                    {
+                      events && events[keyMaker(each.name)] ? 
+                      events[keyMaker(each.name)].map((eachEv, i) => <li key={`#${keyMaker(each.name)}${i}`}><a href={`#${keyMaker(each.name)}${i}`}>{eachEv.name}</a></li>) :
+                      ''
+                    }
+                  </ul>
+                </li>
+              )
+            }
+          </ul>
+      </nav>
     </div> 
   )
 }

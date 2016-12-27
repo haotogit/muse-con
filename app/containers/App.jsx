@@ -8,11 +8,13 @@ class App extends Component {
 
   render(){
     let { userAuth } = this.props.state.reducer
+    let styles = {
+      margin: '6em 0'
+    }
+
     return(
-      <div id="container">
-        {
-          userAuth ? <Navigation /> : ''
-        }
+      <div className='container-fluid' style={styles}>
+        <Navigation />
         { this.props.children }
       </div>
     )

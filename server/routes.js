@@ -16,7 +16,7 @@ export default (app) => {
         .post(control.authUser)
 
   router.route('/api/users')
-        .post(control.userLocated)
+        .put(control.userLocated)
 
   router.route('/test')
         .post(control.testing)

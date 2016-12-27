@@ -1,4 +1,4 @@
-import { eventLoader } from '../helpers'
+import { eventLoader, keyMaker } from '../helpers'
 import popsicle from 'popsicle'
 import qString from 'query-string'
 
@@ -28,7 +28,7 @@ function loadEvents(options) {
       .then(resp => {
         resp.forEach((each, i) => {
           let str = each.query.keyword
-          let key = str.split(/\-|\s/).length === 1 ? str : str.split(/\-|\s/).map((eachWord, i) => i === 0 ? eachWord : eachWord.replace(eachWord[0], (match) => match.toUpperCase())).join('')
+          let key = keyMaker(str)
 
           evObj[key] = []
           if (each.body._embedded && each.body._embedded.events) {

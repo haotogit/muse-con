@@ -3,19 +3,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EventBlock from '../components/EventBlock'
+import Lists from '../components/Lists'
  
 
 const EventContain = ({ userAuth, actions, events }) => {
   let styles = {
-    height: "30em",
-    padding: "1em",
-    overflow: "auto",
-    border: "2px solid black"
+    height: '30em',
+    padding: '1em',
+    overflow: 'auto',
+    border: '2px solid black'
   }
 
+  $('body').scrollspy({
+      target: '.bs-docs-sidebar',
+      offset: 40
+  });
+
   return (
-    <div className='container' style={styles}>
+    <div className='row' style={styles}>
+      <Lists userAuth={userAuth} events={events}/>
+
       <button onClick={() => actions.loadEvents(userAuth)}>hello</button>
+
       {events ? <EventBlock events={events} /> : ''}
     </div>
   )

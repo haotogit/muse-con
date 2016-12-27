@@ -31,14 +31,10 @@ class Dashboard extends Component{
 
   render(){
     return (
-      <div className='wrapper'>
-        <div className='container'>
-          <h1>Wilkommen</h1>
-          <h4>Need event module, which is calendar and list view</h4>
+      <div>
+        <h4>Need event module, which is calendar and list view</h4>
 
-          <Lists thirdParty={this.props.userAuth.spotify}/>
-          <EventContain />
-        </div>
+        <EventContain />
       </div>
     )
   }

@@ -28,14 +28,12 @@ if(process.env.NODE_ENV === 'develop') {
 const initialState = { 
   reducer: { 
     userAuth: { 
-      tixMaster: { 
+      searchOpts: {
         currSrc: 'spotify',
-        searchOpts: {
-          by: 'artists',
-          radius: 50,
-          apikey: `${process.env.TICKETMASTER_KEY}`
-        }
-      } 
+        by: 'artists',
+        radius: 50,
+        apikey: `${process.env.TICKETMASTER_KEY}`
+      }
     } 
   } 
 }

@@ -47,9 +47,9 @@ function eventLoader (userAuth) {
       opts,
       reqsArr = []
 
-  qParams = userAuth.tixMaster.searchOpts
+  qParams = userAuth.searchOpts
 
-  userAuth[userAuth.tixMaster.currSrc][userAuth.tixMaster.searchOpts.by].forEach((each, i) => {
+  userAuth[userAuth.searchOpts.currSrc][userAuth.searchOpts.by].forEach((each, i) => {
     if (i < 10) {
       if (!each.exclude) {
         qParams.keyword = each.name
@@ -67,4 +67,7 @@ function eventLoader (userAuth) {
   return Promise.all(reqsArr)
 }
 
-export { popWrap, locateUser, eventLoader }
+// first check for - or \s, if one word cool.tolowercase, but if more than one word, take every word after the first and capitalize and then join that arr 
+const keyMaker = (str) => str.split(/\-|\s/).length === 1 ? str.toLowerCase() : str.split(/\-|\s/).map((each, i) => i === 0 ? each.toLowerCase() : each.replace(each[0], (match) => match.toUpperCase())).join('')
+
+export { popWrap, locateUser, eventLoader, keyMaker }
