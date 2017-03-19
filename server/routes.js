@@ -22,7 +22,7 @@ export default (app) => {
         .post(control.createUser)
 
   router.route('/api/users')
-        .put(control.userLocated)
+        .put(isAuthenticated, control.userLocated)
 
   return router
 }

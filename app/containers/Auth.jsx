@@ -24,12 +24,10 @@ export function requireAuth (Component) {
 
     render () {
       return (
-        <div>
+        <div className="container">
           { this.props.userAuth.username ?
-            ( <div>
-                <Component {...this.props} />
-              </div>
-            ) : null }
+            <Component {...this.props} />
+            : null }
         </div>
       )
     }

@@ -36,6 +36,9 @@ a:active {
 }
 
 .third-party-widget {
+  position: fixed;
+  height: 25em;
+  overflow: auto;
 }
 
 .tab-content {
@@ -54,13 +57,12 @@ a:active {
 }
 
 .group {
-    background: yellow;
+  background: yellow;
 }
 
 .group .subgroup {
-    background: orange;
-    width: 150px;
-    height: 200px;
+  background: orange;
+  height: 200px;
 }
 
 .fixed {

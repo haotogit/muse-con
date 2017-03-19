@@ -37,8 +37,7 @@ class Login extends Component {
     const username = this.refs.username.value,
           password = this.refs.password.value,
           opts = {
-            //password: password.value
-            username: username, 
+            username: 'jack', 
             password: 'password'
           }
 
@@ -46,8 +45,8 @@ class Login extends Component {
       if (!this.props.newUser) this.props.actions.login(opts, this.props)
 
       if (this.props.newUser && this.refs.confirmPassword.value == password) this.props.actions.userSignup(opts)
-    //}
-  }
+    }
+  //}
 }
 
 const mapStateToProps = (state) => ({

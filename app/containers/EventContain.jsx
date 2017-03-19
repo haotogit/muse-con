@@ -12,13 +12,16 @@ class EventContain extends Component {
       padding: '1em',
       overflow: 'auto',
       border: '2px solid black'
+    },
+    btnStyle = {
+      position: 'fixed'
     }
 
     return (
       <div className='row' style={styles}>
         <Lists userAuth={this.props.userAuth} events={this.props.events}/>
 
-        <button onClick={() => actions.loadEvents(this.props.userAuth)}>hello</button>
+        <button onClick={() => this.props.actions.loadEvents(this.props.userAuth)} style={btnStyle}>hello</button>
 
         {this.props.events ? <EventBlock events={this.props.events} /> : ''}
       </div>

@@ -75,9 +75,9 @@ function loginRequest () {
 }
 
 function logout () {
-  return { 
+  return  { 
     type: 'LOGOUT',
-    payload: null 
+    payload: {}
   }
 }
 
@@ -106,4 +106,11 @@ function newSignup (payload) {
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup }
+function userUpdate (payload) {
+  return {
+    type: 'USER_UPDATE',
+    payload
+  }
+}
+
+export { login, logout, locationFound, checkUser, userSignup, userUpdate }

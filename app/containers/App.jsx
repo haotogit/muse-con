@@ -5,11 +5,15 @@ import { connect } from 'react-redux'
 import popsicle from 'popsicle'
 
 class App extends Component {
-
   render(){
-    let { userAuth } = this.props.state.user
+    let { userAuth } = this.props
+    // current fix to prevent scrolling out view when
+    // clicking anchor
+
     let styles = {
-      margin: '6em 0'
+      position: 'fixed',
+      top: '8em',
+      left: '9em'
     }
 
     return(
@@ -26,7 +30,9 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  return {state: state}
+  return {
+    userAuth: state.user.userAuth
+  }
 }
 
 export default connect(mapStateToProps)(App)

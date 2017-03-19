@@ -47,6 +47,8 @@ function eventLoader (userAuth) {
       reqsArr = []
 
   qParams = userAuth.searchOpts
+  qParams.apikey = process.env.TICKETMASTER_KEY
+  qParams.radius = 50
 
   userAuth[userAuth.searchOpts.currSrc][userAuth.searchOpts.by].forEach((each, i) => {
     if (i < 10) {
@@ -56,7 +58,7 @@ function eventLoader (userAuth) {
 
       opts = {
         method: 'GET',
-        url: `${process.env.TICKETMASTER_URL}/discovery/v2/events.json?${qString.stringify(qParams)}`
+        url: `${process.env.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
       }
 
       reqsArr.push(popsicle(opts))

@@ -5,9 +5,8 @@ import { bindActionCreators } from 'redux'
 import { analyzeSpotify } from '../actions'
 
 class User extends Component {
-  constructor (props) {
-    super()
-
+  componentWillReceiveProps () {
+    this.renderGraph()
   }
 
   componentDidMount () {

@@ -18,6 +18,12 @@ export default function user(state={}, action) {
       })
     break;
 
+    case 'USER_UPDATE':
+      return Object.assign({}, state, {
+        userAuth: action.payload
+      })
+    break;
+
     case 'NEW_USER':
       return Object.assign({}, state, {
         newUser: action.payload

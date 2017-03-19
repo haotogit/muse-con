@@ -40,7 +40,6 @@ mongoose.Promise = bluebird
 
       request.post(authOptions, (err, response, body) => {
         if (!err && response.statusCode === 200) {
-          console.log('bod::', body)
           let spotifyObj = {
             url: 'https://api.spotify.com/v1/me',
             headers: {
@@ -56,7 +55,7 @@ mongoose.Promise = bluebird
           request.get(spotifyObj, (err, resp, bod) => {
             tokens.id = bod.id
 
-            User.findOne({username: session.user.username})
+            User.findOne({username: req.session.user.username})
               .then((user) => {
                 //look up how to make public method on user model work
                 

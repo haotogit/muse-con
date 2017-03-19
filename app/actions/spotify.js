@@ -1,5 +1,6 @@
 import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
+import { userUpdate } from './user'
 
 function analyzeSpotify () {
   return (dispatch) => {
@@ -10,10 +11,9 @@ function analyzeSpotify () {
         // every request
 
         if (resp.body.error) {
-          console.log('resppp::', resp)
           //dispatch(routerActions.push('/login'))
         } else {
-          console.log('evalResponse::', resp)
+          dispatch(userUpdate(resp.body))
         }
       })
   }

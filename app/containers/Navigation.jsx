@@ -44,7 +44,6 @@ const Navigation = ({userAuth, logout}) => {
   ) : null
 }
 
-
 function mapStateToProps(state) {
   return {
     userAuth: state.user.userAuth

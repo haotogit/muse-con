@@ -30,11 +30,7 @@ class Dashboard extends Component{
 
   render(){
     return (
-      <div>
-        <h4>Need event module, which is calendar and list view</h4>
-
-        <EventContain />
-      </div>
+      <EventContain />
     )
   }
 }
