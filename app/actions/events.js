@@ -9,10 +9,10 @@ function requestEvents(options){
   }
 }
 
-function loadedEvents(events){
+function loadedEvents(payload){
   return {
     type: 'LOADED_EVENTS',
-    events
+    payload
   }
 }
 

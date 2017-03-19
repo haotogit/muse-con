@@ -1,7 +1,7 @@
 import popsicle from 'popsicle'
 import { push } from 'react-router-redux'
 
-function login(opts, userAuth){
+function login(opts){
   return (dispatch) => {
     dispatch(loginRequest())
     popsicle({
@@ -10,12 +10,53 @@ function login(opts, userAuth){
       body: opts
     })
     .then(res => {
-      if (res.error) console.log('bad pw: ', res)
-      else {
-        let stateObj = Object.assign(res.body, userAuth)
-        dispatch(loginSuccess(stateObj))
+      if (res.body.error) {
+        if (res.body.error == 'Wrong Password') {
+          
+        }
+      } else {
+        dispatch(loginSuccess(res.body))
         dispatch(push(``))
       }
+    })
+  }
+}
+
+function checkUser (username) {
+  return (dispatch) => {
+    popsicle({
+      method: 'post',
+      url: 'api/username',
+      body: username
+    })
+    .then(res => {
+      dispatch(newUser(res.body ? false : true))
+    })
+  }
+}
+
+function newUser (payload) {
+  return {
+    type: 'NEW_USER',
+    payload
+  }
+}
+
+function userSignup (obj) {
+  console.log('hi', obj)
+  return (dispatch) => {
+    dispatch(newSignup(obj))
+
+    popsicle({
+      method: 'post',
+      url: 'api/user',
+      body: obj
+    })
+    .then(res => {
+      if (!res.error) {
+        dispatch(loginSuccess(res.body))
+        dispatch(push(''))
+      }   
     })
   }
 }
@@ -23,7 +64,7 @@ function login(opts, userAuth){
 function loginSuccess (payload) {
   return {
     type: 'LOGIN_SUCCESS',
-    userAuth: payload
+    payload
   }
 }
 
@@ -34,7 +75,10 @@ function loginRequest () {
 }
 
 function logout () {
-  return { type: 'LOGOUT', null }
+  return { 
+    type: 'LOGOUT',
+    payload: null 
+  }
 }
 
 function locationFound (payload) {
@@ -50,13 +94,16 @@ function locationFound (payload) {
 }
 
 function tixMasterOpts (currUser) {
-  console.log('hallo', currUser)
   let opts = currUser
 
   return (dispatch) => dispatch({type: 'TIX_MASTER_OPTS', opts})
-  
 }
 
+function newSignup (payload) {
+  return {
+    type: 'NEW_USER_SIGNUP',
+    payload
+  }
+}
 
-
-export { login, logout, locationFound }
+export { login, logout, locationFound, checkUser, userSignup }

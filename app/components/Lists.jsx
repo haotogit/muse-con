@@ -6,7 +6,6 @@ import { keyMaker } from '../helpers'
 
 const Lists = ({userAuth, events}) => {
   const thirdParty = userAuth[userAuth.searchOpts.currSrc]
-  console.log('ev', events)
 
   return (
     <div className='third-party-widget col-md-2 col-md-offset-1'>

@@ -19,8 +19,13 @@ const UserSchema = new Schema({
     profile_pic: String,
     access_token: String,
     refresh_token: String,
+    artists: Array,
     genres: Array,
     top10: Array
+  },
+  searchOpts: {
+    currSrc: String,
+    by: String
   },
   actvity_id: [{ type: Schema.Types.ObjectId, ref: 'activity' }],
   notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]

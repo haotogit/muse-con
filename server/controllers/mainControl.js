@@ -1,16 +1,17 @@
 import User from '../db/models/user'
-import bluebird from 'bluebird'
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import popsicle from 'popsicle'
 
+mongoose.Promise = require('bluebird')
+
 function authUser (req, res, next) {
   User.findOne({username: req.body.username})
       .then( (user) => {
-        if(!user) res.json({ success: false, message: 'Authentication failed, no user found' })
+        if(!user) res.json({ error: 'No user' })
         else {
           user.comparePassword(req.body.password, (err, result) => {
-            if(!result) res.json({ error: true, message: 'Auth fail, wrong password' })
+            if(!result) res.json({ error: 'Wrong password' })
             else {
               req.session.user = user
               req.user = req.session.user
@@ -23,29 +24,38 @@ function authUser (req, res, next) {
       })
 }
 
+function checkUsername (req, res, next) {
+  User.findOne({username: req.body.username})
+      .then(user => res.json(user))
+}
+
+function createUser (req, res) {
+  let newUser = new User()
+
+  newUser.username = req.body.username
+  newUser.password = req.body.password
+
+  newUser.searchOpts = {
+    currSrc: 'spotify',
+    by: 'artists'
+  }
+
+  newUser.save()
+
+  res.json(newUser)
+}
+
 function userLocated (req, res, next) {
-  User.findOne({id: req.session.user.id})
+  console.log('FILHADAPUTA', req)
+  User.findAsync({id: req.session.user.id})
       .then(user => {
         if (!user) res.json({ error: 'No user found, please login' })
         else {
           user.lat = req.body.lat
           user.long = req.body.long
-          user.save()
-
-          res.json(user)
+          user.save().then(user => res.json(user))
         }
       })
 }
 
-function testing (req, res) {
-  popsicle({
-    method: 'get',
-    url: req.body.url,
-    headers: {
-      Authorization: req.body.headers
-    }
-  })
-  .then(resp => res.json({user: resp.body}))
-}
-
-export { authUser, testing, userLocated }
+export { authUser, checkUsername, createUser, userLocated }

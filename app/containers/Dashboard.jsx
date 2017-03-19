@@ -9,7 +9,6 @@ import Spotify from '../components/Spotify'
 import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
-import Rx from 'rxjs'
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
@@ -17,11 +16,12 @@ class Dashboard extends Component{
   // then reassign to state by using same key
 
   componentWillMount () {
-    // need to replace this, put this at app boot and attach to user obj
-    
     if (!this.props.userAuth.lat || !this.props.userAuth.long) {
       locateUser(this.props.userAuth)
-        .then(res => this.props.actions.locationFound(res))
+        .then(res => {
+          console.log('filhadoputa', res)
+          //this.props.actions.locationFound(res)
+        })
     }
   }
 
@@ -41,7 +41,7 @@ class Dashboard extends Component{
 }
 
 const mapStateToProps = (state) => ({
-  userAuth: state.reducer.userAuth
+  userAuth: state.user.userAuth
 })
 
 const mapDispatchToProps = (dispatch) => ({

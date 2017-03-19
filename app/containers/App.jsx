@@ -7,7 +7,7 @@ import popsicle from 'popsicle'
 class App extends Component {
 
   render(){
-    let { userAuth } = this.props.state.reducer
+    let { userAuth } = this.props.state.user
     let styles = {
       margin: '6em 0'
     }

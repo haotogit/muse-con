@@ -12,36 +12,47 @@ class Login extends Component {
   }
 
   render () {
-    const { userAuth } = this.props
+    const { userAuth, newUser } = this.props
 
     return (
       <div className='wrapper'>
         <h1>Login</h1>
         <form>
-          <input type='text' ref='username' placeholder='Username' />
+          <input type='text' ref='username' onBlur={() => this.checkUser()} placeholder='Username' />
           <input type='password' ref='password' placeholder='Password' />
-          <input type='button' onClick={() => this.login()} value='Login' />
+          { newUser ? <input type='password' ref='confirmPassword' placeholder='Confirm Password' /> : '' }
+          <input type='button' onClick={() => this.login()} value={newUser ? 'Sign Up' : 'Log In'} />
         </form>
       </div>
     )
   }
 
+  checkUser () {
+    let username = { username: this.refs.username.value }
+
+    if (this.refs.username.value != '') this.props.actions.checkUser(username)
+  }
+
   login () {
-    const username = this.refs.username,
-          password = this.refs.password,
+    const username = this.refs.username.value,
+          password = this.refs.password.value,
           opts = {
-            //username: username.value,
             //password: password.value
-            username: 'samuca',
+            username: 'jack', 
             password: 'password'
           }
 
-    this.props.actions.login(opts, this.props.userAuth)
+    //if (username != '' && password != '') {
+      if (!this.props.newUser) this.props.actions.login(opts, this.props)
+
+      if (this.props.newUser && this.refs.confirmPassword.value == password) this.props.actions.userSignup(opts)
+    //}
   }
 }
 
 const mapStateToProps = (state) => ({
-  userAuth: state.reducer.userAuth
+  userAuth: state.user.userAuth,
+  newUser: state.user.newUser
 })
 
 const mapDispatchToProps = (dispatch) => ({

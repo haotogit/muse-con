@@ -10,11 +10,6 @@ import reducer from './reducers'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
-const reducerCombo = combineReducers({
-  reducer,
-  routing
-})
-
 const middleware = [
     thunk,
     routerMiddleware(browserHistory)
@@ -26,20 +21,15 @@ if(process.env.NODE_ENV === 'develop') {
 }
 
 const initialState = { 
-  reducer: { 
+  user: { 
     userAuth: { 
-      searchOpts: {
-        currSrc: 'spotify',
-        by: 'artists',
-        radius: 50,
-        apikey: `${process.env.TICKETMASTER_KEY}`
-      }
+      
     } 
   } 
 }
 
 const builtMiddle = compose(applyMiddleware(...middleware))
-const store = createStore(reducerCombo, initialState, builtMiddle)
+const store = createStore(reducer, initialState, builtMiddle)
 
 const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)

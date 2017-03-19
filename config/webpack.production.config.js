@@ -12,7 +12,7 @@ module.exports = webpackMerge(commonConfig, {
         test: /\.jsx?$/,
         include: path.join(__dirname, '..', 'app'),
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           'presets': ['es2015', 'stage-0', 'react'],
           'plugins': [

@@ -27,11 +27,11 @@ module.exports = {
       { test: /\.css$/, loader: 'style-loader!css-loader' },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url?limit=10000',
+        loader: 'url-loader?limit=10000',
       },
       {
         test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        loader: 'file?name=[name].[ext]'
+        loader: 'file-loader?name=[name].[ext]'
       },
       { test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' }
     ]
@@ -40,7 +40,8 @@ module.exports = {
     HtmlWebpackPluginConfig,
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
-      $: 'jquery'
+      $: 'jquery',
+      alertify: 'alertifyjs'
     }),
     new webpack.LoaderOptionsPlugin({
       postcss: [autoprefixer]

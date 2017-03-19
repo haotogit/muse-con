@@ -36,7 +36,7 @@ export function requireAuth (Component) {
 
   }
   const mapStateToProps = (state) => ({
-    userAuth: state.reducer.userAuth
+    userAuth: state.user.userAuth
   })
 
   return connect(mapStateToProps)(AuthedComp)

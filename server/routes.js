@@ -15,12 +15,14 @@ export default (app) => {
   router.route('/api/authenticate')
         .post(control.authUser)
 
+  router.route('/api/username')
+        .post(control.checkUsername)
+
+  router.route('/api/user')
+        .post(control.createUser)
+
   router.route('/api/users')
-        .put(control.userLocated)
-
-  router.route('/test')
-        .post(control.testing)
-
+        .put(isAuthenticated, control.userLocated)
 
   return router
 }

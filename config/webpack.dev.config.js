@@ -19,7 +19,7 @@ module.exports = webpackMerge(commonConfig, {
         test: /\.jsx?$/,
         include: path.join(__dirname, '..', 'app'),
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
         }
@@ -31,7 +31,7 @@ module.exports = webpackMerge(commonConfig, {
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {

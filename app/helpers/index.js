@@ -19,7 +19,7 @@ function locateUser (currUser) {
     let latLong,
         userObj,
         opts = {
-          method: 'post',
+          method: 'put',
           url: '/api/users'
         }
 
@@ -34,8 +34,7 @@ function locateUser (currUser) {
         opts.body = latLong
 
         popsicle(opts)
-
-        resolve(userObj)
+          .then(res => resolve(res.body))
       })
     }
   })

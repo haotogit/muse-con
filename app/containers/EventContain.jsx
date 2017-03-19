@@ -1,39 +1,35 @@
 import * as actions from '../actions'
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EventBlock from '../components/EventBlock'
 import Lists from '../components/Lists'
- 
 
-const EventContain = ({ userAuth, actions, events }) => {
-  let styles = {
-    height: '30em',
-    padding: '1em',
-    overflow: 'auto',
-    border: '2px solid black'
+class EventContain extends Component {
+  render () {
+    let styles = {
+      height: '30em',
+      padding: '1em',
+      overflow: 'auto',
+      border: '2px solid black'
+    }
+
+    return (
+      <div className='row' style={styles}>
+        <Lists userAuth={this.props.userAuth} events={this.props.events}/>
+
+        <button onClick={() => actions.loadEvents(this.props.userAuth)}>hello</button>
+
+        {this.props.events ? <EventBlock events={this.props.events} /> : ''}
+      </div>
+    )
   }
-
-  $('body').scrollspy({
-      target: '.bs-docs-sidebar',
-      offset: 40
-  });
-
-  return (
-    <div className='row' style={styles}>
-      <Lists userAuth={userAuth} events={events}/>
-
-      <button onClick={() => actions.loadEvents(userAuth)}>hello</button>
-
-      {events ? <EventBlock events={events} /> : ''}
-    </div>
-  )
 }
 
 const mapStateToProps = (state) => {
   return {
-    userAuth: state.reducer.userAuth,
-    events: state.reducer.events
+    userAuth: state.user.userAuth,
+    events: state.event.events
   }
 }
 

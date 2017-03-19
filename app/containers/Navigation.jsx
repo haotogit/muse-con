@@ -47,7 +47,7 @@ const Navigation = ({userAuth, logout}) => {
 
 function mapStateToProps(state) {
   return {
-    userAuth: state.reducer.userAuth
+    userAuth: state.user.userAuth
   }
 }
 
