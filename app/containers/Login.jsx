@@ -38,7 +38,7 @@ class Login extends Component {
           password = this.refs.password.value,
           opts = {
             //password: password.value
-            username: 'jack', 
+            username: username, 
             password: 'password'
           }
 

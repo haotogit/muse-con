@@ -3,8 +3,6 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import popsicle from 'popsicle'
 
-mongoose.Promise = require('bluebird')
-
 function authUser (req, res, next) {
   User.findOne({username: req.body.username})
       .then( (user) => {
@@ -40,21 +38,23 @@ function createUser (req, res) {
     by: 'artists'
   }
 
+  req.session.user = newUser
+  req.user = req.session.user
+  req.session.save()
+
   newUser.save()
 
   res.json(newUser)
 }
 
 function userLocated (req, res, next) {
-  console.log('FILHADAPUTA', req)
-  User.findAsync({id: req.session.user.id})
+  User.findOne({id: req.session.user.id})
       .then(user => {
         if (!user) res.json({ error: 'No user found, please login' })
-        else {
-          user.lat = req.body.lat
-          user.long = req.body.long
-          user.save().then(user => res.json(user))
-        }
+
+        user.lat = req.body.lat
+        user.long = req.body.long
+        user.save().then(user => res.json(user))
       })
 }
 

@@ -19,8 +19,7 @@ class Dashboard extends Component{
     if (!this.props.userAuth.lat || !this.props.userAuth.long) {
       locateUser(this.props.userAuth)
         .then(res => {
-          console.log('filhadoputa', res)
-          //this.props.actions.locationFound(res)
+          this.props.actions.locationFound(res)
         })
     }
   }
