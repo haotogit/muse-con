@@ -38,7 +38,7 @@ const EventBlock = (props) => {
                       <p>Where: {eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
                       {
                         eachEv.priceRanges && eachEv.priceRanges[0] ?
-                          <p>{eachEv.priceRanges[0]['min']} - {eachEv.priceRanges[0]['max']} {eachEv.priceRanges[0]['currency']}</p>
+                          <p>{eachEv.priceRanges[0]['min'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})} - {eachEv.priceRanges[0]['max'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})}</p>
                           : ''
                       }
 
