@@ -1,11 +1,12 @@
 import mongoose from 'mongoose'
 import User from './models/user'
+import bluebird from 'bluebird'
+
+mongoose.Promise = bluebird
 
 export default (isDevelop) => {
   let db  = ''
   
-  mongoose.Promise = require('bluebird')
-
     if(isDevelop) db = 'mongodb://localhost/test'
     else  db = process.env.MONGODB_URI || 'mongodb://localhost/express_prod'
 

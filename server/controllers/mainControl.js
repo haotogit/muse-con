@@ -38,19 +38,21 @@ function createUser (req, res) {
     by: 'artists'
   }
 
+  newUser.save()
+
   req.session.user = newUser
   req.user = req.session.user
   req.session.save()
-
-  newUser.save()
 
   res.json(newUser)
 }
 
 function userLocated (req, res, next) {
-  User.findOne({id: req.session.user.id})
+  User.findOne({_id: req.session.user._id})
       .then(user => {
-        if (!user) res.json({ error: 'No user found, please login' })
+        if (!user) {
+          res.end({ error: 'No user found, please login' })
+        }
 
         user.lat = req.body.lat
         user.long = req.body.long

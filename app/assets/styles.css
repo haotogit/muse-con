@@ -58,11 +58,20 @@ a:active {
 
 .group {
   background: yellow;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.subgroup {
+  width: 31%;
+  position: relative;
+  height: 20em;
+  margin: 0.5em;
+
 }
 
 .group .subgroup {
-  background: orange;
-  height: 200px;
+  background: #ccc;
 }
 
 .fixed {
@@ -125,4 +134,17 @@ a:active {
 /* show active nested list */
 .sidebar .nav>.active>ul.nav {
     display: block;           
+}
+
+.ev-info {
+  margin-left: 8%;
+  position: absolute;
+  top: 0;
+}
+
+.ev-img-contain {
+}
+
+.ev-img-contain img {
+  width: 100%;
 }

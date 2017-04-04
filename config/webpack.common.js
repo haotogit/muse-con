@@ -41,7 +41,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
       $: 'jquery',
-      alertify: 'alertifyjs'
+      alertify: 'alertifyjs',
+      moment: 'moment'
     }),
     new webpack.LoaderOptionsPlugin({
       postcss: [autoprefixer]

@@ -21,7 +21,7 @@ class Login extends Component {
           <input type='text' ref='username' onBlur={() => this.checkUser()} placeholder='Username' />
           <input type='password' ref='password' placeholder='Password' />
           { newUser ? <input type='password' ref='confirmPassword' placeholder='Confirm Password' /> : '' }
-          <input type='button' onClick={() => this.login()} value={newUser ? 'Sign Up' : 'Log In'} />
+          <input type='submit' onClick={(e) => this.login(e)} value={newUser ? 'Sign Up' : 'Log In'} />
         </form>
       </div>
     )
@@ -33,12 +33,14 @@ class Login extends Component {
     if (this.refs.username.value != '') this.props.actions.checkUser(username)
   }
 
-  login () {
+  login (e) {
+    e.preventDefault()
+
     const username = this.refs.username.value,
           password = this.refs.password.value,
           opts = {
-            username: 'jack', 
-            password: 'password'
+            username: username, 
+            password: password 
           }
 
     //if (username != '' && password != '') {

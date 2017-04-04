@@ -12,7 +12,7 @@ const Lists = ({userAuth, events}) => {
         }
 
   return (
-    <div className='third-party-widget col-sm-3'>
+    <div className='third-party-widget col-sm-2'>
       <h3>{userAuth.searchOpts.currSrc}</h3>
       <nav>
         <ul style={listStyle}>

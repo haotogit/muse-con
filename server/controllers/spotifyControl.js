@@ -6,8 +6,6 @@ import qString from 'query-string'
 import request from 'request'
 import popsicle from 'popsicle'
 
-mongoose.Promise = bluebird
-
   function authSpotify (req, res) {
     let scope = 'playlist-read-private user-top-read user-library-read'
 
@@ -55,7 +53,7 @@ mongoose.Promise = bluebird
           request.get(spotifyObj, (err, resp, bod) => {
             tokens.id = bod.id
 
-            User.findOne({username: req.session.user.username})
+            User.findOne({_id: req.session.user._id})
               .then((user) => {
                 //look up how to make public method on user model work
                 
@@ -67,7 +65,8 @@ mongoose.Promise = bluebird
                   username: user.username,
                   spotify: user.spotify
                 }
-            })
+              })
+              .catch(err => console.log('err @spotify'))
           })
           // need figure out a way to keep current session and resend user info to page
           res.redirect('/user')
@@ -179,12 +178,12 @@ mongoose.Promise = bluebird
                       res.json({error: resp.body.error})
                     }
                   })
-                  .catch((err) => res.json({error: err}))
+                  .catch((err) => res.json({error: { refreshToken: err }}))
               }
             })
-            .catch((err) => res.json({error: err}))
+            .catch((err) => res.json({error: { spotifyEval: err }}))
         })
-        .catch((err) => res.json({error: err}))
+        .catch((err) => res.json({error: { findUser: err }}))
   }
 
   function refreshToken (req, res, user) {
