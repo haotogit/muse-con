@@ -22,31 +22,33 @@ const EventBlock = (props) => {
     <div className='col-sm-9 col-sm-offset-3'>
       {
         labels.map(key => 
-          <section key={key} id={key} className='container-fluid group'>
-            { 
-              events[key].map((eachEv, i) => 
-                <div key={`${key}${i}`} id={`${key}${i}`} className='subgroup'>
-                  <div className='ev-img-contain'>
-                    <img src={eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url} />
-                  </div>
-                  <div className='ev-info'>
-                    <h5>{eachEv.name}</h5>
-                    <h3>{prettyDate(eachEv.dates.start.localDate, 'month')}</h3>
-                    <h3>{prettyDate(eachEv.dates.start.localDate, 'date')}</h3>
-                    <h3>{prettyDate(eachEv.dates.start.localTime)}</h3>
-                    <p>Where: {eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
-                    {
-                      eachEv.priceRanges && eachEv.priceRanges[0] ?
-                        <p>{eachEv.priceRanges[0]['min']} - {eachEv.priceRanges[0]['max']} {eachEv.priceRanges[0]['currency']}</p>
-                        : ''
-                    }
+          <div key={key}>
+            <h3>{key}</h3>
+            <section key={key} id={key} className='container-fluid group'>
+              { 
+                events[key].map((eachEv, i) => 
+                  <div key={`${key}${i}`} id={`${key}${i}`} className='subgroup'>
+                    <div className='ev-img-contain'>
+                      <img src={eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url} />
+                    </div>
+                    <div className='ev-info'>
+                      <h5>{eachEv.name}</h5>
+                      <h4>{prettyDate(eachEv.dates.start.localDate, 'month')}, {prettyDate(eachEv.dates.start.localDate, 'date')}</h4>
+                      <h4>{prettyDate(eachEv.dates.start.localTime)}</h4>
+                      <p>Where: {eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
+                      {
+                        eachEv.priceRanges && eachEv.priceRanges[0] ?
+                          <p>{eachEv.priceRanges[0]['min']} - {eachEv.priceRanges[0]['max']} {eachEv.priceRanges[0]['currency']}</p>
+                          : ''
+                      }
 
-                    <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
+                      <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
+                    </div>
                   </div>
-                </div>
-              ) 
-            } 
-          </section>
+                ) 
+              } 
+            </section>
+          </div>
         )
       }
     </div>
