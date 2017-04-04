@@ -14,14 +14,22 @@ const Lists = ({userAuth, events}) => {
   return (
     <div className='third-party-widget col-sm-2'>
       <h3>{userAuth.searchOpts.currSrc}</h3>
-      <nav>
-        <ul style={listStyle}>
-          {
-            thirdParty.artists.map(each => 
-              <li key={`#${keyMaker(each.name)}`}>
-                <span className='glyphicon glyphicon-equalizer'></span>
-                <a href={`#${keyMaker(each.name)}`}>{each.name}</a>
-                
+      {
+        thirdParty.artists.map((each, i) => 
+          <div key={`${each.name}`} 
+            class="panel-group"
+            id="accordion"
+            role="tablist" 
+            aria-multiselectable="true">
+            <div class="panel-heading" id={`heading${i}`} role="tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href={`#collapse${i}`} aria-expanded="false" aria-controls={`collapse${i}`}>
+                  {each.name}
+                </a>
+              </h4>
+            </div>
+            <div id={`collapse${i}`} class="panel-collapse collapse in" role="tabpanel" aria-labelledby={`heading${i}`}>
+              <div class="panel-body">
                 <ul className='nav nav-stacked'>
                   {
                     events && events[keyMaker(each.name)] ? 
@@ -29,11 +37,12 @@ const Lists = ({userAuth, events}) => {
                     ''
                   }
                 </ul>
-              </li>
-            )
-          }
-        </ul>
-      </nav>
+              </div>
+            </div>
+            
+          </div>
+        )
+      }
     </div> 
   )
 }
