@@ -8,20 +8,26 @@ import Lists from '../components/Lists'
 class EventContain extends Component {
   render () {
     let styles = {
-      height: '30em',
-      padding: '1em',
+      height: '39em',
       overflow: 'auto',
-      border: '2px solid black'
+      border: '2px solid inset'
     },
     btnStyle = {
-      position: 'fixed'
+      background: 'none',
+      padding:'0.5em',
+      position: 'inline-block',
+      marginTop: '2%',
+      marginLeft: '10%',
+      border: 'none',
+      textTransform: 'uppercase'
     }
 
     return (
-      <div className='row' style={styles}>
+      <div className='row ev-contain' style={styles}>
+        <button onClick={() => this.props.actions.loadEvents(this.props.userAuth)} style={btnStyle}>Search</button>
+        <i className="fa fa-arrow-circle-right" aria-hidden="true"></i>
         <Lists {...this.props}/>
-
-        <button onClick={() => this.props.actions.loadEvents(this.props.userAuth)} style={btnStyle}>hello</button>
+        
 
         {this.props.events ? <EventBlock events={this.props.events} /> : ''}
       </div>

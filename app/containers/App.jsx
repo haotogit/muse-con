@@ -11,9 +11,6 @@ class App extends Component {
     // clicking anchor
 
     let styles = {
-      position: 'fixed',
-      top: '7em',
-      left: '9em'
     }
 
     return(

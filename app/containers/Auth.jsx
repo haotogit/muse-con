@@ -25,19 +25,18 @@ export function requireAuth (Component) {
 
     render () {
       let containerStyle = {
-        height: '38em',
-        border: '1px solid black'
+        marginTop: '8em'
       }
 
       const routes = ['', 'explore']
 
       return (
         <div className='container' style={containerStyle}>
-          <div className='row' style={{border:'1px solid'}}>
-            <ul>
+          <div className='row'>
+            <ul style={{display:'flex',padding:'0'}}>
               {
                 routes.map(route => 
-                  <li key={route}>
+                  <li key={route} style={{width:'8em',padding:'1em'}}>
                     <Link key={route} to={route}>{route == '' ? 'dashboard' : route}</Link>
                   </li>
                 )

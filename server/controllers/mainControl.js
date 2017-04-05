@@ -60,4 +60,12 @@ function userLocated (req, res, next) {
       })
 }
 
+function userUpdate (req, res, next) {
+  User.findOne({_id: req.session.user._id})
+      .then(user => {
+
+
+      })
+}
+
 export { authUser, checkUsername, createUser, userLocated }

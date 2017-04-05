@@ -11,10 +11,12 @@ const Lists = (props) => {
           listStyleType: 'none',
           paddingLeft: '0'
         }
+  console.log('ev', events)
 
   return (
     <div className='third-party-widget col-sm-2'>
       <h3>{userAuth.searchOpts.currSrc}</h3>
+      <hr></hr>
       {
         thirdParty.artists.map((each, i) => 
           <div key={`${each.name}`} 
