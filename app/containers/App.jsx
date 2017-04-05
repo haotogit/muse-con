@@ -12,7 +12,7 @@ class App extends Component {
 
     let styles = {
       position: 'fixed',
-      top: '8em',
+      top: '7em',
       left: '9em'
     }
 

@@ -19,7 +19,7 @@ class EventContain extends Component {
 
     return (
       <div className='row' style={styles}>
-        <Lists userAuth={this.props.userAuth} events={this.props.events}/>
+        <Lists {...this.props}/>
 
         <button onClick={() => this.props.actions.loadEvents(this.props.userAuth)} style={btnStyle}>hello</button>
 

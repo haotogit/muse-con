@@ -7,9 +7,7 @@ const EventBlock = (props) => {
 
   let prettyDate = (date, ref?) => {
     let currDate = moment()
-    console.log('date', typeof date)
 
-    console.log(`plis::${date}, curr::${currDate}`)
     if (date) {
       if (date.search(/:/) == -1) {
         if (ref == 'date') return moment(date).format('Do')

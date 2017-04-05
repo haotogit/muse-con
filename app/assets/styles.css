@@ -16,6 +16,7 @@ h1 {
 
 .navbar-inverse {
   background-color:#363e42;
+  box-shadow: 0px 0px 3px black;
 }
 
 .active {
@@ -145,4 +146,32 @@ a:active {
 
 .ev-img-contain img {
   width: 100%;
+}
+
+div.panel-body {
+  border-top: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.no-evs {
+  color: red;
+}
+
+.nav.nav-stacked {
+  overflow:auto;
+}
+
+.nav.nav-stacked li {
+  white-space: nowrap;
+}
+
+div.panel-body {
+  padding: 0;
+}
+
+div.panel-heading {
+  padding: 0;
 }

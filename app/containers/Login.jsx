@@ -11,6 +11,10 @@ class Login extends Component {
   componentWillMount () {
   }
 
+  componentDidMount () {
+    this.refs.username.focus()
+  }
+
   render () {
     const { userAuth, newUser } = this.props
 

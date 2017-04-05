@@ -19,10 +19,7 @@ const Navigation = ({userAuth, logout}) => {
           <a href='#' className='dropdown-toggle' data-toggle='dropdown'><i className='fa fa-user'></i> {userAuth.username || 'User'} <b className='caret'></b></a>
           <ul className='dropdown-menu'>
             <li>
-              <Link key='user' to='user' activeClassName='active'>Profile</Link>
-            </li>
-            <li>
-              <a href='#'><i className='fa fa-fw fa-envelope'></i> Inbox</a>
+              <Link key='user' to='user' activeClassName='active'>Account</Link>
             </li>
             <li className='divider'></li>
             <li>
@@ -32,12 +29,6 @@ const Navigation = ({userAuth, logout}) => {
         </li>
       </ul>
       <div className='navbar-header'>
-        <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-ex1-collapse'>
-          <span className='sr-only'>Toggle navigation</span>
-          <span className='icon-bar'></span>
-          <span className='icon-bar'></span>
-          <span className='icon-bar'></span>
-        </button>
         <IndexLink className='navbar-brand' to=''>dashboard</IndexLink>
       </div>
     </nav>

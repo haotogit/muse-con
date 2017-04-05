@@ -9,11 +9,13 @@ import Spotify from '../components/Spotify'
 import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
+import Navbar from '../components/Navbar'
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
   // assign new properties to highest affected level,
   // then reassign to state by using same key
+  
 
   componentWillMount () {
     if (!this.props.userAuth.lat || !this.props.userAuth.long) {
@@ -30,7 +32,12 @@ class Dashboard extends Component{
 
   render(){
     return (
-      <EventContain />
+      <div>
+        
+        <div className='row'>
+            
+        </div>
+      </div>
     )
   }
 }
