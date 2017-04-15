@@ -25,10 +25,24 @@ const Lists = (props) => {
                      onClick={() => actions.toggleArtist(evObj, userAuth)}></i> 
   } 
 
+  let btnStyle = {
+    background: 'none',
+    padding:'0.5em',
+    position: 'inline-block',
+    marginTop: '2%',
+    marginLeft: '10%',
+    border: 'none',
+    textTransform: 'uppercase'
+  }
 
   return (
     <div className='third-party-widget col-sm-2'>
       <h3>{userAuth.searchOpts.currSrc}</h3>
+      <button onClick={() => actions.loadEvents(userAuth)} style={btnStyle}>
+        Search
+        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
+      </button>
+      
       <hr></hr>
       {
         thirdParty.artists.map((each, i) => 
@@ -49,7 +63,7 @@ const Lists = (props) => {
                   {each.name}
                 </a>
               </h4>
-              {btnSelector(each)}
+              {/* btnSelector(each) */}
               
             </div>
             <div id={`collapse${i}`} className='panel-collapse collapse' role='tabpanel' aria-labelledby={`heading${i}`}>

@@ -132,8 +132,8 @@ div.panel-heading {
   width: 1%;
 }
 
-.third-party-widget:hover::-webkit-scrollbar-track,
-.ev-contain:hover::-webkit-scrollbar-track {
+.third-party-widget::-webkit-scrollbar-track,
+.ev-contain::-webkit-scrollbar-track {
 }
 
 .ev-contain:hover::-webkit-scrollbar {

@@ -29,7 +29,7 @@ const Navigation = ({userAuth, logout}) => {
         </li>
       </ul>
       <div className='navbar-header'>
-        <IndexLink className='navbar-brand' to=''>dashboard</IndexLink>
+        <IndexLink className='navbar-brand' to=''>MuseCon</IndexLink>
       </div>
     </nav>
   ) : null

@@ -15,24 +15,13 @@ class EventContain extends Component {
       height: '39em',
       overflow: 'auto',
       border: '2px solid inset'
-    },
-    btnStyle = {
-      background: 'none',
-      padding:'0.5em',
-      position: 'inline-block',
-      marginTop: '2%',
-      marginLeft: '10%',
-      border: 'none',
-      textTransform: 'uppercase'
     }
+    
 
     return (
       <div className='row ev-contain' style={styles}>
-        <button onClick={() => this.props.actions.loadEvents(this.props.userAuth)} style={btnStyle}>Search</button>
-        <i className="fa fa-arrow-circle-right" aria-hidden="true"></i>
         <Lists {...this.props}/>
         
-
         {this.props.events ? <EventBlock events={this.props.events} /> : ''}
       </div>
     )
