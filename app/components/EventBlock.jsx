@@ -35,7 +35,7 @@ const EventBlock = (props) => {
                         <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} {prettyDate(eachEv.dates.start.localTime)}</h3>
                       </div>
                       <i className="fa fa-location-arrow" aria-hidden="true"></i> 
-                      <p>&nbsp;{eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
+                      <p>&nbsp;{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
                       {
                         eachEv.priceRanges && eachEv.priceRanges[0] ?
                           (

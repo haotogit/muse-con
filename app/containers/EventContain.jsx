@@ -6,6 +6,10 @@ import EventBlock from '../components/EventBlock'
 import Lists from '../components/Lists'
 
 class EventContain extends Component {
+  componentWillReceiveProps (props) {
+    console.log('hello', props)
+  }
+
   render () {
     let styles = {
       height: '39em',

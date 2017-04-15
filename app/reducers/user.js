@@ -30,6 +30,12 @@ export default function user(state={}, action) {
       })
     break;
 
+    case 'TOGGLE_ARTIST':
+      return Object.assign({}, state, {
+        userAuth: action.payload
+      })
+    break;
+
     default:
       return state
     break;

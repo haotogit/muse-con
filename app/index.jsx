@@ -9,6 +9,7 @@ import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 const middleware = [
     thunk,
@@ -28,7 +29,7 @@ const initialState = {
   } 
 }
 
-const builtMiddle = compose(applyMiddleware(...middleware))
+const builtMiddle = composeWithDevTools(applyMiddleware(...middleware))
 const store = createStore(reducer, initialState, builtMiddle)
 
 const routes = makeRoutes(store)

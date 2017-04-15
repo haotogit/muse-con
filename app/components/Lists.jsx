@@ -11,7 +11,20 @@ const Lists = (props) => {
           listStyleType: 'none',
           paddingLeft: '0'
         }
-  console.log('ev', events)
+  console.log('ev', props)
+
+  let isSelected = thirdParty.artists.find(each => each.exclude)
+
+  let btnSelector = (evObj) => {
+    if (evObj.exclude) {
+      return <i className="fa fa-plus" 
+                aria-hidden="true"
+                onClick={() => actions.toggleArtist(evObj, userAuth)}></i>
+    } else return <i className="fa fa-minus"
+                     aria-hidden="true"
+                     onClick={() => actions.toggleArtist(evObj, userAuth)}></i> 
+  } 
+
 
   return (
     <div className='third-party-widget col-sm-2'>
@@ -26,10 +39,18 @@ const Lists = (props) => {
             aria-multiselectable='true'>
             <div className='panel-heading' id={`heading${i}`} role='tab'>
               <h4 className='panel-title'>
-                <a role='button' data-toggle='collapse' data-parent='#accordion' href={`#collapse${i}`} aria-expanded='false' aria-controls={`collapse${i}`}>
+                <a role='button'
+                   data-toggle='collapse'
+                   data-parent='#accordion' 
+                   href={`#collapse${i}`} 
+                   aria-expanded='false' 
+                   aria-controls={`collapse${i}`}
+                   >
                   {each.name}
                 </a>
               </h4>
+              {btnSelector(each)}
+              
             </div>
             <div id={`collapse${i}`} className='panel-collapse collapse' role='tabpanel' aria-labelledby={`heading${i}`}>
               <div className='panel-body' style={{border:'none'}}>
