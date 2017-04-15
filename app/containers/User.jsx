@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Spotify from '../components/Spotify'
 import { bindActionCreators } from 'redux'
 import { analyzeSpotify } from '../actions'
+import Lists from '../components/Lists'
 
 class User extends Component {
   componentWillReceiveProps () {
@@ -16,15 +17,18 @@ class User extends Component {
   render () {
     return (
       <div className='wrapper'>
-        <Spotify user={this.props.userAuth}
-                 spotify={this.props.userAuth.spotify} 
-                 analyzeSpotify={this.props.analyzeSpotify} />
+        <div className='row'>
+          <Lists {...this.props} />
+          <Spotify user={this.props.userAuth}
+                   spotify={this.props.userAuth.spotify} 
+                   analyzeSpotify={this.props.analyzeSpotify} />
+        </div>
       </div>
     )
   }
 
   renderGraph () {
-    let w = 800, h = 600, r = 200
+    let w = 400, h = 400, r = 150
     let colors = ['#ff2b71', '#3aa198', '#42d4ff', '#ff5ed2', '#19647E', '#8B1E3F'],
         totalCount = 0
 
@@ -35,7 +39,7 @@ class User extends Component {
                 .attr('width', w)
                 .attr('height', h)
                 .append('svg:g')
-                .attr('transform', `translate(250, 250)`)
+                .attr('transform', `translate(200, 200)`)
 
     let pie = d3.layout.pie()
                 .sort(null)

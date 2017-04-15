@@ -37,7 +37,6 @@ a:active {
 }
 
 .third-party-widget {
-  position: fixed;
   height: 25em;
   overflow-y: scroll;
 }

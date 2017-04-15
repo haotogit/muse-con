@@ -36,12 +36,16 @@ const Lists = (props) => {
   }
 
   return (
-    <div className='third-party-widget col-sm-2'>
+    <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
       <h3>{userAuth.searchOpts.currSrc}</h3>
-      <button onClick={() => actions.loadEvents(userAuth)} style={btnStyle}>
-        Search
-        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
-      </button>
+      {
+        props.location.pathname == 'explore' ? 
+          <button onClick={() => actions.loadEvents(userAuth)} style={btnStyle}>
+            Search
+            <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
+          </button>
+        : ''
+      }
       
       <hr></hr>
       {

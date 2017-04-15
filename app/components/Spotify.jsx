@@ -5,18 +5,17 @@ const Spotify = (props) => {
   console.log('usah', user)
 
   return (
-    <div className='row'>
+    <div className='col-xs-6'>
       { 
         user.spotify.access_token ? '' :
           <a href="/auth-spotify">Link Spotify</a>
       }
-      <button onClick={analyzeSpotify}>Evaluate Spotify</button>
+      <button onClick={analyzeSpotify}>Get Spotify Data</button>
       <span className='glyphicon glyphicon-th' id='popover'></span>
       <div id='genresGraph'>
-        <div className='header'><h3>Spotify Overall</h3></div>
+        <div className='header'><h3>Top Spotify Genres</h3></div>
         <svg></svg>
       </div>
-      <div></div>
     </div>
   )
 }
