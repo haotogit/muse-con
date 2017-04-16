@@ -19,7 +19,7 @@ function loadedEvents(payload){
 function loadEvents(options) {
   let load = [],
       evObj = {}  
-  
+
   return (dispatch) => {
     // signal initializing request
     dispatch(requestEvents(options))

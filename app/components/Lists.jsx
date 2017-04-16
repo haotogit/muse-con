@@ -6,14 +6,13 @@ import { keyMaker } from '../helpers'
 
 const Lists = (props) => {
   const { userAuth, events, actions } = props
-  const thirdParty = userAuth[userAuth.searchOpts.currSrc],
+  const thirdParty = userAuth[userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''] || {},
         listStyle = {
           listStyleType: 'none',
           paddingLeft: '0'
         }
-  console.log('ev', props)
 
-  let isSelected = thirdParty.artists.find(each => each.exclude)
+  //let isSelected = thirdParty.artists.find(each => each.exclude)
 
   let btnSelector = (evObj) => {
     if (evObj.exclude) {
@@ -37,9 +36,9 @@ const Lists = (props) => {
 
   return (
     <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
-      <h3>{userAuth.searchOpts.currSrc}</h3>
+      <h3>{userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''}</h3>
       {
-        props.location.pathname == 'explore' ? 
+        /explore/.test(props.location.pathname) ? 
           <button onClick={() => actions.loadEvents(userAuth)} style={btnStyle}>
             Search
             <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>

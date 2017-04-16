@@ -51,7 +51,7 @@ function eventLoader (userAuth) {
   qParams.radius = 50
 
   userAuth[userAuth.searchOpts.currSrc][userAuth.searchOpts.by].forEach((each, i) => {
-    if (!each.exclude) {
+    if (i < 1) {
       qParams.keyword = each.name
 
       opts = {

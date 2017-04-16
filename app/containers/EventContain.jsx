@@ -7,7 +7,6 @@ import Lists from '../components/Lists'
 
 class EventContain extends Component {
   componentWillReceiveProps (props) {
-    console.log('hello', props)
   }
 
   render () {
@@ -22,7 +21,7 @@ class EventContain extends Component {
       <div className='row ev-contain' style={styles}>
         <Lists {...this.props}/>
         
-        {this.props.events ? <EventBlock events={this.props.events} /> : ''}
+        {this.props.events ? <EventBlock {...this.props} /> : ''}
       </div>
     )
   }

@@ -113,4 +113,21 @@ function userUpdate (payload) {
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate }
+function saveEvent (ev) {
+  return (dispatch) => {
+
+    popsicle({
+      method: 'put',
+      url: 'api/user',
+      body: ev
+    })
+    .then(res => {
+      dispatch(userUpdate(res.body))
+    })
+    .catch(err => console.log('error saving ev', err))
+  }
+
+
+}
+
+export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent }

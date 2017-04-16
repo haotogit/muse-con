@@ -19,6 +19,7 @@ export default (app) => {
         .post(control.checkUsername)
 
   router.route('/api/user')
+        .put(isAuthenticated, control.userUpdate)
         .post(control.createUser)
 
   router.route('/api/users')

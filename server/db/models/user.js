@@ -28,7 +28,8 @@ const UserSchema = new Schema({
     by: String
   },
   actvity_id: [{ type: Schema.Types.ObjectId, ref: 'activity' }],
-  notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
+  notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
+  events: Array
 }, { timestamps: true })
 
 UserSchema.pre('save', function(next) {

@@ -55,11 +55,14 @@ class User extends Component {
                   .enter()
                   .append('svg:g')
                   .attr('class', 'slice')
+                  .on('mouseover', focusArc)
+                  .on('mouseout', focusArc)
                   
 
     function focusArc (d, i) {
       let color = this.getAttribute('fill') === this.getAttribute('stroke') ? '#363e42' : this.getAttribute('stroke')
-      this.setAttribute('fill', color)
+
+      //this.setAttribute('fill', color)
       let text = d3.select(`#${d.data.label}`)
       text.classed({ 'label-text' : text.classed('label-text') ? false : true })
     }
@@ -67,10 +70,9 @@ class User extends Component {
     arcs.append('svg:path')
         .attr('stroke-width', 2)
         .attr('stroke', (d, i) =>  colors[i % (colors.length - 1)])
-        .attr('fill', '#363e42')
+        .attr('fill', (d, i) =>  colors[i % (colors.length - 1)])
         .attr('d', (d) => arc(d))
-        .on('mouseover', focusArc)
-        .on('mouseout', focusArc)
+        
 
     arcs.append('svg:text')
         .attr('transform', (d) => {
@@ -84,7 +86,7 @@ class User extends Component {
         .text((d, i) => {
           return `${d.data.label}: ${((d.data.value / totalCount) * 100).toFixed(0)}%`
         })
-        .attr('fill', '#fff')
+        .attr('fill', '#333')
   }
 
 }

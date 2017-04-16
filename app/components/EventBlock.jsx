@@ -2,7 +2,7 @@ import React from 'react'
 import { keyMaker } from '../helpers'
 
 const EventBlock = (props) => {
-  let { events } = props
+  let { events, actions, userAuth } = props
   let labels = Object.keys(events)
 
   let prettyDate = (date, ref?) => {
@@ -15,6 +15,8 @@ const EventBlock = (props) => {
       } else return moment().hour(date).format('hA')
     }
   }
+
+  let isSaved = (ev) => ev ? userAuth.events.find(userEv => userEv.id == ev.id) : false
   
   return (
     <div className='col-sm-9 col-sm-offset-3'>
@@ -32,7 +34,7 @@ const EventBlock = (props) => {
                     <div className='ev-info'>
                       <h5>{eachEv.name}</h5>
                       <div className='ev-date'>
-                        <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} {prettyDate(eachEv.dates.start.localTime)}</h3>
+                        <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} @ {prettyDate(eachEv.dates.start.localTime)}</h3>
                       </div>
                       <i className="fa fa-location-arrow" aria-hidden="true"></i> 
                       <p>&nbsp;{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
@@ -48,6 +50,11 @@ const EventBlock = (props) => {
                       }
 
                       <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
+                      {
+                        isSaved(eachEv) ?
+                          <i className='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em'}}></i>
+                          : <i className='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em'}}></i>
+                      }
                     </div>
                   </div>
                 ) 

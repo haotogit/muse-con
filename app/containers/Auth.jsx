@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { push, routerActions } from 'react-router-redux'
 import Navigation from './Navigation'
 
-export function requireAuth (Comp) {
+export function requireAuth (Component) {
   class AuthedComp extends Component {
 
     componentWillMount () {
@@ -14,7 +14,6 @@ export function requireAuth (Comp) {
     }
 
     componentWillReceiveProps (nextProps) {
-      console.log('from', nextProps)
       this.authenticate(nextProps)
     }
 
@@ -46,7 +45,7 @@ export function requireAuth (Comp) {
             
           </div>
           { this.props.userAuth.username ?
-            <Comp {...this.props}/>
+            <Component {...this.props}/>
             : null }
         </div>
       )

@@ -1,6 +1,5 @@
 body {
   font-family: 'meslo';
-  background-color: #363e42;
 }
 
 @font-face {
@@ -11,7 +10,6 @@ body {
 }
 
 h1 {
-  color:#fff;
 }
 
 .navbar-inverse {
@@ -34,6 +32,7 @@ a:active {
 
 .label-text {
   display: none;
+	color: #363e42;
 }
 
 .third-party-widget {
@@ -149,4 +148,9 @@ div.panel-heading {
 
 .third-party-widget:hover::-webkit-scrollbar-thumb {
   background: rgba(51, 101, 138, 1);
+}
+
+#login-form input {
+	display: block;
+	margin: 1% auto;
 }

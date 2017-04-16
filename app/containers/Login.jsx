@@ -20,13 +20,15 @@ class Login extends Component {
 
     return (
       <div className='wrapper'>
-        <h1>Login</h1>
-        <form>
-          <input type='text' ref='username' onBlur={() => this.checkUser()} placeholder='Username' />
-          <input type='password' ref='password' placeholder='Password' />
-          { newUser ? <input type='password' ref='confirmPassword' placeholder='Confirm Password' /> : '' }
-          <input type='submit' onClick={(e) => this.login(e)} value={newUser ? 'Sign Up' : 'Log In'} />
-        </form>
+        <div className='container' style={{textAlign:'center', marginTop:'12%'}}>
+          <h1>{newUser ? 'Sign Up' : 'Login'}</h1>
+          <form id='login-form'>
+            <input type='text' ref='username' onBlur={() => this.checkUser()} placeholder='Username' />
+            <input type='password' ref='password' placeholder='Password' />
+            { newUser ? <input type='password' ref='confirmPassword' placeholder='Confirm Password' /> : '' }
+            <input type='submit' onClick={(e) => this.login(e)} value={newUser ? 'Sign Up' : 'Log In'} />
+          </form>
+         </div>
       </div>
     )
   }
