@@ -11,6 +11,7 @@ import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
+import { Link } from 'react-router'
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
@@ -31,10 +32,21 @@ class Dashboard extends Component{
   }
 
   render(){
+    let checkUser = (user) => {
+      if (!user.spotify.access_token) {
+        return <Link to='/user'>Link your Spotify Account</Link>
+      } else {
+        if (user.spotify.artists.length < 1) return <Link to='/user'>Get Spotify Data</Link>
+
+        if (this.props.events.length < 1) return <Link to='/explore'>Get Events</Link>
+        else return <h4 style={{textTransform:'uppercase'}}>My Upcoming Events</h4>
+      }
+    } 
+
     return (
       <div style={{marginTop:'5%'}}>
         <div className='row'>
-          <h5 style={{textTransform:'uppercase'}}>Your Saved Events</h5>
+          {checkUser(this.props.userAuth)}
         </div>
         <div className='row'>
           <EventBlock {...this.props}/> 

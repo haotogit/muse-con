@@ -63,7 +63,7 @@ class User extends Component {
       let color = this.getAttribute('fill') === this.getAttribute('stroke') ? '#363e42' : this.getAttribute('stroke')
 
       //this.setAttribute('fill', color)
-      let fixLabel = (str) => /&/.test(str) ? str.replace(/&/, ' ') : str
+      let fixLabel = (str) => /&/.test(str) ? str.replace(/&/, '') : str
 
       let text = d3.select(`#${fixLabel(d.data.label)}`)
       text.classed({ 'label-text' : text.classed('label-text') ? false : true })
@@ -82,7 +82,7 @@ class User extends Component {
           d.outerRadius = r;
           return `translate(${arc.centroid(d)})`
         })
-        .attr('id', (d) => d.data.label)
+        .attr('id', (d) => /&/.test(d.data.label) ? d.data.label.replace(/&/, '') : d.data.label)
         .attr('class', 'label-text')
         .attr('text-anchor', 'middle')
         .text((d, i) => {

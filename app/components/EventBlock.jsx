@@ -17,7 +17,6 @@ const EventBlock = (props) => {
   }
 
   let isSaved = (ev) => ev ? userAuth.events.find(userEv => userEv.id == ev.id) : false
-  console.log('props', props)
   
   return (
     <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-3' : ''}>

@@ -51,7 +51,6 @@ function eventLoader (userAuth) {
   qParams.radius = 50
 
   userAuth[userAuth.searchOpts.currSrc][userAuth.searchOpts.by].forEach((each, i) => {
-    if (i < 1) {
       qParams.keyword = each.name
 
       opts = {
@@ -60,7 +59,6 @@ function eventLoader (userAuth) {
       }
 
       reqsArr.push(popsicle(opts))
-    } 
   })
 
   return Promise.all(reqsArr)

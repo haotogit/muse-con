@@ -33,13 +33,12 @@ export function requireAuth (Comp) {
 
       return (
         <div className='container' style={containerStyle}>
-          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'4%',background:'white'}}>
+          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'4%'}}>
             <ul style={{display:'flex',padding:'0'}}>
               {
                 routes.map(route => 
                   <li key={route} style={{width:'8em',padding:'1em'}}>
-                    <Link key={route} 
-                      to={route} 
+                    <Link to={route} 
                       className='subnav-link'
                       activeClassName='active'>
                       {route == '' ? 'dashboard' : route}

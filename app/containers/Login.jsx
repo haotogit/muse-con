@@ -28,6 +28,12 @@ class Login extends Component {
             { newUser ? <input type='password' ref='confirmPassword' placeholder='Confirm Password' /> : '' }
             <input type='submit' onClick={(e) => this.login(e)} value={newUser ? 'Sign Up' : 'Log In'} />
           </form>
+          <a data-toggle="collapse" href="#loginInfo" aria-expanded="false" aria-controls="loginInfo" style={{color:'#333'}}>
+            <i className='fa fa-info' aria-hidden='true'></i>
+          </a>
+          <div className='collapse' id='loginInfo'>
+            <p>Login with an existing username, or type a new username to sign up</p>
+          </div>
          </div>
       </div>
     )
