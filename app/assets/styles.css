@@ -152,5 +152,27 @@ div.panel-heading {
 
 #login-form input {
 	display: block;
-	margin: 1% auto;
+	margin: 2% auto;
+  border: 1px solid transparent;
+  text-align: center;
+}
+
+#login-form input:not([type="submit"]):focus {
+  outline:none;
+  border-bottom:1px solid;
+  
+}
+
+a:hover {
+  text-decoration:none;
+}
+
+.subnav-link {
+  color:#363e42;
+  text-transform:uppercase;
+}
+
+.subnav-link.active {
+  color:#19647E;
+  border-bottom:2px solid #19647E;
 }

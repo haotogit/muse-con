@@ -21,7 +21,7 @@ class Login extends Component {
     return (
       <div className='wrapper'>
         <div className='container' style={{textAlign:'center', marginTop:'12%'}}>
-          <h1>{newUser ? 'Sign Up' : 'Login'}</h1>
+          <h1 style={{textTransform:'uppercase'}}>{newUser ? 'Sign Up' : 'Login'}</h1>
           <form id='login-form'>
             <input type='text' ref='username' onBlur={() => this.checkUser()} placeholder='Username' />
             <input type='password' ref='password' placeholder='Password' />

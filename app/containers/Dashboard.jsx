@@ -10,6 +10,7 @@ import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
+import EventBlock from '../components/EventBlock'
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
@@ -31,10 +32,12 @@ class Dashboard extends Component{
 
   render(){
     return (
-      <div>
-        
+      <div style={{marginTop:'5%'}}>
         <div className='row'>
-            
+          <h5 style={{textTransform:'uppercase'}}>Your Saved Events</h5>
+        </div>
+        <div className='row'>
+          <EventBlock {...this.props}/> 
         </div>
       </div>
     )
@@ -42,7 +45,8 @@ class Dashboard extends Component{
 }
 
 const mapStateToProps = (state) => ({
-  userAuth: state.user.userAuth
+  userAuth: state.user.userAuth,
+  events: state.user.userAuth.events
 })
 
 const mapDispatchToProps = (dispatch) => ({

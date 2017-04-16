@@ -13,7 +13,8 @@ class EventContain extends Component {
     let styles = {
       height: '39em',
       overflow: 'auto',
-      border: '2px solid inset'
+      border: '2px solid inset',
+      marginTop: '5%'
     }
     
 

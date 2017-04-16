@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { push, routerActions } from 'react-router-redux'
 import Navigation from './Navigation'
 
-export function requireAuth (Component) {
+export function requireAuth (Comp) {
   class AuthedComp extends Component {
 
     componentWillMount () {
@@ -25,19 +25,25 @@ export function requireAuth (Component) {
 
     render () {
       let containerStyle = {
-        marginTop: '8em'
+        marginTop: '5%',
+        position:'relative'
       }
 
       const routes = ['', 'explore']
 
       return (
         <div className='container' style={containerStyle}>
-          <div className='row'>
+          <div className='row' style={{position:'fixed',width:'100%',right:'0',left:'3%',zIndex:'1000'}}>
             <ul style={{display:'flex',padding:'0'}}>
               {
                 routes.map(route => 
                   <li key={route} style={{width:'8em',padding:'1em'}}>
-                    <Link key={route} to={route}>{route == '' ? 'dashboard' : route}</Link>
+                    <Link key={route} 
+                      to={route} 
+                      className='subnav-link'
+                      activeClassName='active'>
+                      {route == '' ? 'dashboard' : route}
+                    </Link>
                   </li>
                 )
               }
@@ -45,7 +51,7 @@ export function requireAuth (Component) {
             
           </div>
           { this.props.userAuth.username ?
-            <Component {...this.props}/>
+            <Comp {...this.props}/>
             : null }
         </div>
       )

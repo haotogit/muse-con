@@ -16,8 +16,10 @@ const Spotify = (props) => {
         {
           user[user.searchOpts.currSrc].access_token ?
             <button onClick={analyzeSpotify} style={{display:'block', background:'none', border:'none'}}>
-              Get Spotify Data
-              <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
+              <span className='label label-info'>
+                Get Spotify Data
+                <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
+              </span>
             </button>
           : ''
         }

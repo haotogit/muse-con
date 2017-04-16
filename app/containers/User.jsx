@@ -16,7 +16,7 @@ class User extends Component {
   
   render () {
     return (
-      <div className='wrapper'>
+      <div className='wrapper' style={{marginTop:'5%'}}>
         <div className='row'>
           <Lists {...this.props} />
           <Spotify user={this.props.userAuth}
@@ -63,7 +63,9 @@ class User extends Component {
       let color = this.getAttribute('fill') === this.getAttribute('stroke') ? '#363e42' : this.getAttribute('stroke')
 
       //this.setAttribute('fill', color)
-      let text = d3.select(`#${d.data.label}`)
+      let fixLabel = (str) => /&/.test(str) ? str.replace(/&/, ' ') : str
+
+      let text = d3.select(`#${fixLabel(d.data.label)}`)
       text.classed({ 'label-text' : text.classed('label-text') ? false : true })
     }
 

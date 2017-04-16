@@ -9,7 +9,7 @@ dotenv.config()
 
 module.exports = webpackMerge(commonConfig, {
   cache: true,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   entry: {
     'hmr': 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
   },
