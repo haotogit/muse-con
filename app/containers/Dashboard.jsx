@@ -34,20 +34,18 @@ class Dashboard extends Component{
   render(){
     let checkUser = (user) => {
       if (!user.spotify.access_token) {
-        return <Link to='/user'>Link your Spotify Account</Link>
+        return <span className='label label-warning'><Link to='/user'>Link your Spotify Account</Link></span>
       } else {
-        if (user.spotify.artists.length < 1) return <Link to='/user'>Get Spotify Data</Link>
+        if (user.spotify.artists.length < 1) return <span className='label label-info'><Link to='/user'>Get Spotify Data</Link></span>
 
-        if (this.props.events.length < 1) return <Link to='/explore'>Get Events</Link>
-        else return <h4 style={{textTransform:'uppercase'}}>My Upcoming Events</h4>
+        if (this.props.events.length < 1) return <span className='label label-info'><Link to='/explore'>Get Events</Link></span>
+        else return <h4 style={{textTransform:'uppercase'}}>My Upcoming Events ({this.props.events.length})</h4>
       }
     } 
 
     return (
-      <div style={{marginTop:'5%'}}>
-        <div className='row'>
-          {checkUser(this.props.userAuth)}
-        </div>
+      <div className='row content-contain' style={{marginTop:'5%'}}>
+        {checkUser(this.props.userAuth)}
         <div className='row'>
           <EventBlock {...this.props}/> 
         </div>

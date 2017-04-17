@@ -38,6 +38,7 @@ a:active {
 .third-party-widget {
   height: 25em;
   overflow-y: scroll;
+  position:fixed;
 }
 
 .tab-content {
@@ -83,7 +84,14 @@ a:active {
 }
 
 .ev-img-contain {
-  overflow: hidden;
+  overflow:hidden;
+  position:relative;
+  width:85%;
+  height:11em;
+  background-size:cover;
+  background-position:50% 50%;
+  background-repeat:no-repeat;
+  left:0;
 }
 
 .ev-img-contain img {
@@ -126,27 +134,15 @@ div.panel-heading {
 .third-party-widget::-webkit-scrollbar {
  width: 3%;
 }
-.ev-contain::-webkit-scrollbar {
+.content-contain::-webkit-scrollbar {
   width: 1%;
 }
 
-.third-party-widget::-webkit-scrollbar-track,
-.ev-contain::-webkit-scrollbar-track {
-}
-
-.ev-contain:hover::-webkit-scrollbar {
-  width: 1%;
-}
-
-.third-party-widget:hover::-webkit-scrollbar {
-  width: 3%;
-}
-
-.ev-contain:hover::-webkit-scrollbar-thumb {
+.content-contain::-webkit-scrollbar-thumb {
   background: rgba(2, 128, 144, 1); 
 }
 
-.third-party-widget:hover::-webkit-scrollbar-thumb {
+.third-party-widget::-webkit-scrollbar-thumb {
   background: rgba(51, 101, 138, 1);
 }
 
@@ -176,4 +172,16 @@ a:focus {
 .subnav-link.active {
   color:#19647E;
   border-bottom:2px solid #19647E;
+}
+
+.label a {
+  color:white;
+  text-transform:uppercase;
+}
+
+.content-contain {
+  height: 39em;
+  overflow-y: auto;
+  overflow-x:hidden;
+  margin-top: 5%;
 }

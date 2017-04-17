@@ -29,8 +29,8 @@ const EventBlock = (props) => {
                 { 
                   events[key].map((eachEv, i) => 
                     <div key={`${key}${i}`} id={`${key}${i}`} className='subgroup'>
-                      <div className='ev-img-contain'>
-                        <img src={eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url} />
+                      <div className='ev-img-contain' 
+                           style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
                       </div>
                       <div className='ev-info'>
                         <h5>{eachEv.name}</h5>
@@ -66,8 +66,8 @@ const EventBlock = (props) => {
             {
               events.map((eachEv, i) => 
                 <div key={i} className='subgroup'>
-                  <div className='ev-img-contain'>
-                    <img src={eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url} />
+                  <div className='ev-img-contain' 
+                    style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
                   </div>
                   <div className='ev-info'>
                     <h5>{eachEv.name}</h5>
@@ -90,8 +90,8 @@ const EventBlock = (props) => {
                     <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
                     {
                       isSaved(eachEv) ?
-                        <i className='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer'}}></i>
-                        : <i className='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer'}}></i>
+                        <i className='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></i>
+                        : <i className='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></i>
                     }
                   </div>
                 </div>

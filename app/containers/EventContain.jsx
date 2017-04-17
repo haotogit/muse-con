@@ -10,16 +10,9 @@ class EventContain extends Component {
   }
 
   render () {
-    let styles = {
-      height: '39em',
-      overflow: 'auto',
-      border: '2px solid inset',
-      marginTop: '5%'
-    }
-    
 
     return (
-      <div className='row ev-contain' style={styles}>
+      <div className='row content-contain'>
         <Lists {...this.props}/>
         
         {this.props.events ? <EventBlock {...this.props} /> : ''}

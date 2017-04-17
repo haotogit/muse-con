@@ -33,8 +33,8 @@ export function requireAuth (Comp) {
 
       return (
         <div className='container' style={containerStyle}>
-          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'4%'}}>
-            <ul style={{display:'flex',padding:'0'}}>
+          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'1%',top:'6.5%',background:'white'}}>
+            <ul style={{display:'flex'}}>
               {
                 routes.map(route => 
                   <li key={route} style={{width:'8em',padding:'1em'}}>

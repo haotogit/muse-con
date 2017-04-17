@@ -4,7 +4,7 @@ const Spotify = (props) => {
   const { analyzeSpotify, user, spotify } = props
 
   return (
-    <div className='col-xs-6'>
+    <div className='col-xs-6 col-xs-offset-3'>
       { 
         user[user.searchOpts.currSrc].access_token ? '' :
           <span className='label label-primary'>
@@ -12,7 +12,7 @@ const Spotify = (props) => {
           </span>
       }
       <div id='genresGraph'>
-        <div className='header'><h3>Top Spotify Genres</h3></div>
+        <div className='header'><h3>My Top Spotify Genres</h3></div>
         {
           user[user.searchOpts.currSrc].access_token ?
             <button onClick={analyzeSpotify} style={{display:'block', background:'none', border:'none'}}>
