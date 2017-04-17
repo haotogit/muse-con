@@ -2,10 +2,10 @@ import { eventLoader, keyMaker } from '../helpers'
 import popsicle from 'popsicle'
 import qString from 'query-string'
 
-function requestEvents(options){
+function requestEvents(opt){
   return {
-    type: 'REQUESTING_EVENTS',
-    options
+    type: 'REQUEST_EVENTS',
+    payload: opt
   }
 }
 
@@ -16,15 +16,15 @@ function loadedEvents(payload){
   }
 }
 
-function loadEvents(options) {
+function loadEvents(userObj) {
   let load = [],
       evObj = {}  
 
   return (dispatch) => {
     // signal initializing request
-    dispatch(requestEvents(options))
+    dispatch(requestEvents(true))
 
-    eventLoader(options)
+    eventLoader(userObj)
       .then(resp => {
         resp.forEach((each, i) => {
           let str = each.query.keyword
@@ -37,6 +37,7 @@ function loadEvents(options) {
         })
 
         dispatch(loadedEvents(evObj))
+        dispatch(requestEvents(false))
       })
   }
 }

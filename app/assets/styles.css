@@ -185,3 +185,13 @@ a:focus {
   overflow-x:hidden;
   margin-top: 5%;
 }
+
+
+.curr-ev {
+  display:inherit;
+}
+
+.nav-stacked > li > a {
+  padding: 10px 0;
+  font-size:0.8em;
+}

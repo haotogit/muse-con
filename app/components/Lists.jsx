@@ -5,7 +5,7 @@ import * as actions from '../actions'
 import { keyMaker } from '../helpers'
 
 const Lists = (props) => {
-  const { userAuth, events, actions } = props
+  const { userAuth, events, loading, actions } = props
   const thirdParty = userAuth[userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''] || {},
         listStyle = {
           listStyleType: 'none',
@@ -16,11 +16,11 @@ const Lists = (props) => {
 
   let btnSelector = (evObj) => {
     if (evObj.exclude) {
-      return <i className="fa fa-plus" 
-                aria-hidden="true"
+      return <i className='fa fa-plus' 
+                aria-hidden='true'
                 onClick={() => actions.toggleArtist(evObj, userAuth)}></i>
-    } else return <i className="fa fa-minus"
-                     aria-hidden="true"
+    } else return <i className='fa fa-minus'
+                     aria-hidden='true'
                      onClick={() => actions.toggleArtist(evObj, userAuth)}></i> 
   } 
 
@@ -34,18 +34,23 @@ const Lists = (props) => {
     textTransform: 'uppercase'
   }
 
+  console.log('pr', props)
+
   return (
     <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
-      <h3>{userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''}</h3>
+      <h3 style={{display:'inline-block'}}>{userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''}</h3>
+      {
+        loading ? <img style={{verticalAlign:'bottom',marginLeft:'16%'}} src='bars.svg' /> : ''
+      }
       {
         /explore/.test(props.location.pathname) ? 
           <button onClick={() => actions.loadEvents(userAuth)} style={btnStyle}>
             Search
-            <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
+            <i className='fa fa-arrow-circle-right' aria-hidden='true' style={{paddingLeft:'1em'}}></i>
           </button>
         : ''
+
       }
-      
       <hr></hr>
       {
         thirdParty && thirdParty.artists ?

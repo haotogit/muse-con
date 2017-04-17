@@ -6,6 +6,13 @@ export default function event(state={}, action) {
       })
     break;
 
+    case 'REQUEST_EVENTS':
+      return Object.assign({}, state, {
+        loading: action.payload
+      })
+
+    break;
+
     default:
       return state
     break;
