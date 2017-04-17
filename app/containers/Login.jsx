@@ -33,6 +33,10 @@ class Login extends Component {
           </a>
           <div className='collapse' id='loginInfo'>
             <p>Login with an existing username, or type a new username to sign up</p>
+            <hr style={{width:'30%',border:'2px solid'}}></hr>
+            <h6>DEMO LOGIN</h6>
+            <p>USERNAME: demo</p>
+            <p>PW: pw</p>
           </div>
          </div>
       </div>
