@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EventBlock from '../components/EventBlock'
 import Lists from '../components/Lists'
+import LinearProgress from 'material-ui/LinearProgress'
 
 class EventContain extends Component {
   componentWillReceiveProps (props) {

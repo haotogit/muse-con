@@ -1,5 +1,6 @@
 import React from 'react'
 import { keyMaker } from '../helpers'
+import IconButton from 'material-ui/IconButton'
 
 const EventBlock = (props) => {
   let { events, actions, userAuth } = props
@@ -53,8 +54,8 @@ const EventBlock = (props) => {
                         <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
                         {
                           isSaved(eachEv) ?
-                            <i className='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer'}}></i>
-                            : <i className='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer'}}></i>
+                            <IconButton iconClassName='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
+                            : <IconButton iconClassName='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
                         }
                       </div>
                     </div>
@@ -63,6 +64,7 @@ const EventBlock = (props) => {
               </section>
             </div>
           ) : <section className='container-fluid group'>
+            {/* user saved events @ dashboard */}
             {
               events.map((eachEv, i) => 
                 <div key={i} className='subgroup'>
@@ -88,11 +90,7 @@ const EventBlock = (props) => {
                     }
 
                     <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
-                    {
-                      isSaved(eachEv) ?
-                        <i className='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></i>
-                        : <i className='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'0',right:'0',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></i>
-                    }
+                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
                   </div>
                 </div>
               )

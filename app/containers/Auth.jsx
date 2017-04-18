@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { push, routerActions } from 'react-router-redux'
 import Navigation from './Navigation'
+import LinearProgress from 'material-ui/LinearProgress'
 
 export function requireAuth (Comp) {
   class AuthedComp extends Component {
@@ -32,8 +33,11 @@ export function requireAuth (Comp) {
       const routes = ['', 'explore']
 
       return (
-        <div className='container' style={containerStyle}>
-          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'1%',top:'6.5%',background:'white'}}>
+        <div>
+          {
+            this.props.loading ? <LinearProgress mode='indeterminate' style={{backgroundColor:'#0097a7',overflow:'hidden',position:'fixed',left:'0',top:'6%'}} /> : ''
+          }
+          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'1%',top:'6.5%'}}>
             <ul style={{display:'flex'}}>
               {
                 routes.map(route => 
@@ -58,7 +62,8 @@ export function requireAuth (Comp) {
 
   }
   const mapStateToProps = (state) => ({
-    userAuth: state.user.userAuth
+    userAuth: state.user.userAuth,
+    loading: state.event.loading
   })
 
   return connect(mapStateToProps)(AuthedComp)

@@ -11,6 +11,9 @@ class App extends Component {
     // clicking anchor
 
     let styles = {
+      marginTop: '5%',
+      position:'relative',
+      padding:'0 2em'
     }
 
     return(

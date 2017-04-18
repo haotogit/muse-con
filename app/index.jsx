@@ -10,6 +10,12 @@ import reducer from './reducers'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 const middleware = [
     thunk,
@@ -28,6 +34,13 @@ const initialState = {
     } 
   } 
 }
+const muiTheme = getMuiTheme({
+  palette: {
+    palette: {
+      primary1Color: 'white'
+    }
+  },
+})
 
 const builtMiddle = composeWithDevTools(applyMiddleware(...middleware))
 const store = createStore(reducer, initialState, builtMiddle)
@@ -36,10 +49,12 @@ const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)
 
 render(
-  <Provider store={store}>
-    <Router history={history}>
-      { routes }
-    </Router>
-  </Provider>,
+  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+    <Provider store={store}>
+      <Router history={history}>
+        { routes }
+      </Router>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('app')
 )

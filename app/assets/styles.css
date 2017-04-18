@@ -1,5 +1,7 @@
 body {
   font-family: 'meslo';
+  background-color:#333;
+  color:#ccc;
 }
 
 @font-face {
@@ -9,12 +11,16 @@ body {
   font-style: normal;
 }
 
-h1 {
+h4 {
 }
 
 .navbar-inverse {
   background-color:#363e42;
   box-shadow: 0px 0px 3px black;
+}
+
+.navbar-inverse .navbar-brand {
+  color:#ccc;
 }
 
 .active {
@@ -59,6 +65,7 @@ a:active {
 .group {
   display: flex;
   flex-wrap: wrap;
+  align-content: center;
 }
 
 .subgroup {
@@ -146,32 +153,19 @@ div.panel-heading {
   background: rgba(51, 101, 138, 1);
 }
 
-#login-form input {
-	display: block;
-	margin: 2% auto;
-  border: 1px solid transparent;
-  text-align: center;
-}
-
-#login-form input:not([type="submit"]):focus {
-  outline:none;
-  border-bottom:1px solid;
-  
-}
-
 a:hover,
 a:focus {
   text-decoration:none;
 }
 
 .subnav-link {
-  color:#363e42;
+  color:black;
   text-transform:uppercase;
 }
 
 .subnav-link.active {
-  color:#19647E;
-  border-bottom:2px solid #19647E;
+  color:#0097a7;
+  border-bottom:2px solid #0097a7;
 }
 
 .label a {
@@ -183,7 +177,7 @@ a:focus {
   height: 39em;
   overflow-y: auto;
   overflow-x:hidden;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 
@@ -194,4 +188,21 @@ a:focus {
 .nav-stacked > li > a {
   padding: 10px 0;
   font-size:0.8em;
+}
+
+#login-form label {
+  text-transform: uppercase;
+}
+
+a:hover {
+  color:#0097a7;
+}
+
+a {
+  color:#ccc;
+}
+
+.nav-stacked > li > a:hover,
+.nav-stacked > li > a:focus {
+  background:none;
 }

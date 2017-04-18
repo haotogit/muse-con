@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import { keyMaker } from '../helpers'
+import RaisedButton from 'material-ui/RaisedButton'
+import SvgIcon from 'material-ui/SvgIcon'
 
 const Lists = (props) => {
   const { userAuth, events, loading, actions } = props
@@ -25,32 +27,31 @@ const Lists = (props) => {
   } 
 
   let btnStyle = {
-    background: 'none',
-    padding:'0.5em',
-    position: 'inline-block',
-    marginTop: '2%',
-    marginLeft: '10%',
-    border: 'none',
-    textTransform: 'uppercase'
+    padding:'0.5em'
   }
 
   console.log('pr', props)
 
   return (
     <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
-      <h3 style={{display:'inline-block'}}>{userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''}</h3>
-      {
-        loading ? <img style={{verticalAlign:'bottom',marginLeft:'16%'}} src='bars.svg' /> : ''
-      }
+      
+      {/* make this dropdown for sources of search */}
       {
         /explore/.test(props.location.pathname) ? 
-          <button onClick={() => actions.loadEvents(userAuth)} style={btnStyle}>
-            Search
-            <i className='fa fa-arrow-circle-right' aria-hidden='true' style={{paddingLeft:'1em'}}></i>
-          </button>
+          <RaisedButton
+            label='Search'
+            primary={true}
+            icon={
+              <i className='fa fa-spotify fa-2x' style={{verticalAlign:'middle',color:'#333'}}></i>
+            }
+            onClick={() => actions.loadEvents(userAuth)}
+            style={{display:'block'}}
+          />
         : ''
 
       }
+      {/* make this dropdown for current identifier for artists */}
+      <h5 style={{margin:'8% auto 2% auto',display:'inline-block'}}>artists:</h5>
       <hr></hr>
       {
         thirdParty && thirdParty.artists ?

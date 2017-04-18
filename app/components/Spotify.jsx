@@ -12,7 +12,7 @@ const Spotify = (props) => {
           </span>
       }
       <div id='genresGraph'>
-        <div className='header'><h3>My Top Spotify Genres</h3></div>
+        <h3>Top Spotify Genres</h3>
         {
           user[user.searchOpts.currSrc].access_token ?
             <button onClick={analyzeSpotify} style={{display:'block', background:'none', border:'none'}}>

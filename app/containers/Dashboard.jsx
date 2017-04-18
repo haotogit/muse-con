@@ -12,6 +12,7 @@ import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
 import { Link } from 'react-router'
+import Badge from 'material-ui/Badge';
 
 class Dashboard extends Component{
   // to touch nested children of state tree,
@@ -39,12 +40,12 @@ class Dashboard extends Component{
         if (user.spotify.artists.length < 1) return <span className='label label-info'><Link to='/user'>Get Spotify Data</Link></span>
 
         if (this.props.events.length < 1) return <span className='label label-info'><Link to='/explore'>Get Events</Link></span>
-        else return <h4 style={{textTransform:'uppercase'}}>My Upcoming Events ({this.props.events.length})</h4>
+        else return <h6 style={{textTransform:'lowercase',marginLeft:'2%'}}>Upcoming Events<Badge badgeContent={this.props.events.length} primary={true} badgeStyle={{right:'1em'}}></Badge></h6>
       }
     } 
 
     return (
-      <div className='row content-contain' style={{marginTop:'5%'}}>
+      <div className='row content-contain'>
         {checkUser(this.props.userAuth)}
         <div className='row'>
           <EventBlock {...this.props}/> 
