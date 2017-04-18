@@ -30,7 +30,6 @@ module.exports = webpackMerge(commonConfig, {
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
       compressor: {
         warnings: false
       }

@@ -1,9 +1,7 @@
 import mongoose from 'mongoose'
 import bluebird from 'bluebird'
 
-mongoose.Promise = bluebird
-
-const mongoose = mongoose.Schema
+const Schema = mongoose.Schema
 
 const ArtistsSchema = new Schema ({
   name: { type: String, unique: true },
