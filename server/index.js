@@ -14,7 +14,7 @@ import session from 'express-session'
 import proxy from 'http-proxy-middleware'
 
 const app = express()
-const isDevelop = process.env.NODE_ENV !== 'production'
+const isDevelop = process.env.NODE_ENV !== 'prod'
 const port = isDevelop ? 3000 : process.env.PORT
 
 connect(isDevelop)
