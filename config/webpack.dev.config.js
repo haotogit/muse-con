@@ -35,7 +35,7 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('develop'),
+        'NODE_ENV': JSON.stringify('dev'),
         'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
         'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
       }

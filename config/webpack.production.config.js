@@ -29,18 +29,11 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    }),
     new webpack.DefinePlugin([{
       'process.env':{
-        'NODE_ENV': JSON.stringify('production'),
-        'JWT_SECRET': JSON.stringify(envVars.JWT_SECRET),
-        'MONGOLAB_URI': JSON.stringify(envVars.MONGOLAB_URI),
-        'NPM_PRODUCTION': JSON.stringify(envVars.NPM_PRODUCTION)
+        'NODE_ENV': JSON.stringify('prod')
       }
-    }])
+    }]),
+    new webpack.optimize.UglifyJsPlugin()
   ]
 })
