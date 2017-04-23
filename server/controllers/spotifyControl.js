@@ -20,59 +20,61 @@ import popsicle from 'popsicle'
   }
 
   function spotifyCallback (req, res) {
-      let code = req.query.code
-      let authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
+    let code = req.query.code
+    let authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
 
-      let authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        form: {
-          code: code,
-          redirect_uri: process.env.SPOTIFY_REDIRECT,
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          'Authorization': `Basic ${authParam}` 
-        },
-        json: true
-      }
+    //let redirectUri = process.env.NODE_ENV == 'prod' ? process.env.SPOTIFY_REDIRECT : process.env.SPOTIFY_REDIRECT_DEV
 
-      request.post(authOptions, (err, response, body) => {
-        if (!err && response.statusCode === 200) {
-          let spotifyObj = {
-            url: 'https://api.spotify.com/v1/me',
-            headers: {
-              'Authorization': `Bearer ${body.access_token}`
-            },
-            json: true
-          }
-          let tokens = {
-            access_token: body.access_token,
-            refresh_token: body.refresh_token
-          }
-          let currUser
-          request.get(spotifyObj, (err, resp, bod) => {
-            tokens.id = bod.id
+    let authOptions = {
+      url: 'https://accounts.spotify.com/api/token',
+      form: {
+        code: code,
+        redirect_uri: process.env.SPOTIFY_REDIRECT,
+        grant_type: 'authorization_code'
+      },
+      headers: {
+        'Authorization': `Basic ${authParam}` 
+      },
+      json: true
+    }
 
-            User.findOne({_id: req.session.user._id})
-              .then((user) => {
-                //look up how to make public method on user model work
-                
-                user.spotify = tokens
-                user.save()
-                
-                currUser = {
-                  id: user._id,
-                  username: user.username,
-                  spotify: user.spotify
-                }
-              })
-              .catch(err => console.log('err @spotify'))
-          })
-          // need figure out a way to keep current session and resend user info to page
-          res.redirect('/user')
-          //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
+    request.post(authOptions, (err, response, body) => {
+      if (!err && response.statusCode === 200) {
+        let spotifyObj = {
+          url: 'https://api.spotify.com/v1/me',
+          headers: {
+            'Authorization': `Bearer ${body.access_token}`
+          },
+          json: true
         }
-      })
+        let tokens = {
+          access_token: body.access_token,
+          refresh_token: body.refresh_token
+        }
+        let currUser
+        request.get(spotifyObj, (err, resp, bod) => {
+          tokens.id = bod.id
+
+          User.findOne({_id: req.session.user._id})
+            .then((user) => {
+              //look up how to make public method on user model work
+              
+              user.spotify = tokens
+              user.save()
+              
+              currUser = {
+                id: user._id,
+                username: user.username,
+                spotify: user.spotify
+              }
+            })
+            .catch(err => console.log('err @spotify'))
+        })
+        // need figure out a way to keep current session and resend user info to page
+        res.redirect('/user')
+        //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
+      }
+    })
   }
 
   

@@ -30,8 +30,6 @@ const Lists = (props) => {
     padding:'0.5em'
   }
 
-  console.log('pr', props)
-
   return (
     <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
       

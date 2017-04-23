@@ -28,6 +28,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     store: new MongoStore(configMongoStore),
     resave: false,
+  // change domain
     domain: '127.0.0.1:3000',
     saveUninitialized: true,
     cookie: {

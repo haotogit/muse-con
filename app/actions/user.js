@@ -43,7 +43,6 @@ function newUser (payload) {
 }
 
 function userSignup (obj) {
-  console.log('hi', obj)
   return (dispatch) => {
     dispatch(newSignup(obj))
 

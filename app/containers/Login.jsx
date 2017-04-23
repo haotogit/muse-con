@@ -36,10 +36,11 @@ class Login extends Component {
               floatingLabelText='Password'
               type='password'
             /><br />
-            { newUser && this.refs.username.input.value != '' ? <input type='password' ref='confirmPassword' placeholder='Confirm Password' /> : '' }
+            { newUser && this.refs.username.input.value != '' ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
             <RaisedButton
               type='submit'
               label={newUser ? 'Sign Up' : 'Log In'} 
+              style={{marginTop:'2%'}}
               onClick={(e) => this.login(e)} 
               primary={true}/>
           </form>
@@ -77,7 +78,7 @@ class Login extends Component {
     //if (username != '' && password != '') {
       if (!this.props.newUser) this.props.actions.login(opts, this.props)
 
-      if (this.props.newUser && this.refs.confirmPassword.value == password) this.props.actions.userSignup(opts)
+      if (this.props.newUser && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
     }
   //}
 }
