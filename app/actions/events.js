@@ -50,4 +50,23 @@ function toggleSearchOpt (key, currState) {
   }
 }
 
-export { loadEvents, toggleSearchOpt }
+function setSearchList(payload) {
+  return {
+    type: 'SET_SEARCH_LIST',
+    payload
+  }
+}
+
+function toggleArtist (artist, list) {
+  let currIndex = list.findIndex(each => artist.name == each.name)
+  
+  list[currIndex].exclude = !list[currIndex].exclude
+  let newList = []
+  list.forEach(each => newList.push(each))
+
+  return (dispatch) => {
+    dispatch(setSearchList(newList)) 
+  }
+}
+
+export { loadEvents, toggleSearchOpt, setSearchList, toggleArtist }

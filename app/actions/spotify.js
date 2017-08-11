@@ -19,16 +19,4 @@ function analyzeSpotify () {
   }
 }
 
-function toggleArtist (artist, userAuth) {
-  let thirdParty = userAuth[userAuth.searchOpts.currSrc],
-      currIndex = thirdParty.artists.findIndex(each => artist.name == each.name),
-      currItem = userAuth[userAuth.searchOpts.currSrc].artists[currIndex]
-  
-  userAuth[userAuth.searchOpts.currSrc].artists[currIndex].exclude = !currItem.exclude
-
-  return (dispatch) => {
-    dispatch({type:'TOGGLE_ARTIST', payload: userAuth}) 
-  }
-}
-
-export { analyzeSpotify, toggleArtist }
+export { analyzeSpotify }

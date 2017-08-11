@@ -20,7 +20,7 @@ const EventBlock = (props) => {
   let isSaved = (ev) => ev ? userAuth.events.find(userEv => userEv.id == ev.id) : false
   
   return (
-    <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-3' : ''}>
+    <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-2' : ''}>
       {
         /explore/.test(props.location.pathname) ?
           labels.map(key => 
@@ -29,6 +29,7 @@ const EventBlock = (props) => {
               <section key={key} id={key} className='container-fluid group'>
                 { 
                   events[key].map((eachEv, i) => 
+                    !isSaved(eachEv) ?
                     <div key={`${key}${i}`} id={`${key}${i}`} className='subgroup'>
                       <div className='ev-img-contain' 
                            style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
@@ -51,14 +52,11 @@ const EventBlock = (props) => {
                             : ''
                         }
 
-                        <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
-                        {
-                          isSaved(eachEv) ?
-                            <IconButton iconClassName='fa fa-bookmark' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
-                            : <IconButton iconClassName='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
-                        }
+                        <a key={i} target='_blank' href={eachEv.url}><i className="fa fa-shopping-cart"></i> Buy Tickets</a>
+                        <IconButton iconClassName='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
                       </div>
                     </div>
+                    : null
                   ) 
                 } 
               </section>

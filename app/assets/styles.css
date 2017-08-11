@@ -206,3 +206,28 @@ a {
 .nav-stacked > li > a:focus {
   background:none;
 }
+
+.search-list-title {
+  display:inline-block;
+  margin-left: 1em;
+}
+
+.panel-heading {
+  white-space:nowrap;
+}
+
+.no-evs .panel-title > a {
+  cursor:default;
+}
+
+.btn-opt-toggle {
+  cursor:pointer;
+}
+
+.ev-count {
+  display:inline-block;
+}
+
+.search-list-events {
+  margin-left: 2em;
+}

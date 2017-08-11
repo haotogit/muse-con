@@ -7,7 +7,14 @@ import Lists from '../components/Lists'
 import LinearProgress from 'material-ui/LinearProgress'
 
 class EventContain extends Component {
+
   componentWillReceiveProps (props) {
+    
+  }
+
+  componentWillMount() {
+    let currList = this.props.userAuth[this.props.userAuth.searchOpts.currSrc][this.props.userAuth.searchOpts.by]
+    this.props.dispatch(actions.setSearchList(currList))
   }
 
   render () {
@@ -26,7 +33,8 @@ const mapStateToProps = (state) => {
   return {
     userAuth: state.user.userAuth,
     events: state.event.events,
-    loading: state.event.loading
+    loading: state.event.loading,
+    searchList: state.event.searchList
   }
 }
 
