@@ -26,9 +26,11 @@ const Lists = (props) => {
     padding:'0.5em'
   }
 
-  let isSaved = (ev) => ev ? userAuth.events.find(userEv => userEv.id == ev.id) : false
   let isExcluded = (item) => searchList.find(each => each.name === item.name).exclude
-  let checkCount = (each) => events[keyMaker(each.name)].filter(item => !isSaved(item)).length
+  let checkCount = (each) => events[keyMaker(each.name)].length
+  let checkList = () => {
+    if (searchList) return searchList.filter(item => !item.exclude).length > 0
+  }
 
   return (
     <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
@@ -43,14 +45,19 @@ const Lists = (props) => {
             icon={
               <i className='fa fa-spotify fa-2x' style={{verticalAlign:'middle',color:'#333'}}></i>
             }
-            onClick={() => actions.loadEvents(userAuth)}
+            onClick={() => actions.loadEvents(userAuth, searchList)}
+            disabled={!checkList()}
             style={{display:'block'}}
           />
         : ''
 
       }
       {/* make this dropdown for current identifier for artists */}
-      <h5 style={{margin:'8% auto 2% auto',display:'inline-block'}}>artists:</h5>
+      <h5 style={{margin:'8% auto 2% auto'}}>artists:</h5>
+      {
+        checkList() ? 
+          <p onClick={() => actions.toggleArtist(true, searchList)}>Remove All</p> : <p onClick={() => actions.toggleArtist(false, searchList)}>Add All</p>
+      }
       <hr></hr>
       {
         searchList ?
@@ -62,11 +69,11 @@ const Lists = (props) => {
               aria-multiselectable='true'>
               <div className='panel-heading' id={`heading${i}`} role='tab'>
                 { isExcluded(each) ? 
-                    <i className='fa fa-minus btn-opt-toggle'
+                    <i className='fa fa-plus btn-opt-toggle' 
                       aria-hidden='true'
                       onClick={() => actions.toggleArtist(each, searchList)}></i>
                     :
-                    <i className='fa fa-plus btn-opt-toggle' 
+                    <i className='fa fa-minus btn-opt-toggle'
                       aria-hidden='true'
                       onClick={() => actions.toggleArtist(each, searchList)}></i>
                 }

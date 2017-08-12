@@ -40,7 +40,7 @@ function locateUser (currUser) {
   })
 }
 
-function eventLoader (userAuth) {
+function eventLoader (userAuth, list) {
   let latLong = `${userAuth.lat},${userAuth.long}`,
       qParams,
       opts,
@@ -50,8 +50,8 @@ function eventLoader (userAuth) {
   qParams.apikey = process.env.TICKETMASTER_KEY
   qParams.radius = 50
 
-  userAuth[userAuth.searchOpts.currSrc][userAuth.searchOpts.by].forEach((each, i) => {
-    if (i < 3) {
+  reqsArr = list.filter(item => !item.exclude)
+    .map((each, i) => {
       qParams.keyword = each.name
 
       opts = {
@@ -59,9 +59,8 @@ function eventLoader (userAuth) {
         url: `${process.env.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
       }
 
-      reqsArr.push(popsicle(opts))
-    } 
-  })
+      return popsicle(opts)
+    })
 
   return Promise.all(reqsArr)
 }

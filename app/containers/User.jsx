@@ -2,11 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Spotify from '../components/Spotify'
 import { bindActionCreators } from 'redux'
-import { analyzeSpotify } from '../actions'
+import * as actions from '../actions'
 import Lists from '../components/Lists'
 
 class User extends Component {
   componentWillReceiveProps () {
+    
+  }
+
+  componentWillMount() {
+    let currList = this.props.userAuth[this.props.userAuth.searchOpts.currSrc][this.props.userAuth.searchOpts.by]
+    this.props.dispatch(actions.setSearchList(currList))
+
     this.renderGraph()
   }
 
@@ -19,9 +26,7 @@ class User extends Component {
       <div className='wrapper' style={{marginTop:'5%'}}>
         <div className='row'>
           <Lists {...this.props} />
-          <Spotify user={this.props.userAuth}
-                   spotify={this.props.userAuth.spotify} 
-                   analyzeSpotify={this.props.analyzeSpotify} />
+          <Spotify {...this.props} />
         </div>
       </div>
     )
@@ -88,20 +93,21 @@ class User extends Component {
         .text((d, i) => {
           return `${d.data.label}: ${((d.data.value / totalCount) * 100).toFixed(0)}%`
         })
-        .attr('fill', '#333')
+        .attr('fill', '#fff')
   }
 
 }
 
 function mapStateToProps(state) {
   return {
-    userAuth: state.user.userAuth
+    userAuth: state.user.userAuth,
+    searchList: state.event.searchList
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    analyzeSpotify: bindActionCreators(analyzeSpotify, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 

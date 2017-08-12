@@ -231,3 +231,7 @@ a {
 .search-list-events {
   margin-left: 2em;
 }
+
+.hide-item {
+  display: none;
+}

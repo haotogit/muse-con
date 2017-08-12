@@ -16,7 +16,7 @@ function loadedEvents(payload){
   }
 }
 
-function loadEvents(userObj) {
+function loadEvents(userObj, list) {
   let load = [],
       evObj = {}  
 
@@ -24,7 +24,7 @@ function loadEvents(userObj) {
     // signal initializing request
     dispatch(requestEvents(true))
 
-    eventLoader(userObj)
+    eventLoader(userObj, list)
       .then(resp => {
         resp.forEach((each, i) => {
           let str = each.query.keyword
@@ -32,7 +32,9 @@ function loadEvents(userObj) {
 
           evObj[key] = []
           if (each.body._embedded && each.body._embedded.events) {
-            each.body._embedded.events.forEach(ev => evObj[key].push(ev))
+            each.body._embedded.events.forEach(ev => {
+              if (!userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
+            })
           }
         })
 
@@ -58,11 +60,18 @@ function setSearchList(payload) {
 }
 
 function toggleArtist (artist, list) {
-  let currIndex = list.findIndex(each => artist.name == each.name)
-  
-  list[currIndex].exclude = !list[currIndex].exclude
   let newList = []
-  list.forEach(each => newList.push(each))
+  if (artist.name) {
+    let currIndex = list.findIndex(each => artist.name == each.name)
+    
+    list[currIndex].exclude = !list[currIndex].exclude
+    list.forEach(each => newList.push(each))
+  } else {
+    list.forEach(each => {
+      each.exclude = artist
+      newList.push(each)
+    })
+  }
 
   return (dispatch) => {
     dispatch(setSearchList(newList)) 
