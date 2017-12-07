@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import User from './models/user'
 import bluebird from 'bluebird'
 
 mongoose.Promise = bluebird

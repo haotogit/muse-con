@@ -1,81 +1,74 @@
-import User from '../db/models/user'
-import bluebird from 'bluebird'
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-import qString from 'query-string'
-import request from 'request'
-import popsicle from 'popsicle'
+const rp = require('request-promise');
+const qString = require('query-string');
 
-  function authSpotify (req, res) {
-    let scope = 'playlist-read-private user-top-read user-library-read'
+module.exports.authSpotify = (req, res) => {
+  let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
 
-    res.redirect('https://accounts.spotify.com/authorize?' + 
-    qString.stringify({
-      response_type: 'code',
-      client_id: process.env.SPOTIFY_CLIENT_ID,
-      client_secret: process.env.SPOTIFY_CLIENT_SECRET,
-      scope: scope,
-      redirect_uri: process.env.SPOTIFY_REDIRECT
-    }))
-  }
+  res.redirect('https://accounts.spotify.com/authorize?' + 
+  qString.stringify({
+    response_type: 'code',
+    client_id: process.env.SPOTIFY_CLIENT_ID,
+    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+    scope: scope,
+    redirect_uri: 'http://localhost:8080/auth-spotify/callback',
+    state: `userId=${req.query.userId}`,
+  }));
+};
 
-  function spotifyCallback (req, res) {
-    let code = req.query.code
-    let authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
+module.exports.spotifyCallback = (req, res) => {
+  const { code, state } = req.query;
+  const authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+  const userId = state.split('=')[1];
 
-    //let redirectUri = process.env.NODE_ENV == 'prod' ? process.env.SPOTIFY_REDIRECT : process.env.SPOTIFY_REDIRECT_DEV
-
-    let authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri: process.env.SPOTIFY_REDIRECT,
-        grant_type: 'authorization_code'
-      },
-      headers: {
-        'Authorization': `Basic ${authParam}` 
-      },
-      json: true
+  let authOptions = {
+    method: 'POST',
+    uri: 'https://accounts.spotify.com/api/token',
+    form: {
+      code,
+      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+      grant_type: 'authorization_code'
+    },
+    headers: {
+      'Authorization': `Basic ${authParam}` 
     }
-
-    request.post(authOptions, (err, response, body) => {
-      if (!err && response.statusCode === 200) {
-        let spotifyObj = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: {
-            'Authorization': `Bearer ${body.access_token}`
-          },
-          json: true
-        }
-        let tokens = {
-          access_token: body.access_token,
-          refresh_token: body.refresh_token
-        }
-        let currUser
-        request.get(spotifyObj, (err, resp, bod) => {
-          tokens.id = bod.id
-
-          User.findOne({_id: req.session.user._id})
-            .then((user) => {
-              //look up how to make public method on user model work
-              
-              user.spotify = tokens
-              user.save()
-              
-              currUser = {
-                id: user._id,
-                username: user.username,
-                spotify: user.spotify
-              }
-            })
-            .catch(err => console.log('err @spotify'))
-        })
-        // need figure out a way to keep current session and resend user info to page
-        res.redirect('/user')
-        //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
-      }
-    })
   }
+
+  rp(authOptions)
+    .then((response) => {
+      const { access_token, refresh_token } = JSON.parse(response);
+      let spotifyOpts = {
+        uri: 'https://api.spotify.com/v1/me',
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      };
+      let thirdPartyOpts = {
+        method: 'POST',
+        uri: `http://localhost:8087/api/v1/users/${userId}/thirdParty`,
+        body: {
+          thirdParty: {
+            source: 'spotify',
+            access_token,
+            refresh_token
+          }
+        },
+        json: true
+      };
+
+      rp(spotifyOpts)
+        .then((data) => {
+          thirdPartyOpts.body.thirdParty = Object.assign(thirdPartyOpts.body.thirdParty, JSON.parse(data));
+
+          rp(thirdPartyOpts)
+            .then((resp) => {
+              res.redirect('/login');
+            })
+        })
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+}
 
   
   function keyMaker (str) {
@@ -188,8 +181,3 @@ import popsicle from 'popsicle'
         .catch((err) => res.json({error: { findUser: err }}))
   }
 
-  function refreshToken (req, res, user) {
-    
-  }
-
-export { authSpotify, spotifyCallback, evalSpotify }

@@ -11,8 +11,8 @@ class User extends Component {
   }
 
   componentWillMount() {
-    let currList = this.props.userAuth[this.props.userAuth.searchOpts.currSrc][this.props.userAuth.searchOpts.by]
-    this.props.dispatch(actions.setSearchList(currList))
+    //let currList = this.props.userAuth[this.props.userAuth.searchOpts.currSrc][this.props.userAuth.searchOpts.by]
+    //this.props.dispatch(actions.setSearchList(currList))
 
     this.renderGraph()
   }

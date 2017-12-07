@@ -30,6 +30,12 @@ export default function user(state={}, action) {
       })
     break;
 
+    case 'USERNAME_EXISTS':
+      return Object.assign({}, state, {
+        usernameExists: action.payload
+      })
+    break;
+
     
 
     default:

@@ -19,7 +19,7 @@ class Login extends Component {
   }
 
   render () {
-    const { userAuth, newUser } = this.props
+    const { userAuth, newUser, usernameExists } = this.props
 
     return (
       <div className='wrapper'>
@@ -31,12 +31,13 @@ class Login extends Component {
               floatingLabelText='Username'
               onBlur={() => this.checkUser()}
             /><br />
+            { usernameExists ? <p>Username exists, please another</p> : null }
             <TextField
               ref='password'
               floatingLabelText='Password'
               type='password'
             /><br />
-            { newUser && this.refs.username.input.value != '' ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
+            { newUser ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
             <RaisedButton
               type='submit'
               label={newUser ? 'Sign Up' : 'Log In'} 
@@ -48,7 +49,7 @@ class Login extends Component {
             <i className='fa fa-info fa-2x' style={{marginTop:'3%'}}></i>
           </a>
           <div className='collapse' id='loginInfo'>
-            <p>Login with an existing username, or type a new username to sign up</p>
+            <p>Login with an existing username, or <a onClick={() => this.props.actions.newUser(true)}>sign up</a></p>
             <hr style={{width:'30%',border:'2px solid'}}></hr>
             <h6>DEMO LOGIN</h6>
             <p>USERNAME: demo</p>
@@ -62,7 +63,7 @@ class Login extends Component {
   checkUser () {
     let username = { username: this.refs.username.input.value }
 
-    if (this.refs.username.input.value != '') this.props.actions.checkUser(username)
+    if (this.newUser && this.refs.username.input.value != '') this.props.actions.checkUser(username)
   }
 
   login (e) {
@@ -78,14 +79,15 @@ class Login extends Component {
     //if (username != '' && password != '') {
       if (!this.props.newUser) this.props.actions.login(opts, this.props)
 
-      if (this.props.newUser && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
+      if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
     }
   //}
 }
 
 const mapStateToProps = (state) => ({
   userAuth: state.user.userAuth,
-  newUser: state.user.newUser
+  newUser: state.user.newUser,
+  usernameExists: state.user.usernameExists
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -6,15 +6,15 @@ const Spotify = (props) => {
   return (
     <div className='col-xs-6 col-xs-offset-3'>
       { 
-        userAuth[userAuth.searchOpts.currSrc].access_token ? '' :
+        userAuth.spotify.access_token ? '' :
           <span className='label label-primary'>
-            <a href="/auth-spotify" style={{color:'white',textTransform:'uppercase'}}>Link Spotify</a>
+            <a href={`/auth-spotify?userId=${userAuth._id}`} style={{color:'white',textTransform:'uppercase'}}>Link Spotify</a>
           </span>
       }
       <div id='genresGraph'>
         <h3>Top Spotify Genres</h3>
         {
-          userAuth[userAuth.searchOpts.currSrc].access_token ?
+          userAuth.spotify.access_token ?
             <button onClick={actions.analyzeSpotify} style={{display:'block', background:'none', border:'none'}}>
               <span className='label label-info'>
                 Get Spotify Data

@@ -1,50 +1,61 @@
-import User from '../db/models/user'
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-import popsicle from 'popsicle'
+const httpClient = require('../library/httpClient');
 
 function authUser (req, res, next) {
-  User.findOne({username: req.body.username})
-      .then( (user) => {
-        if(!user) res.json({ error: 'No user' })
-        else {
-          user.comparePassword(req.body.password, (err, result) => {
-            if(!result) res.json({ error: 'Wrong password' })
-            else {
-              req.session.user = user
-              req.user = req.session.user
-              req.session.save()
+  const opts = {
+    method: 'POST',
+    uri: '/users/auth',
+    body: req.body
+  };
 
-              res.json(user)
-            }
-          })
-        }
-      })
+  httpClient(opts)
+    .then((resp) => {
+      res.json(resp);
+    });
 }
 
 function checkUsername (req, res, next) {
-  User.findOne({username: req.body.username})
-      .then(user => res.json(user))
+  const opts = {
+    method: 'POST',
+    uri: '/users/username',
+    body: {
+      username: req.body.username,
+    },
+  };
+
+  httpClient(opts)
+    .then((resp) => {
+      res.json(resp);
+    });
 }
 
 function createUser (req, res) {
-  let newUser = new User()
+  const opts = {
+    method: 'POST',
+    uri: '/users',
+    body: req.body
+  };
 
-  newUser.username = req.body.username
-  newUser.password = req.body.password
+  httpClient(opts)
+    .then((resp) => {
+      res.json(resp);
+    });
+  //let newUser = new User()
 
-  newUser.searchOpts = {
-    currSrc: 'spotify',
-    by: 'artists'
-  }
+  //newUser.username = req.body.username
+  //newUser.password = req.body.password
 
-  newUser.save()
+  //newUser.searchOpts = {
+  //  currSrc: 'spotify',
+  //  by: 'artists'
+  //}
 
-  req.session.user = newUser
-  req.user = req.session.user
-  req.session.save()
+  //newUser.save()
 
-  res.json(newUser)
+  //req.session.user = newUser
+  //req.user = req.session.user
+  //req.session.save()
+
+  //res.json(newUser)
 }
 
 function userLocated (req, res, next) {

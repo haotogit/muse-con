@@ -30,8 +30,10 @@ function checkUser (username) {
       body: username
     })
     .then(res => {
-      dispatch(newUser(res.body ? false : true))
-    })
+      let payload = res.body ? false : true;
+
+      dispatch({ type: 'USERNAME_EXISTS', payload });
+    });
   }
 }
 
@@ -129,4 +131,4 @@ function saveEvent (ev) {
 
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent }
+export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser }
