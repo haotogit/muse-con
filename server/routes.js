@@ -9,8 +9,8 @@ module.exports = (app) => {
 
   app.get('/auth-spotify/callback', control.spotifyCallback)
 
-  //router.route('/api/evalSpotify')
-  //      .get(isAuthenticated, control.evalSpotify)
+  router.route('/api/users/:id/evalSpotify')
+    .get(isAuthenticated, control.evalSpotify)
 
   router.route('/api/authenticate')
         .post(control.authUser)

@@ -2,9 +2,9 @@ import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
 import { userUpdate } from './user'
 
-function analyzeSpotify () {
+function analyzeSpotify (id) {
   return (dispatch) => {
-    popWrap('get', 'api/evalSpotify')
+    popWrap('get', `api/users/${id}/evalSpotify`)
       .then(resp => {
         // move this error handling to the popwrap helper,
         // otherwise need to handle no session redirect on

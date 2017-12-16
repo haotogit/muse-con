@@ -1,12 +1,15 @@
 import React from 'react'
 
 const Spotify = (props) => {
-  const { actions , userAuth, spotify } = props
+  const { actions , userAuth } = props
+  let spotify;
+
+  if (userAuth.thirdParty.length !== 0) spotify = userAuth.thirdParty.find(item => item.source === 'spotify');
 
   return (
     <div className='col-xs-6 col-xs-offset-3'>
       { 
-        userAuth.spotify.access_token ? '' :
+        spotify ? '' :
           <span className='label label-primary'>
             <a href={`/auth-spotify?userId=${userAuth._id}`} style={{color:'white',textTransform:'uppercase'}}>Link Spotify</a>
           </span>
@@ -14,8 +17,8 @@ const Spotify = (props) => {
       <div id='genresGraph'>
         <h3>Top Spotify Genres</h3>
         {
-          userAuth.spotify.access_token ?
-            <button onClick={actions.analyzeSpotify} style={{display:'block', background:'none', border:'none'}}>
+          spotify ?
+            <button onClick={actions.analyzeSpotify(userAuth.id)} style={{display:'block', background:'none', border:'none'}}>
               <span className='label label-info'>
                 Get Spotify Data
                 <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>

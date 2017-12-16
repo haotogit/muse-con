@@ -14,11 +14,15 @@ class User extends Component {
     //let currList = this.props.userAuth[this.props.userAuth.searchOpts.currSrc][this.props.userAuth.searchOpts.by]
     //this.props.dispatch(actions.setSearchList(currList))
 
-    this.renderGraph()
+    if (this.props.userAuth.thirdParty.length !== 0 && this.props.userAuth.thirdParty[0].top10) {
+      this.renderGraph()
+    }
   }
 
   componentDidMount () {
-    this.renderGraph()
+    if (this.props.userAuth.thirdParty.length !== 0 && this.props.userAuth.thirdParty[0].top10) {
+      this.renderGraph()
+    }
   }
   
   render () {

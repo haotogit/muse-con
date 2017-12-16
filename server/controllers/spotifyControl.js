@@ -87,97 +87,96 @@ module.exports.spotifyCallback = (req, res) => {
     return 0
   }
 
-  function evalSpotify (req, res, next) {
-    let genres = []
+module.exports.evalSpotify = (req, res) => {
 
-    User.findOne({_id: req.session.user._id})
-        .then((user) => {
-          let opts = {
-            method: 'get',
-            url: `${process.env.SPOTIFY_URL}/me/top/artists?limit=50`,
-            headers: {
-              Authorization: `Bearer ${user.spotify.access_token}`
-            }
-          }
+}
+  //  let genres = []
 
-          popsicle(opts)
-            .then((resp) => {
-              if (resp.body.items) {
-                let artistList = resp.body.items.map(artist => {
-                  artist.genres.forEach((each, i) => {
-                    let currArtist = {},
-                        genreKey = keyMaker(each),
-                        genre,
-                        genreIndex,
-                        artistIndex
+  //  User.findOne({_id: req.session.user._id})
+  //      .then((user) => {
+  //        let opts = {
+  //          method: 'get',
+  //          url: `${process.env.SPOTIFY_URL}/me/top/artists?limit=50&time_range=long_term`,
+  //          headers: {
+  //            Authorization: `Bearer ${user.spotify.access_token}`
+  //          }
+  //        }
 
-                    if (genres.find((ea) => ea.label === genreKey)) {
-                      genreIndex = genres.findIndex((ea) => ea.label === genreKey)
-                      genres[genres.findIndex((ea) => ea.label === genreKey)].value++
+  //        popsicle(opts)
+  //          .then((resp) => {
+  //            if (resp.body.items) {
+  //              let artistList = resp.body.items.map(artist => {
+  //                artist.genres.forEach((each, i) => {
+  //                  let currArtist = {},
+  //                      genreKey = keyMaker(each),
+  //                      genre,
+  //                      genreIndex,
+  //                      artistIndex
 
-                      if (!genres[genreIndex].artists.find(ea => ea.name === artist.name)) {
-                        currArtist = {
-                          name: artist.name,
-                          image: artist.images[1].url
-                        }
-                        genres[genreIndex].artists.push(currArtist)
-                      }
+  //                  if (genres.find((ea) => ea.label === genreKey)) {
+  //                    genreIndex = genres.findIndex((ea) => ea.label === genreKey)
+  //                    genres[genres.findIndex((ea) => ea.label === genreKey)].value++
 
-                    } else {
-                      genre = {
-                        label: genreKey,
-                        value: 1,
-                        artists: []
-                      }
+  //                    if (!genres[genreIndex].artists.find(ea => ea.name === artist.name)) {
+  //                      currArtist = {
+  //                        name: artist.name,
+  //                        image: artist.images[1].url
+  //                      }
+  //                      genres[genreIndex].artists.push(currArtist)
+  //                    }
 
-                      genres.push(genre)
-                    }
-                  })
+  //                  } else {
+  //                    genre = {
+  //                      label: genreKey,
+  //                      value: 1,
+  //                      artists: []
+  //                    }
 
-                  return {
-                    name: artist.name,
-                    genres: artist.genres,
-                    image: artist.images[1].url
-                  }
-                })
-                
-                genres = genres.sort(sortArr)
-                user.spotify.top10 = genres.slice(0, 10)
-                user.spotify.artists = artistList
-                user.spotify.genres = genres
-                user.save()
-                res.json(user)
-              } else {
-                let base64Str = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
-                let opts = {
-                  method: 'post',
-                  url: 'https://accounts.spotify.com/api/token',
-                  headers: {
-                    Authorization: `Basic ${base64Str}`,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  body: {
-                    grant_type: 'refresh_token',
-                    refresh_token: user.spotify.refresh_token
-                  }
-                }
+  //                    genres.push(genre)
+  //                  }
+  //                })
 
-                popsicle(opts)
-                  .then((response) => {
-                    if (response.body.access_token) {
-                      user.spotify.access_token = response.body.access_token
-                      user.save()
+  //                return {
+  //                  name: artist.name,
+  //                  genres: artist.genres,
+  //                  image: artist.images[1].url
+  //                }
+  //              })
+  //              
+  //              genres = genres.sort(sortArr)
+  //              user.spotify.top10 = genres.slice(0, 10)
+  //              user.spotify.artists = artistList
+  //              user.spotify.genres = genres
+  //              user.save()
+  //              res.json(user)
+  //            } else {
+  //              let base64Str = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
+  //              let opts = {
+  //                method: 'post',
+  //                url: 'https://accounts.spotify.com/api/token',
+  //                headers: {
+  //                  Authorization: `Basic ${base64Str}`,
+  //                  'Content-Type': 'application/x-www-form-urlencoded'
+  //                },
+  //                body: {
+  //                  grant_type: 'refresh_token',
+  //                  refresh_token: user.spotify.refresh_token
+  //                }
+  //              }
 
-                      res.json(user)
-                    } else {
-                      res.json({error: resp.body.error})
-                    }
-                  })
-                  .catch((err) => res.json({error: { refreshToken: err }}))
-              }
-            })
-            .catch((err) => res.json({error: { spotifyEval: err }}))
-        })
-        .catch((err) => res.json({error: { findUser: err }}))
-  }
+  //              popsicle(opts)
+  //                .then((response) => {
+  //                  if (response.body.access_token) {
+  //                    user.spotify.access_token = response.body.access_token
+  //                    user.save()
+
+  //                    res.json(user)
+  //                  } else {
+  //                    res.json({error: resp.body.error})
+  //                  }
+  //                })
+  //            }
+  //          })
+  //      })
+  //      .catch((err) => res.json({error: { findUser: err }}))
 
