@@ -7,7 +7,10 @@ function login(opts){
     popsicle({
       method: 'post',
       url: 'api/authenticate',
-      body: opts
+      body: {
+        username: 'barry',
+        password: 'password'
+      }
     })
     .then(res => {
       if (res.body.error) {

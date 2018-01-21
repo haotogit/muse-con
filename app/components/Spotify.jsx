@@ -18,7 +18,7 @@ const Spotify = (props) => {
         <h3>Top Spotify Genres</h3>
         {
           spotify ?
-            <button onClick={actions.analyzeSpotify(userAuth.id)} style={{display:'block', background:'none', border:'none'}}>
+            <button onClick={() => actions.analyzeSpotify(userAuth)} style={{display:'block', background:'none', border:'none'}}>
               <span className='label label-info'>
                 Get Spotify Data
                 <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>

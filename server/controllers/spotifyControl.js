@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 const qString = require('query-string');
+const popsicle = require('popsicle');
 
 module.exports.authSpotify = (req, res) => {
   let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
@@ -35,34 +36,22 @@ module.exports.spotifyCallback = (req, res) => {
 
   rp(authOptions)
     .then((response) => {
-      const { access_token, refresh_token } = JSON.parse(response);
-      let spotifyOpts = {
-        uri: 'https://api.spotify.com/v1/me',
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      };
+      const { access_token } = JSON.parse(response);
       let thirdPartyOpts = {
         method: 'POST',
         uri: `http://localhost:8087/api/v1/users/${userId}/thirdParty`,
         body: {
-          thirdParty: {
-            source: 'spotify',
-            access_token,
-            refresh_token
-          }
+          source: 'spotify',
+          accessToken: access_token,
+          refreshToken: response.refresh_token,
+          expiresIn: response.expires_in
         },
         json: true
       };
 
-      rp(spotifyOpts)
-        .then((data) => {
-          thirdPartyOpts.body.thirdParty = Object.assign(thirdPartyOpts.body.thirdParty, JSON.parse(data));
-
-          rp(thirdPartyOpts)
-            .then((resp) => {
-              res.redirect('/login');
-            })
+      rp(thirdPartyOpts)
+        .then((resp) => {
+          res.redirect('/login');
         })
     })
     .catch((err) => {
@@ -88,6 +77,46 @@ module.exports.spotifyCallback = (req, res) => {
   }
 
 module.exports.evalSpotify = (req, res) => {
+  const authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+
+  let spotifyObj = req.body;
+  let opts = {
+    method: 'get',
+    url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
+    headers: {
+      Authorization: `Bearer ${spotifyObj['access_token']}`
+    }
+  }
+  let refresherOpts;
+
+  popsicle.request(opts)
+    .then((res) => {
+      // function makes request to refresher endpoint, posts to api to save new token,
+      // returns new token then remake original request.
+      console.log('===', opts)
+      console.log('yay', res)
+      if (res.body.error && res.body.error.message === 'The access token expired') {
+        refresherOpts = {
+          method: 'post',
+          url: 'https://accounts.spotify.com/api/token',
+          headers: {
+            Authorization: `Basic ${authParam}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: {
+            grant_type: 'refresh_token',
+            refresh_token: spotifyObj.refresh_token
+          }
+        };
+
+        popsicle.request(refresherOpts)
+          .then(res => {
+            // PUT /thirdParties with new tokens
+            console.log('haloo', res)
+          })
+      }
+    })
+    .catch(err => console.log('errah', err))
 
 }
   //  let genres = []

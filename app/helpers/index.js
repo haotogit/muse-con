@@ -2,15 +2,18 @@ import popsicle from 'popsicle'
 import * as actions from '../actions'
 import qString from 'query-string'
 
-function popWrap (...args) {
-  let optsArr = ['method', 'url', 'body'],
-      opts = {}
+function popWrap (reqArgs, dispatch, action) {
+  let opts = {};
 
-  optsArr.forEach((each, i) => {
-    opts[each] = args[i]
-  })
+  Object.keys(reqArgs).forEach((each) => {
+    opts[each] = reqArgs[each];
+  });
 
   return popsicle(opts)
+    .then((data) => {
+      console.log(data)
+      dispatch(action(data.body));
+    });
 }
 
 function locateUser (currUser) {
