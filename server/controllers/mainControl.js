@@ -7,7 +7,7 @@ function authUser (req, res, next) {
     body: req.body
   };
 
-  httpClient(opts)
+  httpClient(opts, res)
     .then((resp) => {
       res.json(resp);
     });

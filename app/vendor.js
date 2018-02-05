@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
-import './assets/styles.css'
+import './assets/styles.scss'
 import './assets/MesloLGMDZ-RegularForPowerline.ttf'
 import 'font-awesome/css/font-awesome.min.css'
 import './assets/imgs/bars.svg'

@@ -18,6 +18,6 @@ export default (store) => {
       <Route path="users" component={requireAuth(UserContain)} />
       <Route path="explore" component={requireAuth(EventContain)} />
       <Route path="user" component={requireAuth(UserSettings)} />
-   </Route>
+    </Route>
   )
 }

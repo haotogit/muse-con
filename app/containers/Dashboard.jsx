@@ -37,7 +37,7 @@ class Dashboard extends Component{
       if (user.thirdParty.length === 0) {
         return <span className='label label-warning'><Link to='/user'>Link your Spotify Account</Link></span>
       } else {
-        let spotify = user.thirdParty.find(item => item.source === 'spotify');
+        let spotify = user.thirdParties[0];
         if (spotify && spotify.artists.length === 0) return <span className='label label-info'><Link to='/user'>Get Spotify Data</Link></span>
 
         if (this.props.events.length < 1) return <span className='label label-info'><Link to='/explore'>Get Events</Link></span>

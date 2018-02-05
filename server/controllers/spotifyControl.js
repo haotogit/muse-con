@@ -2,6 +2,8 @@ const rp = require('request-promise');
 const qString = require('query-string');
 const popsicle = require('popsicle');
 
+const helpers = require('../library/helpers');
+
 module.exports.authSpotify = (req, res) => {
   let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
 
@@ -36,15 +38,15 @@ module.exports.spotifyCallback = (req, res) => {
 
   rp(authOptions)
     .then((response) => {
-      const { access_token } = JSON.parse(response);
+      const { access_token, refresh_token, expires_in } = JSON.parse(response);
       let thirdPartyOpts = {
         method: 'POST',
         uri: `http://localhost:8087/api/v1/users/${userId}/thirdParty`,
         body: {
           source: 'spotify',
           accessToken: access_token,
-          refreshToken: response.refresh_token,
-          expiresIn: response.expires_in
+          refreshToken: refresh_token,
+          expiresIn: expires_in
         },
         json: true
       };
@@ -77,48 +79,28 @@ module.exports.spotifyCallback = (req, res) => {
   }
 
 module.exports.evalSpotify = (req, res) => {
-  const authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
-
   let spotifyObj = req.body;
-  let opts = {
+  // change this to look at tracks too
+  let spotifyOpts = {
     method: 'get',
     url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
     headers: {
-      Authorization: `Bearer ${spotifyObj['access_token']}`
+      Authorization: `Bearer ${spotifyObj.accessToken}`
     }
   }
-  let refresherOpts;
 
-  popsicle.request(opts)
-    .then((res) => {
-      // function makes request to refresher endpoint, posts to api to save new token,
-      // returns new token then remake original request.
-      console.log('===', opts)
-      console.log('yay', res)
-      if (res.body.error && res.body.error.message === 'The access token expired') {
-        refresherOpts = {
-          method: 'post',
-          url: 'https://accounts.spotify.com/api/token',
-          headers: {
-            Authorization: `Basic ${authParam}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: {
-            grant_type: 'refresh_token',
-            refresh_token: spotifyObj.refresh_token
-          }
-        };
+  helpers.spotifyRequestResolver(spotifyObj, spotifyOpts)
+    .then(data => {
+      res.json(data);
 
-        popsicle.request(refresherOpts)
-          .then(res => {
-            // PUT /thirdParties with new tokens
-            console.log('haloo', res)
-          })
-      }
+      popsicle.request({
+        method: ''
+      })
     })
-    .catch(err => console.log('errah', err))
-
-}
+    .catch(err => {
+      throw new Error(`error requesting spotify data, error: ${err.message}`);
+    });
+};
   //  let genres = []
 
   //  User.findOne({_id: req.session.user._id})

@@ -1,27 +1,22 @@
 import popsicle from 'popsicle'
 import { push } from 'react-router-redux'
+import { popWrap } from '../helpers'
 
 function login(opts){
+  const options = {
+    method: 'post',
+    uri: 'http://localhost:8080/api/authenticate',
+    body: {
+      username: 'barry',
+      password: 'password'
+    }
+  };
+
   return (dispatch) => {
     dispatch(loginRequest())
-    popsicle({
-      method: 'post',
-      url: 'api/authenticate',
-      body: {
-        username: 'barry',
-        password: 'password'
-      }
-    })
-    .then(res => {
-      if (res.body.error) {
-        if (res.body.error == 'Wrong Password') {
-          
-        }
-      } else {
-        dispatch(loginSuccess(res.body))
-        dispatch(push(``))
-      }
-    })
+
+    popWrap(options, dispatch, loginSuccess)
+      .then(() => dispatch(push('')));
   }
 }
 

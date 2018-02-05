@@ -2,7 +2,7 @@ const rp = require('request-promise'),
   urlLib = require('url'),
   config = require('../config/config');
 
-module.exports = (options, operationId) => {
+module.exports = (options, response) => {
   const opts = {
     uri: `${urlLib.format(config.app.api)}`,
     json: true
@@ -16,6 +16,12 @@ module.exports = (options, operationId) => {
 
   return rp(opts)
     .catch((err) => {
-      throw err;
+      //let error = new Error(err.message || 'Error with request');
+
+      //error.statusCode = err.statusCode || 500;
+
+      console.log('====', err)
+      response.set('Content-Type', 'application/json');
+      response.status(err.statusCode || 500).end('error', { error: err });
     });
 };

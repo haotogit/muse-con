@@ -6,8 +6,11 @@ var path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
+  entry: {
+    'app': path.join(__dirname, '..', 'app/index.jsx'),
+  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         include: path.join(__dirname, '..', 'app'),

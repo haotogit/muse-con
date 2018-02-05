@@ -1,18 +1,23 @@
 import popsicle from 'popsicle'
 import * as actions from '../actions'
 import qString from 'query-string'
+import rp from 'request-promise'
+import alertify from 'alertify.js'
 
 function popWrap (reqArgs, dispatch, action) {
-  let opts = {};
+  let opts = {
+    json: true
+  };
 
-  Object.keys(reqArgs).forEach((each) => {
-    opts[each] = reqArgs[each];
-  });
+  opts = Object.assign(opts, reqArgs);
 
-  return popsicle(opts)
+  return rp(opts)
     .then((data) => {
-      console.log(data)
-      dispatch(action(data.body));
+      dispatch(action(data));
+    })
+    .catch(err => {
+      alertify.alert(err.message);
+      dispatch({ type: 'FAILED REQUEST', payload: err });
     });
 }
 
