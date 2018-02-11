@@ -1,6 +1,7 @@
 import popsicle from 'popsicle'
 import { push } from 'react-router-redux'
 import { popWrap } from '../helpers'
+import { loadedEvents } from './events';
 
 function login(opts){
   const options = {
@@ -112,13 +113,32 @@ function userUpdate (payload) {
   }
 }
 
-function saveEvent (ev) {
+function saveEvent (user, ev, events?, key?, index?) {
+  let userEvents = user.events,
+    evIndex,
+    searchEvents;
+
+  if (userEvents.find(ea => ea.id === ev.id)) {
+    evIndex = userEvents.find(ea => ea.id === ev.id);
+    userEvents.splice(evIndex, 1);
+  } else {
+    userEvents.push(ev);
+
+    if (events && key && index) {
+      searchEvents = events;
+      searchEvents[key].splice(index, 1);
+    }
+  }
+
   return (dispatch) => {
+    if (searchEvents) dispatch(loadedEvents(searchEvents));
 
     popsicle({
       method: 'put',
-      url: 'api/user',
-      body: ev
+      url: `http://localhost:8080/api/users/${user._id}`,
+      body: {
+       events: userEvents 
+      }
     })
     .then(res => {
       dispatch(userUpdate(res.body))

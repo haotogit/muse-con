@@ -16,6 +16,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { AppContainer } from 'react-hot-loader';
 import './vendor';
+console.log('aefw', envVars)
 
 const middleware = [
     thunk,
@@ -64,18 +65,5 @@ render(
 );
 
 if (module.hot) {
-  console.log('hot reloading', module);
   module.hot.accept();
-
-  //module.hot.accept(path.join(__dirname, './dist'), () => {
-  //  console.log('reloading');
-  //  //const NextApp = require(path.join(__dirname, '..', './dist'));
-
-  //  //render(
-  //  //  <AppContainer>
-  //  //    <NextApp></NextApp>
-  //  //  </AppContainer>,
-  //  //  document.getElementById('app')
-  //  //);
-  //});
 }

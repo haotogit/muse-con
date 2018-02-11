@@ -17,6 +17,7 @@ const EventBlock = (props) => {
     }
   }
 
+                  console.log('ev', events)
   return (
     <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-2' : ''}>
       {
@@ -50,7 +51,7 @@ const EventBlock = (props) => {
                         }
 
                         <a key={i} target='_blank' href={eachEv.url}><i className="fa fa-shopping-cart"></i> Buy Tickets</a>
-                        <IconButton iconClassName='fa fa-bookmark-o' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
+                        <IconButton iconClassName='fa fa-bookmark-o' onClick={() => actions.saveEvent(userAuth, eachEv, events, key, i)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
                       </div>
                     </div>
                   ) 
@@ -84,7 +85,7 @@ const EventBlock = (props) => {
                     }
 
                     <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
-                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
+                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
                   </div>
                 </div>
               )

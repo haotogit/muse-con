@@ -72,24 +72,34 @@ function userLocated (req, res, next) {
 }
 
 function userUpdate (req, res, next) {
-  User.findOne({_id: req.session.user._id})
-      .then(user => {
-        if (!user) {
-          res.end({ error: 'No user found, please login' })
-        }
+  const opts = {
+    method: 'PUT',
+    uri: `/users/${req.params.id}`,
+    body: req.body
+  };
 
-        if (user.events.find(userEv => userEv.id === req.body.id)) {
-          let index = user.events.findIndex(userEv => userEv.id === req.body.id)
+  httpClient(opts, res)
+    .then((resp) => {
+      res.json(resp);
+    });
+  //User.findOne({_id: req.params.id})
+  //    .then(user => {
+  //      if (!user) {
+  //        res.end({ error: 'No user found, please login' })
+  //      }
 
-          user.events.splice(index, 1)
-        } else {
+  //      if (user.events.find(userEv => userEv.id === req.body.id)) {
+  //        let index = user.events.findIndex(userEv => userEv.id === req.body.id)
 
-          user.events.push(req.body)
-        }
+  //        user.events.splice(index, 1)
+  //      } else {
 
-        user.save().then(user => res.json(user))
+  //        user.events.push(req.body)
+  //      }
 
-      })
+  //      user.save().then(user => res.json(user))
+
+  //    })
 }
 
 export { authUser, checkUsername, createUser, userLocated, userUpdate }

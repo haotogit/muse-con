@@ -22,8 +22,8 @@ module.exports = (app) => {
     .put(isAuthenticated, control.userUpdate)
     .post(control.createUser)
 
-  router.route('/api/users')
-    .put(isAuthenticated, control.userLocated)
+  router.route('/api/users/:id')
+    .put(isAuthenticated, control.userUpdate)
 
   return router
 }

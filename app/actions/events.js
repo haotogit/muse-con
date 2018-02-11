@@ -78,4 +78,4 @@ function toggleArtist (artist, list) {
   }
 }
 
-export { loadEvents, toggleSearchOpt, setSearchList, toggleArtist }
+export { loadEvents, toggleSearchOpt, setSearchList, toggleArtist, loadedEvents }

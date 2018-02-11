@@ -2,10 +2,7 @@ var webpack = require('webpack'),
     path = require('path'),
     envVar = require('../server/env'),
     webpackMerge = require('webpack-merge'),
-    commonConfig = require('./webpack.common'),
-    dotenv = require('dotenv')
-
-dotenv.config()
+    commonConfig = require('./webpack.common');
 
 module.exports = webpackMerge(commonConfig, {
   cache: true,

@@ -60,7 +60,7 @@ function eventLoader (userAuth, list) {
       reqsArr = []
 
   qParams = userAuth.searchOpts
-  qParams.apikey = process.env.TICKETMASTER_KEY
+  qParams.apikey = envVars.TICKETMASTER_KEY
   qParams.radius = 50
 
   reqsArr = list.filter(item => !item.exclude)
@@ -69,13 +69,13 @@ function eventLoader (userAuth, list) {
 
       opts = {
         method: 'GET',
-        url: `${process.env.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
+        url: `${envVars.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
       }
 
       return popsicle(opts)
     })
 
-  return Promise.all(reqsArr)
+  return Promise.all(reqsArr);
 }
 
 // first check for - or \s, if one word cool.tolowercase, but if more than one word, take every word after the first and capitalize and then join that arr 
