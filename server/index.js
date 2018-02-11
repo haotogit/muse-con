@@ -7,12 +7,16 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   webpackDevMiddleware = require('webpack-dev-middleware'),
   webpackHotMiddleware = require('webpack-hot-middleware'),
-  winston = require('winston');
+  winston = require('winston'),
+  proxy = require('http-proxy-middleware'),
+  urlLib = require('url'),
+  cors = require('cors');
 
 const devConfig = require('../config/webpack.dev.config'),
   configRoutes = require('./routes'),
   appConfig = require('./config/config');
 
+//app.use(cors());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -22,6 +26,7 @@ app.use((req, res, next) => {
 });
 
 //app.use('/discovery/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
+//app.use('/api/**', proxy({ target: urlLib.format(appConfig.app.url) }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(configRoutes(app));
@@ -61,7 +66,7 @@ if(appConfig.app.env === 'dev'){
     });
 }
 
-app.listen(appConfig.app.port, (err) => {
+app.listen(appConfig.app.url.port, (err) => {
   if(err) console.log('error on server: ', err);
-  winston.info(`Server started and listening at ${appConfig.app.port}`);
+  winston.info(`Server started and listening at ${appConfig.app.url.port}`);
 });

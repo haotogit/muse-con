@@ -1,7 +1,11 @@
 module.exports = (() => {
   const config = {
     app: {
-      port: process.env.PORT || 8080,
+      url: {
+        protocol: process.env.SERVER_PROTOCOL || 'http',
+        hostname: process.env.SERVER_HOSTNAME || 'localhost',
+        port: process.env.SERVER_PORT || 8080
+      },
       env: process.env.NODE_ENV || 'dev',
       logLevel: process.env.LOG_LEVEL || 'debug',
       api: {

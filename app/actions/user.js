@@ -2,11 +2,15 @@ import popsicle from 'popsicle'
 import { push } from 'react-router-redux'
 import { popWrap } from '../helpers'
 import { loadedEvents } from './events';
+import urlLib from 'url'
+import config from '../../server/config/config'
+
+const BASE_PATH = urlLib.format(config.app.url);
 
 function login(opts){
   const options = {
     method: 'post',
-    uri: 'http://localhost:8080/api/authenticate',
+    url: `${BASE_PATH}/api/authenticate`,
     body: {
       username: 'barry',
       password: 'password'
@@ -25,7 +29,7 @@ function checkUser (username) {
   return (dispatch) => {
     popsicle({
       method: 'post',
-      url: 'api/username',
+      url: '/username',
       body: username
     })
     .then(res => {
@@ -49,7 +53,7 @@ function userSignup (obj) {
 
     popsicle({
       method: 'post',
-      url: 'api/user',
+      url: `${BASE_PATH}/api/users`,
       body: obj
     })
     .then(res => {
@@ -135,7 +139,7 @@ function saveEvent (user, ev, events?, key?, index?) {
 
     popsicle({
       method: 'put',
-      url: `http://localhost:8080/api/users/${user._id}`,
+      url: `${BASE_PATH}/api/users/${user._id}`,
       body: {
        events: userEvents 
       }

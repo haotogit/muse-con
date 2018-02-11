@@ -1,14 +1,16 @@
 const popsicle = require('popsicle');
 const promise = require('bluebird');
+const urlLib = require('url');
+const config = require('../../server/config/config');
+
+const API_BASE_PATH = urlLib.format(config.app.api);
 
 module.exports.spotifyRequestResolver = (spotifyObj, spotifyOpts) => {
   let refresherOpts, nextItem, authParam;
   return popsicle.request(spotifyOpts)
     .then((data) => {
-      console.log('wtf', data)
       if (data.body.items) return data;
       else if (data.body.error && data.body.error.message === 'The access token expired') {
-        console.log('runningrefresher===')
         authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
 
         refresherOpts = [
@@ -27,15 +29,14 @@ module.exports.spotifyRequestResolver = (spotifyObj, spotifyOpts) => {
           spotifyOpts,
           {
             method: 'put',
-            url: `http://localhost:8087/api/v1/users/${spotifyObj.userId}/thirdparty/${spotifyObj._id}`
+            // need to change to BASE_PATH
+            url: `${API_BASE_PATH}/users/${spotifyObj.userId}/thirdparty/${spotifyObj._id}`
           }
         ];
 
         return promise.mapSeries(refresherOpts, (value, i) => {
-          console.log('requesting', value);
           return popsicle.request(value)
             .then((data) => {
-              console.log('responding', data)
               if ((data.body && data.body.error) && data.body.status !== 200) throw new Error(`Error refreshing spotify, ${JSON.stringify(data.body)}`);
 
               if (i < refresherOpts.length - 1) {

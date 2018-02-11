@@ -3,6 +3,11 @@ const qString = require('query-string');
 const popsicle = require('popsicle');
 
 const helpers = require('../library/helpers');
+const urlLib = require('url');
+const config = require('../../server/config/config');
+
+const BASE_PATH = urlLib.format(config.app.url);
+const API_BASE_PATH = urlLib.format(config.app.api);
 
 module.exports.authSpotify = (req, res) => {
   let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
@@ -13,7 +18,7 @@ module.exports.authSpotify = (req, res) => {
     client_id: process.env.SPOTIFY_CLIENT_ID,
     client_secret: process.env.SPOTIFY_CLIENT_SECRET,
     scope: scope,
-    redirect_uri: 'http://localhost:8080/auth-spotify/callback',
+    redirect_uri: `${BASE_PATH}/auth-spotify/callback`,
     state: `userId=${req.query.userId}`,
   }));
 };
@@ -41,7 +46,8 @@ module.exports.spotifyCallback = (req, res) => {
       const { access_token, refresh_token, expires_in } = JSON.parse(response);
       let thirdPartyOpts = {
         method: 'POST',
-        uri: `http://localhost:8087/api/v1/users/${userId}/thirdParty`,
+        // need to change this to BASE_PATH
+        uri: `${API_BASE_PATH}/users/${userId}/thirdParty`,
         body: {
           source: 'spotify',
           accessToken: access_token,
@@ -133,7 +139,7 @@ module.exports.evalSpotify = (req, res) => {
 
       return popsicle.request({
         method: 'PUT',
-        url: `http://localhost:8087/api/v1/users/${spotifyObj.userId}/thirdParty/${spotifyObj._id}`,
+        url: `${API_BASE_PATH}/users/${spotifyObj.userId}/thirdParty/${spotifyObj._id}`,
         body: thirdPartyObj
       })
       .then((resp) => {

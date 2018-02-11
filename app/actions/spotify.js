@@ -1,10 +1,14 @@
 import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
 import { userUpdate } from './user'
+import urlLib from 'url'
+import config from '../../server/config/config'
+
+const BASE_PATH = urlLib.format(config.app.url);
 
 function analyzeSpotify (user) {
   return (dispatch) => {
-    popWrap({ method: 'post', url: `http://localhost:8080/api/users/${user._id}/evalSpotify`, body: user.thirdParty[0] }, dispatch)
+    popWrap({ method: 'post', url: `${BASE_PATH}/users/${user._id}/evalSpotify`, body: user.thirdParty[0] }, dispatch)
       .then((resp) => {
         user.thirdParty[0] = resp.body;
         dispatch(userUpdate(user));

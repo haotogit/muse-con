@@ -3,13 +3,14 @@ import * as actions from '../actions'
 import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
+let appConfig = require('../../server/config/config');
 
 function popWrap (reqArgs, dispatch, action?) {
   let opts = {
-    json: true
+    json: true,
   };
 
-  opts = Object.assign(opts, reqArgs);
+  opts = Object.assign({}, opts, reqArgs);
 
   return rp(opts)
     .then((data) => {
@@ -17,7 +18,6 @@ function popWrap (reqArgs, dispatch, action?) {
         dispatch(action(data));
         return;
       }
-      console.log('returning', data)
       return data;
     })
     .catch(err => {
@@ -60,7 +60,7 @@ function eventLoader (userAuth, list) {
       reqsArr = []
 
   qParams = userAuth.searchOpts
-  qParams.apikey = envVars.TICKETMASTER_KEY
+  qParams.apikey = appConfig.external.ticketmaster.apiKey
   qParams.radius = 50
 
   reqsArr = list.filter(item => !item.exclude)
@@ -69,8 +69,9 @@ function eventLoader (userAuth, list) {
 
       opts = {
         method: 'GET',
-        url: `${envVars.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
+        url: `${appConfig.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
       }
+      console.log('wtf', opts)
 
       return popsicle(opts)
     })

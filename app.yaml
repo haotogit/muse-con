@@ -6,5 +6,6 @@ env_variables:
   SPOTIFY_CLIENT_SECRET: 'caf7a40f87d342ac8735618a93b3a44d'
   SPOTIFY_REDIRECT_URI: 'http://localhost:8080/auth-spotify/callback'
   TICKETMASTER_KEY: 'MwOoif9Ac5iZFedZG7xMW368oRbghDAz'
-  TICKETMASTER_URL: 'https://app.ticketmaster.com/discovery/v2/'
-
+  TICKETMASTER_URL: 'https://app.ticketmaster.com/discovery/v2'
+  API_PROTOCOL: 'https'
+  API_HOST: 'muse-server-194917.appspot.com'
