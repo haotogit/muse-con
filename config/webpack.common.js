@@ -22,6 +22,11 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx', 'scss']
   },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   module: {
     rules: [
       {
@@ -63,6 +68,13 @@ module.exports = {
   plugins: [
     new extractTextPlugin('styles.css'),
     HtmlWebpackPluginConfig,
+    new webpack.DefinePlugin({
+      'envVars': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
+        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
+      }
+    }),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
       $: 'jquery',

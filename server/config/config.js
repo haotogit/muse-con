@@ -10,7 +10,7 @@ module.exports = (() => {
       logLevel: process.env.LOG_LEVEL || 'debug',
       api: {
         protocol: process.env.API_PROTOCOL || 'http',
-        hostname: process.env.API_HOST || 'localhost',
+        hostname: process.env.API_HOSTNAME || 'localhost',
         port: process.env.API_PORT || 8087,
         pathname: '/api/v1'
       }

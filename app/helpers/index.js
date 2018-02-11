@@ -3,7 +3,6 @@ import * as actions from '../actions'
 import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
-let appConfig = require('../../server/config/config');
 
 function popWrap (reqArgs, dispatch, action?) {
   let opts = {
@@ -60,7 +59,7 @@ function eventLoader (userAuth, list) {
       reqsArr = []
 
   qParams = userAuth.searchOpts
-  qParams.apikey = appConfig.external.ticketmaster.apiKey
+  qParams.apikey = envVars.TICKETMASTER_KEY
   qParams.radius = 50
 
   reqsArr = list.filter(item => !item.exclude)
@@ -69,9 +68,8 @@ function eventLoader (userAuth, list) {
 
       opts = {
         method: 'GET',
-        url: `${appConfig.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
+        url: `${envVars.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
       }
-      console.log('wtf', opts)
 
       return popsicle(opts)
     })

@@ -32,11 +32,6 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin([{
-      'envVars':{
-        'NODE_ENV': JSON.stringify('prod')
-      }
-    }]),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
     })

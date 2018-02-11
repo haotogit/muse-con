@@ -19,7 +19,7 @@ const EventBlock = (props) => {
 
                   console.log('ev', events)
   return (
-    <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-2' : ''}>
+    <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-3' : ''}>
       {
         /explore/.test(props.location.pathname) ?
           labels.map(key => 

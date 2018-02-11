@@ -33,7 +33,7 @@ const Lists = (props) => {
   }
 
   return (
-    <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
+    <div className='third-party-widget col-sm-3' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
       
       {/* make this dropdown for sources of search */}
 
