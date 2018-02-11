@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "start:dev": "npm run clean && nodemon server/index.js --exec babel-node --presets es2015,stage-0",
-    "start": "npm run build && npm run build:prod && node server/index.js",
+    "start": "node dist/index.js",
     "build:prod": "webpack --colors --progress --config ./config/webpack.production.config.js",
     "build": "npm run clean && npm run build:prod"
   },
