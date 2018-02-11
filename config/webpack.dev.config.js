@@ -12,6 +12,11 @@ module.exports = webpackMerge(commonConfig, {
     path.join(__dirname, '..', 'app/index.jsx')
   ],
   devtool: 'inline-source-map',
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   module: {
     rules: [
       {
