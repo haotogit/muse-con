@@ -16,14 +16,13 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { AppContainer } from 'react-hot-loader';
 import './vendor';
-console.log('aefw', envVars)
 
 const middleware = [
     thunk,
     routerMiddleware(browserHistory)
 ]
 
-if(process.env.NODE_ENV === 'develop') {
+if(envVars.NODE_ENV === 'develop') {
   const logger = createLogger()
   middleware.push(logger)
 }

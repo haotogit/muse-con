@@ -6,6 +6,7 @@ var path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
+  devtool: 'sourcemap',
   entry: {
     'app': path.join(__dirname, '..', 'app/index.jsx'),
   },
@@ -13,10 +14,10 @@ module.exports = webpackMerge(commonConfig, {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules|server/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          'presets': ['es2015', 'stage-0', 'react'],
+          'presets': [['es2015', { 'modules': false }], 'stage-2', 'react'],
           'plugins': [
             'transform-decorators-legacy',
             'transform-object-assign',
@@ -36,6 +37,8 @@ module.exports = webpackMerge(commonConfig, {
         'NODE_ENV': JSON.stringify('prod')
       }
     }]),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true
+    })
   ]
 })

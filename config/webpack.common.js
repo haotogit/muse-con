@@ -12,7 +12,7 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = {
   entry: {
-    'app': path.join(__dirname, '..', 'app/index.jsx')
+    'app': path.join(__dirname, '..', 'app')
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
@@ -20,7 +20,7 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx', 'scss']
   },
   node: {
     fs: 'empty',
