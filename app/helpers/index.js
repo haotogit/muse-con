@@ -1,16 +1,29 @@
 import popsicle from 'popsicle'
 import * as actions from '../actions'
 import qString from 'query-string'
+import rp from 'request-promise'
+import alertify from 'alertify.js'
 
-function popWrap (...args) {
-  let optsArr = ['method', 'url', 'body'],
-      opts = {}
+function popWrap (reqArgs, dispatch, action?) {
+  let opts = {
+    json: true
+  };
 
-  optsArr.forEach((each, i) => {
-    opts[each] = args[i]
-  })
+  opts = Object.assign(opts, reqArgs);
 
-  return popsicle(opts)
+  return rp(opts)
+    .then((data) => {
+      if (action) {
+        dispatch(action(data));
+        return;
+      }
+      console.log('returning', data)
+      return data;
+    })
+    .catch(err => {
+      alertify.alert(err.message);
+      dispatch({ type: 'FAILED REQUEST', payload: err });
+    });
 }
 
 function locateUser (currUser) {
@@ -40,7 +53,7 @@ function locateUser (currUser) {
   })
 }
 
-function eventLoader (userAuth) {
+function eventLoader (userAuth, list) {
   let latLong = `${userAuth.lat},${userAuth.long}`,
       qParams,
       opts,
@@ -50,8 +63,8 @@ function eventLoader (userAuth) {
   qParams.apikey = process.env.TICKETMASTER_KEY
   qParams.radius = 50
 
-  userAuth[userAuth.searchOpts.currSrc][userAuth.searchOpts.by].forEach((each, i) => {
-    if (i < 3) {
+  reqsArr = list.filter(item => !item.exclude)
+    .map((each, i) => {
       qParams.keyword = each.name
 
       opts = {
@@ -59,9 +72,8 @@ function eventLoader (userAuth) {
         url: `${process.env.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
       }
 
-      reqsArr.push(popsicle(opts))
-    } 
-  })
+      return popsicle(opts)
+    })
 
   return Promise.all(reqsArr)
 }

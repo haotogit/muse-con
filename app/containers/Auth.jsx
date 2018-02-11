@@ -29,7 +29,7 @@ export function requireAuth (Comp) {
         position:'relative'
       }
 
-      const routes = ['', 'explore']
+      const routes = ['/', 'explore']
 
       return (
         <div>
@@ -43,8 +43,8 @@ export function requireAuth (Comp) {
                   <li key={route} style={{width:'8em',padding:'1em'}}>
                     <Link to={route} 
                       className='subnav-link'
-                      activeClassName='active'>
-                      {route == '' ? 'dashboard' : route}
+                      activeClassName={this.props.location.pathname === route ? 'active' : ''}>
+                      {route === '/' ? 'dashboard' : route}
                     </Link>
                   </li>
                 )

@@ -1,7 +1,7 @@
 import express from 'express'
 import * as control from './controllers'
 
-export default (app) => {
+module.exports = (app) => {
   const router = express.Router()
   // how come these spotify routes need to be off app, and the others it's cool to router?
 
@@ -9,32 +9,25 @@ export default (app) => {
 
   app.get('/auth-spotify/callback', control.spotifyCallback)
 
-  router.route('/api/evalSpotify')
-        .get(isAuthenticated, control.evalSpotify)
+  router.route('/api/users/:id/evalSpotify')
+    .post(isAuthenticated, control.evalSpotify)
 
   router.route('/api/authenticate')
-        .post(control.authUser)
+    .post(control.authUser)
 
   router.route('/api/username')
-        .post(control.checkUsername)
+    .post(control.checkUsername)
 
   router.route('/api/user')
-        .put(isAuthenticated, control.userUpdate)
-        .post(control.createUser)
+    .put(isAuthenticated, control.userUpdate)
+    .post(control.createUser)
 
   router.route('/api/users')
-        .put(isAuthenticated, control.userLocated)
+    .put(isAuthenticated, control.userLocated)
 
   return router
 }
 
-// look at potentially passing session.user with next()
 function isAuthenticated (req, res, next) {
-  req.sessionStore.get(req.sessionID, (err, session) => {
-    if (session && session.user) {
-      next()
-    } else {
-      res.json({error: "No session found, please login"})
-    }
-  })
+  next();
 }

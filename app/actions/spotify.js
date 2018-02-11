@@ -2,33 +2,25 @@ import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
 import { userUpdate } from './user'
 
-function analyzeSpotify () {
+function analyzeSpotify (user) {
   return (dispatch) => {
-    popWrap('get', 'api/evalSpotify')
-      .then(resp => {
-        // move this error handling to the popwrap helper,
-        // otherwise need to handle no session redirect on
-        // every request
+    popWrap({ method: 'post', url: `http://localhost:8080/api/users/${user._id}/evalSpotify`, body: user.thirdParty[0] }, dispatch)
+      .then((resp) => {
+        user.thirdParty[0] = resp.body;
+        dispatch(userUpdate(user));
+      });
+    //  .then(resp => {
+    //    // move this error handling to the popwrap helper,
+    //    // otherwise need to handle no session redirect on
+    //    // every request
 
-        if (resp.body.error) {
-          //dispatch(routerActions.push('/login'))
-        } else {
-          dispatch(userUpdate(resp.body))
-        }
-      })
+    //    if (resp.body.error) {
+    //      //dispatch(routerActions.push('/login'))
+    //    } else {
+    //      dispatch(userUpdate(resp.body))
+    //    }
+    //  })
   }
 }
 
-function toggleArtist (artist, userAuth) {
-  let thirdParty = userAuth[userAuth.searchOpts.currSrc],
-      currIndex = thirdParty.artists.findIndex(each => artist.name == each.name),
-      currItem = userAuth[userAuth.searchOpts.currSrc].artists[currIndex]
-  
-  userAuth[userAuth.searchOpts.currSrc].artists[currIndex].exclude = !currItem.exclude
-
-  return (dispatch) => {
-    dispatch({type:'TOGGLE_ARTIST', payload: userAuth}) 
-  }
-}
-
-export { analyzeSpotify, toggleArtist }
+export { analyzeSpotify }

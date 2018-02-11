@@ -9,33 +9,32 @@ dotenv.config()
 
 module.exports = webpackMerge(commonConfig, {
   cache: true,
-  devtool: 'source-map',
-  entry: {
-    'hmr': 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
-  },
+  devtool: 'eval-source-map',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        include: path.join(__dirname, '..', 'app'),
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
-        }
+        loaders: ['react-hot', 'babel'],
+        include: path.join(__dirname, '..', 'dist')
       }
     ]
   },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   devServer: {
-    historyApiFallback: true
+    inline: true,
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, '..', 'dist'),
+    publicPath: '/'
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('develop'),
+        'NODE_ENV': JSON.stringify('dev'),
         'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
         'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
       }

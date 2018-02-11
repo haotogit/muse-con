@@ -1,79 +1,65 @@
-import User from '../db/models/user'
-import bluebird from 'bluebird'
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-import qString from 'query-string'
-import request from 'request'
-import popsicle from 'popsicle'
+const rp = require('request-promise');
+const qString = require('query-string');
+const popsicle = require('popsicle');
 
-  function authSpotify (req, res) {
-    let scope = 'playlist-read-private user-top-read user-library-read'
+const helpers = require('../library/helpers');
 
-    res.redirect('https://accounts.spotify.com/authorize?' + 
-    qString.stringify({
-      response_type: 'code',
-      client_id: process.env.SPOTIFY_CLIENT_ID,
-      client_secret: process.env.SPOTIFY_CLIENT_SECRET,
-      scope: scope,
-      redirect_uri: process.env.SPOTIFY_REDIRECT
-    }))
+module.exports.authSpotify = (req, res) => {
+  let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
+
+  res.redirect('https://accounts.spotify.com/authorize?' + 
+  qString.stringify({
+    response_type: 'code',
+    client_id: process.env.SPOTIFY_CLIENT_ID,
+    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+    scope: scope,
+    redirect_uri: 'http://localhost:8080/auth-spotify/callback',
+    state: `userId=${req.query.userId}`,
+  }));
+};
+
+module.exports.spotifyCallback = (req, res) => {
+  const { code, state } = req.query;
+  const authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+  const userId = state.split('=')[1];
+
+  let authOptions = {
+    method: 'POST',
+    uri: 'https://accounts.spotify.com/api/token',
+    form: {
+      code,
+      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+      grant_type: 'authorization_code'
+    },
+    headers: {
+      'Authorization': `Basic ${authParam}` 
+    }
   }
 
-  function spotifyCallback (req, res) {
-      let code = req.query.code
-      let authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
-
-      let authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        form: {
-          code: code,
-          redirect_uri: process.env.SPOTIFY_REDIRECT,
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          'Authorization': `Basic ${authParam}` 
+  rp(authOptions)
+    .then((response) => {
+      const { access_token, refresh_token, expires_in } = JSON.parse(response);
+      let thirdPartyOpts = {
+        method: 'POST',
+        uri: `http://localhost:8087/api/v1/users/${userId}/thirdParty`,
+        body: {
+          source: 'spotify',
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          expiresIn: expires_in
         },
         json: true
-      }
+      };
 
-      request.post(authOptions, (err, response, body) => {
-        if (!err && response.statusCode === 200) {
-          let spotifyObj = {
-            url: 'https://api.spotify.com/v1/me',
-            headers: {
-              'Authorization': `Bearer ${body.access_token}`
-            },
-            json: true
-          }
-          let tokens = {
-            access_token: body.access_token,
-            refresh_token: body.refresh_token
-          }
-          let currUser
-          request.get(spotifyObj, (err, resp, bod) => {
-            tokens.id = bod.id
-
-            User.findOne({_id: req.session.user._id})
-              .then((user) => {
-                //look up how to make public method on user model work
-                
-                user.spotify = tokens
-                user.save()
-                
-                currUser = {
-                  id: user._id,
-                  username: user.username,
-                  spotify: user.spotify
-                }
-              })
-              .catch(err => console.log('err @spotify'))
-          })
-          // need figure out a way to keep current session and resend user info to page
-          res.redirect('/user')
-          //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
-        }
-      })
-  }
+      rp(thirdPartyOpts)
+        .then((resp) => {
+          res.redirect('/login');
+        })
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+}
 
   
   function keyMaker (str) {
@@ -92,102 +78,69 @@ import popsicle from 'popsicle'
     return 0
   }
 
-  function evalSpotify (req, res, next) {
-    let genres = []
+module.exports.evalSpotify = (req, res) => {
+  let spotifyObj = req.body;
+  // change this to look at tracks too
+  let spotifyOpts = {
+    method: 'get',
+    url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
+    headers: {
+      Authorization: `Bearer ${spotifyObj.accessToken}`
+    }
+  }
 
-    User.findOne({_id: req.session.user._id})
-        .then((user) => {
-          let opts = {
-            method: 'get',
-            url: `${process.env.SPOTIFY_URL}/me/top/artists?limit=50`,
-            headers: {
-              Authorization: `Bearer ${user.spotify.access_token}`
+  helpers.spotifyRequestResolver(spotifyObj, spotifyOpts)
+    .then(data => {
+      let top10;
+      let thirdPartyObj = {};
+      let dataObj = data.body.items;
+      let genres = [];
+
+      thirdPartyObj.artists = dataObj.map(artist => {
+        let currArtist = {};
+        artist.genres.forEach((each, i) => {
+          let genreKey = keyMaker(each),
+            genre,
+            genreIndex,
+            artistIndex
+
+          if (genres.find((ea) => ea.label === genreKey)) {
+            genreIndex = genres.findIndex((ea) => ea.label === genreKey)
+            genres[genreIndex].value++
+          } else {
+            genre = {
+              label: genreKey,
+              value: 1,
             }
+
+            genres.push(genre);
           }
+        });
 
-          popsicle(opts)
-            .then((resp) => {
-              if (resp.body.items) {
-                let artistList = resp.body.items.map(artist => {
-                  artist.genres.forEach((each, i) => {
-                    let currArtist = {},
-                        genreKey = keyMaker(each),
-                        genre,
-                        genreIndex,
-                        artistIndex
+        currArtist = {
+          name: artist.name,
+          genres: artist.genres,
+          image: artist.images,
+          popularity: artist.popularity,
+          externalId: artist.id,
+          externalUri: artist.uri
+        };
+        return currArtist;
+      });
 
-                    if (genres.find((ea) => ea.label === genreKey)) {
-                      genreIndex = genres.findIndex((ea) => ea.label === genreKey)
-                      genres[genres.findIndex((ea) => ea.label === genreKey)].value++
+      thirdPartyObj.genres = genres.sort(sortArr);
+      thirdPartyObj.top10 = genres.slice(0, 10)
 
-                      if (!genres[genreIndex].artists.find(ea => ea.name === artist.name)) {
-                        currArtist = {
-                          name: artist.name,
-                          image: artist.images[1].url
-                        }
-                        genres[genreIndex].artists.push(currArtist)
-                      }
-
-                    } else {
-                      genre = {
-                        label: genreKey,
-                        value: 1,
-                        artists: []
-                      }
-
-                      genres.push(genre)
-                    }
-                  })
-
-                  return {
-                    name: artist.name,
-                    genres: artist.genres,
-                    image: artist.images[1].url
-                  }
-                })
-                
-                genres = genres.sort(sortArr)
-                user.spotify.top10 = genres.slice(0, 10)
-                user.spotify.artists = artistList
-                user.spotify.genres = genres
-                user.save()
-                res.json(user)
-              } else {
-                let base64Str = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
-                let opts = {
-                  method: 'post',
-                  url: 'https://accounts.spotify.com/api/token',
-                  headers: {
-                    Authorization: `Basic ${base64Str}`,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  body: {
-                    grant_type: 'refresh_token',
-                    refresh_token: user.spotify.refresh_token
-                  }
-                }
-
-                popsicle(opts)
-                  .then((response) => {
-                    if (response.body.access_token) {
-                      user.spotify.access_token = response.body.access_token
-                      user.save()
-
-                      res.json(user)
-                    } else {
-                      res.json({error: resp.body.error})
-                    }
-                  })
-                  .catch((err) => res.json({error: { refreshToken: err }}))
-              }
-            })
-            .catch((err) => res.json({error: { spotifyEval: err }}))
-        })
-        .catch((err) => res.json({error: { findUser: err }}))
-  }
-
-  function refreshToken (req, res, user) {
-    
-  }
-
-export { authSpotify, spotifyCallback, evalSpotify }
+      return popsicle.request({
+        method: 'PUT',
+        url: `http://localhost:8087/api/v1/users/${spotifyObj.userId}/thirdParty/${spotifyObj._id}`,
+        body: thirdPartyObj
+      })
+      .then((resp) => {
+        res.json(resp);
+      });
+    })
+    .catch(err => {
+      throw new Error(`error requesting spotify data, error: ${err.message}`);
+    });
+};

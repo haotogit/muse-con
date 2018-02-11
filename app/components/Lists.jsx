@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import SvgIcon from 'material-ui/SvgIcon'
 
 const Lists = (props) => {
-  const { userAuth, events, loading, actions } = props
+  const { userAuth, events, loading, actions, searchList } = props
   const thirdParty = userAuth[userAuth.searchOpts ? userAuth.searchOpts.currSrc : ''] || {},
         listStyle = {
           listStyleType: 'none',
@@ -18,24 +18,25 @@ const Lists = (props) => {
 
   let btnSelector = (evObj) => {
     if (evObj.exclude) {
-      return <i className='fa fa-plus' 
-                aria-hidden='true'
-                onClick={() => actions.toggleArtist(evObj, userAuth)}></i>
-    } else return <i className='fa fa-minus'
-                     aria-hidden='true'
-                     onClick={() => actions.toggleArtist(evObj, userAuth)}></i> 
+      return 
+    } else return  
   } 
 
   let btnStyle = {
     padding:'0.5em'
   }
 
-  console.log('pr', props)
+  let isExcluded = (item) => searchList.find(each => each.name === item.name).exclude
+  let checkCount = (each) => events[keyMaker(each.name)].length
+  let checkList = () => {
+    if (searchList) return searchList.filter(item => !item.exclude).length > 0
+  }
 
   return (
     <div className='third-party-widget col-sm-2' style={props.location.pathname == 'explore' ? {position:'fixed'} : {}}>
       
       {/* make this dropdown for sources of search */}
+
       {
         /explore/.test(props.location.pathname) ? 
           <RaisedButton
@@ -44,25 +45,40 @@ const Lists = (props) => {
             icon={
               <i className='fa fa-spotify fa-2x' style={{verticalAlign:'middle',color:'#333'}}></i>
             }
-            onClick={() => actions.loadEvents(userAuth)}
+            onClick={() => actions.loadEvents(userAuth, searchList)}
+            disabled={!checkList()}
             style={{display:'block'}}
           />
         : ''
 
       }
       {/* make this dropdown for current identifier for artists */}
-      <h5 style={{margin:'8% auto 2% auto',display:'inline-block'}}>artists:</h5>
+      <h5 style={{margin:'8% auto 2% auto'}}>artists:</h5>
+      {
+        checkList() ? 
+          <p onClick={() => actions.toggleArtist(true, searchList)}>Remove All</p> : <p onClick={() => actions.toggleArtist(false, searchList)}>Add All</p>
+      }
       <hr></hr>
       {
-        thirdParty && thirdParty.artists ?
-          thirdParty.artists.map((each, i) => 
+        searchList ?
+          searchList.map((each, i) => 
             <div key={`${each.name}`} 
               className={`panel-group${events && events[keyMaker(each.name)] && events[keyMaker(each.name)].length > 0 ? '' : ' no-evs'}`}
               id='accordion'
               role='tablist' 
               aria-multiselectable='true'>
               <div className='panel-heading' id={`heading${i}`} role='tab'>
-                <h4 className='panel-title'>
+                { isExcluded(each) ? 
+                    <i className='fa fa-plus btn-opt-toggle' 
+                      aria-hidden='true'
+                      onClick={() => actions.toggleArtist(each, searchList)}></i>
+                    :
+                    <i className='fa fa-minus btn-opt-toggle'
+                      aria-hidden='true'
+                      onClick={() => actions.toggleArtist(each, searchList)}></i>
+                }
+
+                <h4 className='panel-title search-list-title'>
                   <a role='button'
                      data-toggle='collapse'
                      data-parent='#accordion' 
@@ -73,10 +89,9 @@ const Lists = (props) => {
                     {each.name}
                   </a>
                 </h4>
-                {/* btnSelector(each) */}
-                
+                {events && events[keyMaker(each.name)] ? <p className="ev-count">({checkCount(each)})</p> : null}
               </div>
-              <div id={`collapse${i}`} className='panel-collapse collapse' role='tabpanel' aria-labelledby={`heading${i}`}>
+              <div id={`collapse${i}`} className='panel-collapse collapse search-list-events' role='tabpanel' aria-labelledby={`heading${i}`}>
                 <div className='panel-body' style={{border:'none'}}>
                   <ul className='nav nav-stacked'>
                     {

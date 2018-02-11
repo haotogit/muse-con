@@ -6,8 +6,11 @@ var path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
+  entry: {
+    'app': path.join(__dirname, '..', 'app/index.jsx'),
+  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         include: path.join(__dirname, '..', 'app'),
@@ -29,19 +32,11 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compressor: {
-        warnings: false
-      }
-    }),
     new webpack.DefinePlugin([{
       'process.env':{
-        'NODE_ENV': JSON.stringify('production'),
-        'JWT_SECRET': JSON.stringify(envVars.JWT_SECRET),
-        'MONGOLAB_URI': JSON.stringify(envVars.MONGOLAB_URI),
-        'NPM_PRODUCTION': JSON.stringify(envVars.NPM_PRODUCTION)
+        'NODE_ENV': JSON.stringify('prod')
       }
-    }])
+    }]),
+    new webpack.optimize.UglifyJsPlugin()
   ]
 })
