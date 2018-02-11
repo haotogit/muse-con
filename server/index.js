@@ -11,7 +11,6 @@ const express = require('express'),
 
 const devConfig = require('../config/webpack.dev.config'),
   configRoutes = require('./routes'),
-  connectDb = require('./db/config'),
   appConfig = require('./config/config');
 
 app.use((req, res, next) => {

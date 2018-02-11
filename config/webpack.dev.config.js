@@ -26,11 +26,6 @@ module.exports = webpackMerge(commonConfig, {
       }
     ]
   },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({

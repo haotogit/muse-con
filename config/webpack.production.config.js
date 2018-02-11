@@ -13,8 +13,7 @@ module.exports = webpackMerge(commonConfig, {
     rules: [
       {
         test: /\.jsx?$/,
-        include: path.join(__dirname, '..', 'app'),
-        exclude: /node_modules/,
+        exclude: /node_modules&server/,
         loader: 'babel-loader',
         query: {
           'presets': ['es2015', 'stage-0', 'react'],
@@ -33,7 +32,7 @@ module.exports = webpackMerge(commonConfig, {
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin([{
-      'process.env':{
+      'envVars':{
         'NODE_ENV': JSON.stringify('prod')
       }
     }]),

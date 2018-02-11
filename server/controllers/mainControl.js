@@ -102,4 +102,4 @@ function userUpdate (req, res, next) {
   //    })
 }
 
-export { authUser, checkUsername, createUser, userLocated, userUpdate }
+module.exports = { authUser, checkUsername, createUser, userLocated, userUpdate }

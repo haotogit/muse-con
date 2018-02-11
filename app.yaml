@@ -2,4 +2,9 @@ runtime: nodejs
 env: flex
 env_variables:
   NODE_ENV: 'prod'
+  SPOTIFY_CLIENT_ID: '967d0ee071fc41c99fcd12d6dc5718c0'
+  SPOTIFY_CLIENT_SECRET: 'caf7a40f87d342ac8735618a93b3a44d'
+  SPOTIFY_REDIRECT_URI: 'http://localhost:8080/auth-spotify/callback'
+  TICKETMASTER_KEY: 'MwOoif9Ac5iZFedZG7xMW368oRbghDAz'
+  TICKETMASTER_URL: 'https://app.ticketmaster.com/discovery/v2/'
 
