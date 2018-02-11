@@ -12,8 +12,7 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = {
   entry: {
-    'app': path.join(__dirname, '..', 'app/index.jsx'),
-    'vendor': path.join(__dirname, '..', 'app/vendor')
+    'app': path.join(__dirname, '..', 'app/index.jsx')
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
@@ -31,13 +30,9 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        include: path.join(__dirname, '..', 'app'),
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['react', 'es2015', 'stage-0', 'react-hmre']
-          }
+          loader: 'babel-loader'
         }
       },
       {

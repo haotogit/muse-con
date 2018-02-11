@@ -40,11 +40,16 @@ if(appConfig.app.env === 'dev'){
       chunks: true,
       chunkModules: false,
       modules: false,
-    }
+    },
+    historyApiFallback: true
   });
 
   app.use(middleware);
-  app.use(webpackHotMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000
+  }));
 
   // need to refactor for route get * cuz navigation via url doesn't function
   app.get('*', (req, res) => {

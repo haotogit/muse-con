@@ -16,6 +16,10 @@ module.exports = (() => {
         clientId: process.env.SPOTIFY_CLIENT_ID,
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
         baseUrl: 'https://api.spotify.com/v1'
+      },
+      ticketmaster: {
+        baseUrl: process.env.TICKETMASTER_URL,
+        apiKey: process.env.TICKETMASTER_KEY
       }
     }
   };

@@ -20,12 +20,12 @@ class Dashboard extends Component{
   // then reassign to state by using same key
   
   componentWillMount () {
-    if (!this.props.userAuth.lat || !this.props.userAuth.long) {
-      locateUser(this.props.userAuth)
-        .then(res => {
-          this.props.actions.locationFound(res)
-        })
-    }
+    //if (!this.props.userAuth.lat || !this.props.userAuth.long) {
+    //  locateUser(this.props.userAuth)
+    //    .then(res => {
+    //      this.props.actions.locationFound(res)
+    //    })
+    //}
   }
 
   componentDidMount () {
@@ -34,7 +34,7 @@ class Dashboard extends Component{
 
   render(){
     let checkUser = (user) => {
-      if (user.thirdParty.length === 0) {
+      if (user.thirdParties.length === 0) {
         return <span className='label label-warning'><Link to='/user'>Link your Spotify Account</Link></span>
       } else {
         let spotify = user.thirdParties[0];
