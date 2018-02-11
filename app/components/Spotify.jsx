@@ -1,10 +1,11 @@
 import React from 'react'
 
 const Spotify = (props) => {
-  const { actions , userAuth } = props
+  const { actions, userAuth } = props
+  console.log('user', userAuth)
   let spotify;
 
-  if (userAuth.thirdParty.length !== 0) spotify = userAuth.thirdParty.find(item => item.source === 'spotify');
+  if (userAuth.thirdParties.length !== 0) spotify = userAuth.thirdParties.find(item => item.source === 'spotify');
 
   return (
     <div className='col-xs-6 col-xs-offset-3'>

@@ -4,7 +4,7 @@ import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
 
-function popWrap (reqArgs, dispatch, action) {
+function popWrap (reqArgs, dispatch, action?) {
   let opts = {
     json: true
   };
@@ -13,7 +13,12 @@ function popWrap (reqArgs, dispatch, action) {
 
   return rp(opts)
     .then((data) => {
-      dispatch(action(data));
+      if (action) {
+        dispatch(action(data));
+        return;
+      }
+      console.log('returning', data)
+      return data;
     })
     .catch(err => {
       alertify.alert(err.message);

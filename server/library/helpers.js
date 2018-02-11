@@ -5,6 +5,7 @@ module.exports.spotifyRequestResolver = (spotifyObj, spotifyOpts) => {
   let refresherOpts, nextItem, authParam;
   return popsicle.request(spotifyOpts)
     .then((data) => {
+      console.log('wtf', data)
       if (data.body.items) return data;
       else if (data.body.error && data.body.error.message === 'The access token expired') {
         console.log('runningrefresher===')
@@ -31,26 +32,24 @@ module.exports.spotifyRequestResolver = (spotifyObj, spotifyOpts) => {
         ];
 
         return promise.mapSeries(refresherOpts, (value, i) => {
-          //console.log('requesting', value);
+          console.log('requesting', value);
           return popsicle.request(value)
             .then((data) => {
-              //console.log('responding', data)
+              console.log('responding', data)
               if ((data.body && data.body.error) && data.body.status !== 200) throw new Error(`Error refreshing spotify, ${JSON.stringify(data.body)}`);
 
               if (i < refresherOpts.length - 1) {
                 nextItem = refresherOpts[++i];
-              }
 
-              if (i === 1) {
-                nextItem.headers.Authorization = `Bearer ${refresherOpts[1].body.accessToken}`
-                
-              } else if (i === 2) {
-                nextItem.body = {
-                  accessToken: data.body.access_token,
-                  refreshToken: data.body.refresh_token,
-                  expiresIn: data.body.expires_in
+                if (i === 1) {
+                  nextItem.headers.Authorization = `Bearer ${data.body.access_token}`
+                  nextItem = refresherOpts[++i];
+                  nextItem.body = {
+                    accessToken: data.body.access_token,
+                    refreshToken: data.body.refresh_token,
+                    expiresIn: data.body.expires_in
+                  }
                 }
-                //next.item.headers.Authorization = `Bearer ${user.token}`
               }
 
               return data;
@@ -58,7 +57,7 @@ module.exports.spotifyRequestResolver = (spotifyObj, spotifyOpts) => {
         })
         .then((result) => {
           // only return item
-          return result[2].body;
+          return result[1];
         });
       }
     });

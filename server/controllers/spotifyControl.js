@@ -91,103 +91,56 @@ module.exports.evalSpotify = (req, res) => {
 
   helpers.spotifyRequestResolver(spotifyObj, spotifyOpts)
     .then(data => {
-      res.json(data);
+      let top10;
+      let thirdPartyObj = {};
+      let dataObj = data.body.items;
+      let genres = [];
 
-      popsicle.request({
-        method: ''
+      thirdPartyObj.artists = dataObj.map(artist => {
+        let currArtist = {};
+        artist.genres.forEach((each, i) => {
+          let genreKey = keyMaker(each),
+            genre,
+            genreIndex,
+            artistIndex
+
+          if (genres.find((ea) => ea.label === genreKey)) {
+            genreIndex = genres.findIndex((ea) => ea.label === genreKey)
+            genres[genreIndex].value++
+          } else {
+            genre = {
+              label: genreKey,
+              value: 1,
+            }
+
+            genres.push(genre);
+          }
+        });
+
+        currArtist = {
+          name: artist.name,
+          genres: artist.genres,
+          image: artist.images,
+          popularity: artist.popularity,
+          externalId: artist.id,
+          externalUri: artist.uri
+        };
+        return currArtist;
+      });
+
+      thirdPartyObj.genres = genres.sort(sortArr);
+      thirdPartyObj.top10 = genres.slice(0, 10)
+
+      return popsicle.request({
+        method: 'PUT',
+        url: `http://localhost:8087/api/v1/users/${spotifyObj.userId}/thirdParty/${spotifyObj._id}`,
+        body: thirdPartyObj
       })
+      .then((resp) => {
+        res.json(resp);
+      });
     })
     .catch(err => {
       throw new Error(`error requesting spotify data, error: ${err.message}`);
     });
 };
-  //  let genres = []
-
-  //  User.findOne({_id: req.session.user._id})
-  //      .then((user) => {
-  //        let opts = {
-  //          method: 'get',
-  //          url: `${process.env.SPOTIFY_URL}/me/top/artists?limit=50&time_range=long_term`,
-  //          headers: {
-  //            Authorization: `Bearer ${user.spotify.access_token}`
-  //          }
-  //        }
-
-  //        popsicle(opts)
-  //          .then((resp) => {
-  //            if (resp.body.items) {
-  //              let artistList = resp.body.items.map(artist => {
-  //                artist.genres.forEach((each, i) => {
-  //                  let currArtist = {},
-  //                      genreKey = keyMaker(each),
-  //                      genre,
-  //                      genreIndex,
-  //                      artistIndex
-
-  //                  if (genres.find((ea) => ea.label === genreKey)) {
-  //                    genreIndex = genres.findIndex((ea) => ea.label === genreKey)
-  //                    genres[genres.findIndex((ea) => ea.label === genreKey)].value++
-
-  //                    if (!genres[genreIndex].artists.find(ea => ea.name === artist.name)) {
-  //                      currArtist = {
-  //                        name: artist.name,
-  //                        image: artist.images[1].url
-  //                      }
-  //                      genres[genreIndex].artists.push(currArtist)
-  //                    }
-
-  //                  } else {
-  //                    genre = {
-  //                      label: genreKey,
-  //                      value: 1,
-  //                      artists: []
-  //                    }
-
-  //                    genres.push(genre)
-  //                  }
-  //                })
-
-  //                return {
-  //                  name: artist.name,
-  //                  genres: artist.genres,
-  //                  image: artist.images[1].url
-  //                }
-  //              })
-  //              
-  //              genres = genres.sort(sortArr)
-  //              user.spotify.top10 = genres.slice(0, 10)
-  //              user.spotify.artists = artistList
-  //              user.spotify.genres = genres
-  //              user.save()
-  //              res.json(user)
-  //            } else {
-  //              let base64Str = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
-  //              let opts = {
-  //                method: 'post',
-  //                url: 'https://accounts.spotify.com/api/token',
-  //                headers: {
-  //                  Authorization: `Basic ${base64Str}`,
-  //                  'Content-Type': 'application/x-www-form-urlencoded'
-  //                },
-  //                body: {
-  //                  grant_type: 'refresh_token',
-  //                  refresh_token: user.spotify.refresh_token
-  //                }
-  //              }
-
-  //              popsicle(opts)
-  //                .then((response) => {
-  //                  if (response.body.access_token) {
-  //                    user.spotify.access_token = response.body.access_token
-  //                    user.save()
-
-  //                    res.json(user)
-  //                  } else {
-  //                    res.json({error: resp.body.error})
-  //                  }
-  //                })
-  //            }
-  //          })
-  //      })
-  //      .catch((err) => res.json({error: { findUser: err }}))
-

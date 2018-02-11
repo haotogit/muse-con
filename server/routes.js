@@ -13,17 +13,17 @@ module.exports = (app) => {
     .post(isAuthenticated, control.evalSpotify)
 
   router.route('/api/authenticate')
-        .post(control.authUser)
+    .post(control.authUser)
 
   router.route('/api/username')
-        .post(control.checkUsername)
+    .post(control.checkUsername)
 
   router.route('/api/user')
-        .put(isAuthenticated, control.userUpdate)
-        .post(control.createUser)
+    .put(isAuthenticated, control.userUpdate)
+    .post(control.createUser)
 
   router.route('/api/users')
-        .put(isAuthenticated, control.userLocated)
+    .put(isAuthenticated, control.userLocated)
 
   return router
 }
