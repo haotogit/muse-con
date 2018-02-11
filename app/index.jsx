@@ -22,7 +22,7 @@ const middleware = [
     routerMiddleware(browserHistory)
 ]
 
-if(envVars.NODE_ENV === 'develop') {
+if(process.env.NODE_ENV === 'dev') {
   const logger = createLogger()
   middleware.push(logger)
 }
