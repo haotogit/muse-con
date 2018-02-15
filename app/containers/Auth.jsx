@@ -32,7 +32,7 @@ export function requireAuth (Comp) {
       const routes = ['/', 'explore']
 
       return (
-        <div>
+        <div className='container-fluid'>
           { /*
               this.props.loading ? <LinearProgress mode='indeterminate' style={{backgroundColor:'none',overflow:'hidden',position:'fixed',left:'0',top:'6%',width:'100%'}} /> : ''
               */ }

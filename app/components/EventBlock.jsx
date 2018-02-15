@@ -5,6 +5,7 @@ import IconButton from 'material-ui/IconButton'
 const EventBlock = (props) => {
   let { events, actions, userAuth } = props
   let labels = Object.keys(events)
+  let currFocus;
 
   let prettyDate = (date, ref?) => {
     let currDate = moment()
@@ -17,7 +18,12 @@ const EventBlock = (props) => {
     }
   }
 
-                  console.log('ev', events)
+  let changeFocus = (index) => {
+    const currEl = document.getElementById(`iconTimesContainer${index}`);
+
+    currEl.style.display = currEl.style.display === 'block' ? 'none' : 'block';
+  };
+
   return (
     <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-3' : ''}>
       {
@@ -62,7 +68,10 @@ const EventBlock = (props) => {
             {/* user saved events @ dashboard */}
             {
               events.map((eachEv, i) => 
-                <div key={i} className='subgroup'>
+                <div key={i} className='subgroup' onMouseOver={() => changeFocus(i)} onMouseOut={() => changeFocus(i)}>
+                  <div className='icon-times-container' id={`iconTimesContainer${i}`}>
+                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
+                  </div>
                   <div className='ev-img-contain' 
                     style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
                   </div>
@@ -83,9 +92,7 @@ const EventBlock = (props) => {
                         )
                         : ''
                     }
-
                     <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
-                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
                   </div>
                 </div>
               )

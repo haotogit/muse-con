@@ -12,6 +12,11 @@ module.exports = webpackMerge(commonConfig, {
     path.join(__dirname, '..', 'app/index.jsx')
   ],
   devtool: 'inline-source-map',
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   module: {
     rules: [
       {
@@ -28,6 +33,13 @@ module.exports = webpackMerge(commonConfig, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
+        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
+      }
+    }),
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),

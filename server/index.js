@@ -25,13 +25,14 @@ app.use((req, res, next) => {
   next();
 });
 
-//app.use('/discovery/**', proxy({ target: process.env.TICKETMASTER_URL, changeOrigin: true }))
+console.log('whatthefuk', appConfig)
+app.use('/discovery/**', proxy({ target: appConfig.external.ticketmaster.baseUrl, changeOrigin: true }))
 //app.use('/api/**', proxy({ target: urlLib.format(appConfig.app.url) }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(configRoutes(app));
 
-if(appConfig.app.env === 'dev'){
+if(process.env.NODE_ENV === 'dev'){
   const compiler = webpack(devConfig);
   const middleware = webpackDevMiddleware(compiler, {
     publicPath: devConfig.output.publicPath,
@@ -67,6 +68,6 @@ if(appConfig.app.env === 'dev'){
 }
 
 app.listen(appConfig.app.url.port, (err) => {
-  if(err) console.log('error on server: ', err);
+  if (err) throw new Error(`error on server: ${err.message}`);
   winston.info(`Server started and listening at ${appConfig.app.url.port}`);
 });

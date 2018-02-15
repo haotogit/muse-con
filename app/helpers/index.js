@@ -59,7 +59,7 @@ function eventLoader (userAuth, list) {
       reqsArr = []
 
   qParams = userAuth.searchOpts
-  qParams.apikey = envVars.TICKETMASTER_KEY
+  qParams.apikey = process.env.TICKETMASTER_KEY
   qParams.radius = 50
 
   reqsArr = list.filter(item => !item.exclude)
@@ -68,7 +68,7 @@ function eventLoader (userAuth, list) {
 
       opts = {
         method: 'GET',
-        url: `${envVars.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
+        url: `${process.env.TICKETMASTER_URL}/events.json?${qString.stringify(qParams)}`
       }
 
       return popsicle(opts)
