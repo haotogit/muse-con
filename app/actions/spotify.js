@@ -9,11 +9,18 @@ const BASE_PATH = urlLib.format(config.app.api);
 
 function analyzeSpotify (user) {
   return (dispatch) => {
-    popWrap({ method: 'POST', url: `${BASE_PATH}/users/${user._id}/evalSpotify`, body: user.thirdParty[0] }, dispatch)
-      .then((resp) => {
-        user.thirdParty[0] = resp.body;
-        dispatch(userUpdate(user));
-      });
+    popWrap({ 
+      method: 'POST',
+      url: `${BASE_PATH}/users/${user._id}/evalSpotify`,
+      body: user.thirdParties[0],
+      headers: {
+        Authorization: user.accessToken
+      }
+    }, dispatch)
+    .then((resp) => {
+      user.thirdParties[0] = resp.body;
+      dispatch(userUpdate(user));
+    });
     //  .then(resp => {
     //    // move this error handling to the popwrap helper,
     //    // otherwise need to handle no session redirect on

@@ -48,7 +48,6 @@ module.exports = webpackMerge(commonConfig, {
     //  target: 'https://accounts.spotify.com',
     //  changeOrigin: true
     //}
-  }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
