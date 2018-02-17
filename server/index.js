@@ -25,7 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-console.log('whatthefuk', appConfig)
 app.use('/discovery/**', proxy({ target: appConfig.external.ticketmaster.baseUrl, changeOrigin: true }))
 //app.use('/api/**', proxy({ target: urlLib.format(appConfig.app.url) }));
 app.use(bodyParser.urlencoded({ extended: false }));

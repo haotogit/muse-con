@@ -10,4 +10,4 @@ env_variables:
   SERVER_PROTOCOL: 'https'
   SERVER_HOSTNAME: 'chloe-186403.appspot.com'
   API_PROTOCOL: 'https'
-  API_HOST: 'muse-server-194917.appspot.com'
+  API_HOST: '18.218.34.186'

@@ -69,10 +69,14 @@ module.exports = {
     new extractTextPlugin('styles.css'),
     HtmlWebpackPluginConfig,
     new webpack.DefinePlugin({
-      'envVars': {
+      'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
-        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
+        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY),
+        'SERVER_PROTOCOL': JSON.stringify(process.env.SERVER_PROTOCOL),
+        'SERVER_HOSTNAME': JSON.stringify(process.env.SERVER_HOSTNAME),
+        'API_PROTOCOL': JSON.stringify(process.env.API_PROTOCOL),
+        'API_HOST': JSON.stringify(process.env.API_HOST)
       }
     }),
     new webpack.ProvidePlugin({
