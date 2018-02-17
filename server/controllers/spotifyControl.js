@@ -15,8 +15,8 @@ module.exports.authSpotify = (req, res) => {
   res.redirect('https://accounts.spotify.com/authorize?' + 
   qString.stringify({
     response_type: 'code',
-    client_id: process.env.SPOTIFY_CLIENT_ID,
-    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+    client_id: config.external.spotify.clientId,
+    client_secret: config.external.spotify.clientSecret,
     scope: scope,
     redirect_uri: `${BASE_PATH}/auth-spotify/callback`,
     state: `userId=${req.query.userId}`,
@@ -25,7 +25,7 @@ module.exports.authSpotify = (req, res) => {
 
 module.exports.spotifyCallback = (req, res) => {
   const { code, state } = req.query;
-  const authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+  const authParam = new Buffer(`${config.external.spotify.clientId}:${config.external.spotify.clientSecret}`).toString('base64');
   const userId = state.split('=')[1];
 
   let authOptions = {
@@ -33,7 +33,7 @@ module.exports.spotifyCallback = (req, res) => {
     uri: 'https://accounts.spotify.com/api/token',
     form: {
       code,
-      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+      redirect_uri: config.external.spotify.redirectUri,
       grant_type: 'authorization_code'
     },
     headers: {

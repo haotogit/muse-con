@@ -82,24 +82,6 @@ function userUpdate (req, res, next) {
     .then((resp) => {
       res.json(resp);
     });
-  //User.findOne({_id: req.params.id})
-  //    .then(user => {
-  //      if (!user) {
-  //        res.end({ error: 'No user found, please login' })
-  //      }
-
-  //      if (user.events.find(userEv => userEv.id === req.body.id)) {
-  //        let index = user.events.findIndex(userEv => userEv.id === req.body.id)
-
-  //        user.events.splice(index, 1)
-  //      } else {
-
-  //        user.events.push(req.body)
-  //      }
-
-  //      user.save().then(user => res.json(user))
-
-  //    })
 }
 
 module.exports = { authUser, checkUsername, createUser, userLocated, userUpdate }

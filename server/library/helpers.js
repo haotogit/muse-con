@@ -11,7 +11,7 @@ module.exports.spotifyRequestResolver = (spotifyObj, spotifyOpts) => {
     .then((data) => {
       if (data.body.items) return data;
       else if (data.body.error && data.body.error.message === 'The access token expired') {
-        authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+        authParam = new Buffer(`${config.external.spotify.clientId}:${config.external.spotify.clientSecret}`).toString('base64');
 
         refresherOpts = [
           {
