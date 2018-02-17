@@ -28,27 +28,4 @@ function analyzeSpotify (user) {
   }
 }
 
-function authSpotify(user) {
-  let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
-
-  let url = `https://accounts.spotify.com/authorize?`;
-
-  let query = qString.stringify({
-    response_type: 'code',
-    client_id: config.external.spotify.clientId,
-    client_secret: config.external.spotify.clientSecret,
-    scope: scope,
-    redirect_uri: `${BASE_PATH}/authSpotify/callback`,
-    state: `userId=${user._id}`,
-  });
-  console.log('fak', query)
-  return (dispatch) => {
-    popWrap({ 
-      method: 'GET', 
-      url: `${url}${query}`
-    }, dispatch)
-    .then(resp => console.log('wow', resp))
-  }
-}
-
-export { analyzeSpotify, authSpotify }
+export { analyzeSpotify }
