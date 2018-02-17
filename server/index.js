@@ -34,18 +34,6 @@ app.use(configRoutes(app));
 if(process.env.NODE_ENV === 'dev'){
   const compiler = webpack(devConfig);
   const middleware = webpackDevMiddleware(compiler, {
-    publicPath: devConfig.output.publicPath,
-    contentBase: 'app',
-    hot: true,
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: true,
-      chunkModules: false,
-      modules: false,
-    },
-    historyApiFallback: true
   });
 
   app.use(middleware);

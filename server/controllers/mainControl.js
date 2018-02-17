@@ -20,6 +20,9 @@ function checkUsername (req, res, next) {
     body: {
       username: req.body.username,
     },
+    headers: {
+      Authorization: req.headers.authorization
+    }
   };
 
   httpClient(opts)
@@ -39,43 +42,16 @@ function createUser (req, res) {
     .then((resp) => {
       res.json(resp);
     });
-  //let newUser = new User()
-
-  //newUser.username = req.body.username
-  //newUser.password = req.body.password
-
-  //newUser.searchOpts = {
-  //  currSrc: 'spotify',
-  //  by: 'artists'
-  //}
-
-  //newUser.save()
-
-  //req.session.user = newUser
-  //req.user = req.session.user
-  //req.session.save()
-
-  //res.json(newUser)
-}
-
-function userLocated (req, res, next) {
-  User.findOne({_id: req.session.user._id})
-      .then(user => {
-        if (!user) {
-          res.end({ error: 'No user found, please login' })
-        }
-
-        user.lat = req.body.lat
-        user.long = req.body.long
-        user.save().then(user => res.json(user))
-      })
 }
 
 function userUpdate (req, res, next) {
   const opts = {
     method: 'PUT',
     uri: `/users/${req.params.id}`,
-    body: req.body
+    body: req.body,
+    headers: {
+      Authorization: req.headers.authorization
+    }
   };
 
   httpClient(opts, res)
@@ -84,4 +60,4 @@ function userUpdate (req, res, next) {
     });
 }
 
-module.exports = { authUser, checkUsername, createUser, userLocated, userUpdate }
+module.exports = { authUser, checkUsername, createUser, userUpdate }

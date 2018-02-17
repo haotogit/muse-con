@@ -76,7 +76,10 @@ module.exports = {
         'SERVER_PROTOCOL': JSON.stringify(process.env.SERVER_PROTOCOL),
         'SERVER_HOSTNAME': JSON.stringify(process.env.SERVER_HOSTNAME),
         'API_PROTOCOL': JSON.stringify(process.env.API_PROTOCOL),
-        'API_HOST': JSON.stringify(process.env.API_HOST)
+        'API_HOST': JSON.stringify(process.env.API_HOST),
+        'SPOTIFY_CLIENT_ID': JSON.stringify(process.env.SPOTIFY_CLIENT_ID),
+        'SPOTIFY_CLIENT_SECRET': JSON.stringify(process.env.SPOTIFY_CLIENT_SECRET),
+        'SPOTIFY_REDIRECT_URI': JSON.stringify(process.env.SPOTIFY_REDIRECT_URI),
       }
     }),
     new webpack.ProvidePlugin({

@@ -3,7 +3,8 @@
 export NODE_ENV='dev'
 export SPOTIFY_CLIENT_ID=967d0ee071fc41c99fcd12d6dc5718c0
 export SPOTIFY_CLIENT_SECRET=caf7a40f87d342ac8735618a93b3a44d
-export SPOTIFY_REDIRECT_URI=http://localhost:8080/auth-spotify/callback
+export SPOTIFY_REDIRECT_URI=http://localhost:8087/auth-spotify/callback
+export API_PROTOCOL=http
 
 export TICKETMASTER_KEY=MwOoif9Ac5iZFedZG7xMW368oRbghDAz
 export TICKETMASTER_URL=https://app.ticketmaster.com/discovery/v2

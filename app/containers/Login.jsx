@@ -63,7 +63,7 @@ class Login extends Component {
   checkUser () {
     let username = { username: this.refs.username.input.value }
 
-    if (this.newUser && this.refs.username.input.value != '') this.props.actions.checkUser(username)
+    if (this.newUser && this.refs.username.input.value != '') this.props.actions.checkUser(username, this.props.userAuth)
   }
 
   login (e) {
@@ -77,7 +77,7 @@ class Login extends Component {
           }
 
     //if (username != '' && password != '') {
-      if (!this.props.newUser) this.props.actions.login(opts, this.props)
+      if (!this.props.newUser) this.props.actions.login(opts)
 
       if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
     }

@@ -5,32 +5,35 @@ import { loadedEvents } from './events';
 import urlLib from 'url'
 import config from '../../server/config/config'
 
-const BASE_PATH = urlLib.format(config.app.url);
+const BASE_PATH = urlLib.format(config.app.api);
 
 function login(opts){
   const options = {
-    method: 'post',
-    url: `${BASE_PATH}/api/authenticate`,
+    method: 'POST',
+    url: `${BASE_PATH}/users/auth`,
     body: {
-      username: 'barry',
-      password: 'password'
+      username: opts.username,
+      password: opts.password 
     }
   };
 
   return (dispatch) => {
-    dispatch(loginRequest())
+    dispatch(loginRequest(options.body))
 
     popWrap(options, dispatch, loginSuccess)
       .then(() => dispatch(push('')));
   }
 }
 
-function checkUser (username) {
+function checkUser (username, user) {
   return (dispatch) => {
     popsicle({
-      method: 'post',
+      method: 'POST',
       url: '/username',
-      body: username
+      body: username,
+      headers: {
+        Authorization: user.accessToken
+      }
     })
     .then(res => {
       let payload = res.body ? false : true;
@@ -52,8 +55,8 @@ function userSignup (obj) {
     dispatch(newSignup(obj))
 
     popsicle({
-      method: 'post',
-      url: `${BASE_PATH}/api/users`,
+      method: 'POST',
+      url: `${BASE_PATH}/users`,
       body: obj
     })
     .then(res => {
@@ -72,9 +75,10 @@ function loginSuccess (payload) {
   }
 }
 
-function loginRequest () {
+function loginRequest (payload) {
   return {
-    type: 'LOGIN_REQUEST'
+    type: 'LOGIN_REQUEST',
+    payload
   }
 }
 
@@ -138,10 +142,13 @@ function saveEvent (user, ev, events?, key?, index?) {
     if (searchEvents) dispatch(loadedEvents(searchEvents));
 
     popsicle({
-      method: 'put',
-      url: `${BASE_PATH}/api/users/${user._id}`,
+      method: 'PUT',
+      url: `${BASE_PATH}/users/${user._id}`,
       body: {
        events: userEvents 
+      },
+      headers: {
+        Authorization: user.accessToken
       }
     })
     .then(res => {
@@ -149,8 +156,6 @@ function saveEvent (user, ev, events?, key?, index?) {
     })
     .catch(err => console.log('error saving ev', err))
   }
-
-
 }
 
 export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser }

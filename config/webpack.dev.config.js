@@ -8,7 +8,6 @@ module.exports = webpackMerge(commonConfig, {
   cache: true,
   entry: [
     'react-hot-loader/patch',
-    'webpack-hot-middleware/client?path=__webpack_hmr&timeout=20000',
     path.join(__dirname, '..', 'app/index.jsx')
   ],
   devtool: 'inline-source-map',
@@ -31,15 +30,28 @@ module.exports = webpackMerge(commonConfig, {
       }
     ]
   },
+  devServer: {
+    contentBase: path.join(__dirname, '..', 'dist'),
+    inline: true,
+    hot: true,
+    stats: {
+      colors: true,
+      hash: false,
+      timings: true,
+      chunks: true,
+      chunkModules: false,
+      modules: false,
+    },
+    historyApiFallback: true,
+    //proxy: {
+    //'https://accounts.spotify.com/**': {
+    //  target: 'https://accounts.spotify.com',
+    //  changeOrigin: true
+    //}
+  }
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
-        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY)
-      }
-    }),
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),

@@ -1,9 +1,24 @@
 import React from 'react'
+import urlLib from 'url'
+import config from '../../server/config/config'
+import qString from 'query-string'
 
 const Spotify = (props) => {
   const { actions, userAuth } = props
-  console.log('user', userAuth)
   let spotify;
+  const BASE_PATH = urlLib.format(config.app.api);
+  let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
+
+  let query = qString.stringify({
+    response_type: 'code',
+    client_id: config.external.spotify.clientId,
+    client_secret: config.external.spotify.clientSecret,
+    scope: scope,
+    redirect_uri: `${BASE_PATH}/authSpotify/callback`,
+    state: `userId=${userAuth._id}`,
+  });
+
+  let url = `https://accounts.spotify.com/authorize?${query}`;
 
   if (userAuth.thirdParties.length !== 0) spotify = userAuth.thirdParties.find(item => item.source === 'spotify');
 
@@ -12,7 +27,7 @@ const Spotify = (props) => {
       { 
         spotify ? '' :
           <span className='label label-primary'>
-            <a href={`/auth-spotify?userId=${userAuth._id}`} style={{color:'white',textTransform:'uppercase'}}>Link Spotify</a>
+            <a href={url} style={{color:'white',textTransform:'uppercase'}}>Link Spotify</a>
           </span>
       }
       <div id='genresGraph'>
