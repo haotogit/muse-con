@@ -9,6 +9,7 @@ module.exports = webpackMerge(commonConfig, {
   devtool: 'sourcemap',
   entry: {
     'app': path.join(__dirname, '..', 'app/index.jsx'),
+    'config': path.join(__dirname, '..', 'server/config/config.js')
   },
   module: {
     rules: [
@@ -34,6 +35,18 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('prod'),
+        'TICKETMASTER_URL': JSON.stringify('https://app.ticketmaster.com/discovery/v2'),
+        'TICKETMASTER_KEY': JSON.stringify('MwOoif9Ac5iZFedZG7xMW368oRbghDAz'),
+        'API_PROTOCOL': JSON.stringify('http'),
+        'API_HOSTNAME': JSON.stringify('18.218.34.186'),
+        'SPOTIFY_CLIENT_ID': JSON.stringify('967d0ee071fc41c99fcd12d6dc5718c0'),
+        'SPOTIFY_CLIENT_SECRET': JSON.stringify('caf7a40f87d342ac8735618a93b3a44d'),
+        'SPOTIFY_REDIRECT_URI': JSON.stringify('https://18.218.34.186/authSpotify/callback'),
+      }
     })
   ]
 })

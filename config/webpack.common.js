@@ -68,20 +68,6 @@ module.exports = {
   plugins: [
     new extractTextPlugin('styles.css'),
     HtmlWebpackPluginConfig,
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
-        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY),
-        'SERVER_PROTOCOL': JSON.stringify(process.env.SERVER_PROTOCOL),
-        'SERVER_HOSTNAME': JSON.stringify(process.env.SERVER_HOSTNAME),
-        'API_PROTOCOL': JSON.stringify(process.env.API_PROTOCOL),
-        'API_HOST': JSON.stringify(process.env.API_HOST),
-        'SPOTIFY_CLIENT_ID': JSON.stringify(process.env.SPOTIFY_CLIENT_ID),
-        'SPOTIFY_CLIENT_SECRET': JSON.stringify(process.env.SPOTIFY_CLIENT_SECRET),
-        'SPOTIFY_REDIRECT_URI': JSON.stringify(process.env.SPOTIFY_REDIRECT_URI),
-      }
-    }),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
       $: 'jquery',
@@ -91,7 +77,7 @@ module.exports = {
       postcss: [autoprefixer]
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['app', 'vendor'],
+      names: ['app', 'vendor', 'config'],
       minChunks: 2
     })
   ]

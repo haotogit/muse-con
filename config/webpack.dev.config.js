@@ -54,6 +54,18 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('dev'),
+        'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
+        'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY),
+        'API_PROTOCOL': JSON.stringify(process.env.API_PROTOCOL),
+        'API_HOST': JSON.stringify(process.env.API_HOST),
+        'SPOTIFY_CLIENT_ID': JSON.stringify(process.env.SPOTIFY_CLIENT_ID),
+        'SPOTIFY_CLIENT_SECRET': JSON.stringify(process.env.SPOTIFY_CLIENT_SECRET),
+        'SPOTIFY_REDIRECT_URI': JSON.stringify(process.env.SPOTIFY_REDIRECT_URI),
+      }
+    }),
   ]
 })

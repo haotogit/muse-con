@@ -26,32 +26,16 @@ app.use((req, res, next) => {
 });
 
 app.use('/discovery/**', proxy({ target: appConfig.external.ticketmaster.baseUrl, changeOrigin: true }))
-//app.use('/api/**', proxy({ target: urlLib.format(appConfig.app.url) }));
+app.use('/api/**', proxy({ target: urlLib.format(appConfig.app.url), changeOrigin: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(configRoutes(app));
 
-if(process.env.NODE_ENV === 'dev'){
-  const compiler = webpack(devConfig);
-  const middleware = webpackDevMiddleware(compiler, {
-  });
-
-  app.use(middleware);
-  app.use(webpackHotMiddleware(compiler, {
-    log: console.log,
-    path: '/__webpack_hmr',
-    heartbeat: 10 * 1000
-  }));
-
-  // need to refactor for route get * cuz navigation via url doesn't function
-  app.get('*', (req, res) => {
-    res.end(middleware.fileSystem.readFileSync(path.join(devConfig.output.path, '/index.html')));
-  });
-} else {
-    app.use(express.static(path.join(__dirname, '..', 'dist')));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '..', 'dist/index.html'))
-    });
+if(process.env.NODE_ENV === 'prod'){
+  app.use(express.static(path.join(__dirname, '..', 'dist')));
+  //app.get('*', (req, res) => {
+  //  res.sendFile(path.join(__dirname, '..', 'dist/index.html'))
+  //});
 }
 
 app.listen(appConfig.app.url.port, (err) => {

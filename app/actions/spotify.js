@@ -2,7 +2,7 @@ import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
 import { userUpdate } from './user'
 import urlLib from 'url'
-import config from '../../server/config/config'
+const config = require('../../server/config/config');
 import qString from 'query-string'
 
 const BASE_PATH = urlLib.format(config.app.api);
@@ -18,20 +18,9 @@ function analyzeSpotify (user) {
       }
     }, dispatch)
     .then((resp) => {
-      user.thirdParties[0] = resp.body;
+      user.thirdParties[0] = resp;
       dispatch(userUpdate(user));
     });
-    //  .then(resp => {
-    //    // move this error handling to the popwrap helper,
-    //    // otherwise need to handle no session redirect on
-    //    // every request
-
-    //    if (resp.body.error) {
-    //      //dispatch(routerActions.push('/login'))
-    //    } else {
-    //      dispatch(userUpdate(resp.body))
-    //    }
-    //  })
   }
 }
 

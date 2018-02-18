@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 import { popWrap } from '../helpers'
 import { loadedEvents } from './events';
 import urlLib from 'url'
-import config from '../../server/config/config'
+const config = require('../../server/config/config');
 
 const BASE_PATH = urlLib.format(config.app.api);
 
