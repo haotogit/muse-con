@@ -45,7 +45,7 @@ module.exports = webpackMerge(commonConfig, {
         'API_HOSTNAME': JSON.stringify('18.218.34.186'),
         'SPOTIFY_CLIENT_ID': JSON.stringify('967d0ee071fc41c99fcd12d6dc5718c0'),
         'SPOTIFY_CLIENT_SECRET': JSON.stringify('caf7a40f87d342ac8735618a93b3a44d'),
-        'SPOTIFY_REDIRECT_URI': JSON.stringify('https://18.218.34.186/authSpotify/callback'),
+        'SPOTIFY_REDIRECT_URI': JSON.stringify('http://18.218.34.186/api/v1/authSpotify/callback'),
       }
     })
   ]
