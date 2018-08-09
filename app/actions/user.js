@@ -21,7 +21,10 @@ function login(opts){
     dispatch(loginRequest(options.body))
 
     popWrap(options, dispatch, loginSuccess)
-      .then(() => dispatch(push('')));
+      .then((data) => {
+        dispatch({ type: 'SET_SEARCH_LIST', payload: data.artists });
+        dispatch(push(''));
+      });
   }
 }
 

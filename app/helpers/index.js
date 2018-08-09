@@ -16,7 +16,6 @@ function popWrap (reqArgs, dispatch, action?) {
     .then((data) => {
       if (action) {
         dispatch(action(data));
-        return;
       }
       return data;
     })
@@ -55,12 +54,12 @@ function locateUser (currUser) {
 
 function eventLoader (userAuth, list) {
   let latLong = `${userAuth.lat},${userAuth.long}`,
-      qParams,
+      qParams = {},
       opts,
       reqsArr = []
 
   qParams = userAuth.searchOpts
-  qParams.apikey = config.external.tickemaster.apiKey
+  qParams.apikey = config.external.ticketmaster.apiKey
   qParams.radius = 50
 
   reqsArr = list.filter(item => !item.exclude)
@@ -69,7 +68,7 @@ function eventLoader (userAuth, list) {
 
       opts = {
         method: 'GET',
-        url: `${config.external.tickemaster.baseUrl}/events.json?${qString.stringify(qParams)}`
+        url: `${config.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
       }
 
       return popsicle(opts)

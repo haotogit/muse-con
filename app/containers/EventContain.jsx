@@ -13,8 +13,8 @@ class EventContain extends Component {
   }
 
   componentWillMount() {
-    let currList = this.props.userAuth.thirdParties[0][this.props.userAuth.searchOpts.by];
-    this.props.dispatch(actions.setSearchList(currList))
+    //let currList = this.props.userAuth.thirdParties[0][this.props.userAuth.searchOpts.by];
+    //this.props.dispatch(actions.setSearchList(currList))
   }
 
   render () {

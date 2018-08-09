@@ -12,7 +12,6 @@ function analyzeSpotify (user) {
     popWrap({ 
       method: 'POST',
       url: `${BASE_PATH}/users/${user._id}/evalSpotify`,
-      body: user.thirdParties[0],
       headers: {
         Authorization: user.accessToken
       }

@@ -11,8 +11,8 @@ const Spotify = (props) => {
 
   let query = qString.stringify({
     response_type: 'code',
-    client_id: config.external.spotify.clientId,
-    client_secret: config.external.spotify.clientSecret,
+    client_id: process.env.SPOTIFY_CLIENT_ID,
+    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
     scope: scope,
     redirect_uri: `${BASE_PATH}/authSpotify/callback`,
     state: `userId=${userAuth._id}`,
@@ -42,7 +42,6 @@ const Spotify = (props) => {
             </button>
           : ''
         }
-        <svg></svg>
       </div>
     </div>
   )

@@ -50,13 +50,14 @@ const Lists = (props) => {
             style={{display:'block'}}
           />
         : ''
-
       }
+
       {/* make this dropdown for current identifier for artists */}
       {
         checkList() ? 
           <p className='clickable' onClick={() => actions.toggleArtist(true, searchList)}>Remove All</p> : <p className='clickable' onClick={() => actions.toggleArtist(false, searchList)}>Add All</p>
       }
+
       { events && events.length !== 0 ? <p className='clickable' onClick={() => actions.loadedEvents({})}>Clear Search</p> : '' }
       <h5 style={{margin:'8% auto 2% auto'}}>artists:</h5>
       <hr></hr>
@@ -99,13 +100,12 @@ const Lists = (props) => {
                     <ul className='nav nav-stacked'>
                       {
                         events && events[keyMaker(each.name)] && events[keyMaker(each.name)].length > 0 ? 
-                        events[keyMaker(each.name)].map((eachEv, i) => <li key={`#${keyMaker(each.name)}${i}`}><a href={`#${keyMaker(each.name)}${i}`}>{eachEv.name}</a></li>) :
-                        ''
+                        events[keyMaker(each.name)].map((eachEv, i) => <li key={`#${keyMaker(each.name)}${i}`}><a href={`#${keyMaker(each.name)}${i}`}>{eachEv.name}</a></li>)
+                        : ''
                       }
                     </ul>
                   </div>
                 </div>
-                
               </div>
           ) : ''
         }
