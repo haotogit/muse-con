@@ -104,4 +104,3 @@ const EventBlock = (props) => {
 }
 
 export default EventBlock
-

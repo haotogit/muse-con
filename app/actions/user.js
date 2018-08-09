@@ -12,8 +12,10 @@ function login(opts){
     method: 'POST',
     url: `${BASE_PATH}/users/auth`,
     body: {
-      username: opts.username,
-      password: opts.password 
+      username: 'barry',
+      password: 'password'
+      //username: opts.username,
+      //password: opts.password 
     }
   };
 

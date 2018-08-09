@@ -10,7 +10,7 @@ const BASE_PATH = urlLib.format(config.app.api);
 function analyzeSpotify (user) {
   return (dispatch) => {
     popWrap({ 
-      method: 'POST',
+      method: 'GET',
       url: `${BASE_PATH}/users/${user._id}/evalSpotify`,
       headers: {
         Authorization: user.accessToken

@@ -4,6 +4,7 @@ import Spotify from '../components/Spotify'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import Lists from '../components/Lists'
+import List from '../components/List'
 
 class User extends Component {
   componentWillReceiveProps () {
@@ -29,8 +30,40 @@ class User extends Component {
           <Lists {...this.props} />
           <Spotify {...this.props} />
         </div>
+        <div className='row'>
+          <div className='col-xs-3 col-xs-offset-3'>
+            <List items={this.props.userAuth.artists} name='artists'></List>
+          </div>
+          <div className='col-xs-3'>
+            <List items={this.props.userAuth.tracks} name='tracks'></List>
+          </div>
+          <div className='col-xs-3'>
+            <List items={this.makeArr('genres', this.props.userAuth.genres)} name='genres'></List>
+          </div>
+        </div>
       </div>
     )
+  }
+
+  makeArr (type, obj) {
+    let dict = {
+      genres: {
+        fields: ['percent']
+      }
+    };
+
+    return Object.keys(obj).map(key => {
+      let i = 0;
+      let currFields = dict[type].fields;
+      let newObj = {};
+      while(i < currFields.length) {
+        newObj[currFields[i]] = obj[key][currFields[i]];
+        i++;
+      }
+
+      if (!newObj.name) newObj.name = key;
+      return newObj;
+    });
   }
 
   renderGraph () {
