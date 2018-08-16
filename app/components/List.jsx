@@ -4,26 +4,6 @@ const List = (props) => {
   console.log('pops', props)
   let { items } = props;
   let currName = props.name;
-  let dict = {
-    genres: {
-      fields: ['name', 'percent']
-    }
-  };
-
-  //if(items && !Array.isArray(items) && (items instanceof Object || typeof items === 'object')) {
-  //  items = Object.keys(items).map(key => { 
-  //    let i = 0;
-  //    let currFields = dict[currName].fields;
-  //    let obj = {};
-  //    while(i < currFields.length) {
-  //      obj[currFields[i]] = items[key];
-  //      i++;
-  //    }
-
-  //    if (!obj.name) obj.name = key;
-  //    return obj;
-  //  });
-  //}
   return (
     <table>
       <thead>
@@ -37,10 +17,9 @@ const List = (props) => {
             items.map((each, i) => 
               <tr key={`${each.name}${i}`}>
                 {
-                  currName === 'genres' && dict[currName].fields ?
-                  dict[currName].fields.map(field => {
-                    return <td key={field}>{each[field]}</td>
-                  }) : <td key={each.name}>{each.name}</td>
+                  Object.keys(each).map((key, j) => {
+                    return <td key={`${each.name}${i}${j}`}>{each[key]}</td>
+                  })
                 }
               </tr>
             ) : 'No data'
