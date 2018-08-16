@@ -24,8 +24,19 @@ function login(opts){
 
     popWrap(options, dispatch, loginSuccess)
       .then((data) => {
-        dispatch({ type: 'SET_SEARCH_LIST', payload: data.artists });
-        dispatch(push(''));
+        const opts = {
+          method: 'GET',
+          url: `${BASE_PATH}/users/${data.id}?accessList=all`,
+          headers: {
+            Authorization: `Bearer ${data.accessToken}`
+          }
+        };
+
+        return popWrap(opts, dispatch, userUpdate)
+          .then(resp => {
+            dispatch({ type: 'SET_SEARCH_LIST', payload: resp.artists });
+            dispatch(push(''));
+          })
       });
   }
 }
