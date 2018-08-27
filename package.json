@@ -8,7 +8,8 @@
     "start:dev": "webpack-dev-server --progress --config ./config/webpack.dev.config.js",
     "start": "node server/index.js",
     "build:prod": "webpack --colors --progress --config ./config/webpack.production.config.js",
-    "build": "npm run clean && npm run build:prod"
+    "build": "npm run clean && npm run build:prod",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "homepage": "https://samucapark.github.io/muse-con",
   "author": "",
@@ -92,5 +93,8 @@
     "webpack-hot-middleware": "^2.21.0",
     "webpack-merge": "^0.14.1",
     "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
   }
 }
