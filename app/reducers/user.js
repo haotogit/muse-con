@@ -36,8 +36,6 @@ export default function user(state={}, action) {
       })
     break;
 
-    
-
     default:
       return state
     break;

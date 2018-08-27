@@ -61,6 +61,7 @@
     "node-sass": "^3.10.1",
     "nodemon": "^1.14.11",
     "popsicle": "^6.2.1",
+    "prop-types": "^15.6.2",
     "query-string": "^4.2.3",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",

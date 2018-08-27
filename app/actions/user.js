@@ -174,4 +174,10 @@ function saveEvent (user, ev, events?, key?, index?) {
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser }
+function fuck(typez) {
+  return (dispatch) => {
+    dispatch({ type: 'LOADING', payload: typez })
+  }
+}
+
+export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser, fuck }

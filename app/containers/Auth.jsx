@@ -36,7 +36,7 @@ export function requireAuth (Comp) {
           { /*
               this.props.loading ? <LinearProgress mode='indeterminate' style={{backgroundColor:'none',overflow:'hidden',position:'fixed',left:'0',top:'6%',width:'100%'}} /> : ''
               */ }
-          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'1%',top:'6.5%'}}>
+          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'1%',top:'10%'}}>
             <ul style={{display:'flex'}}>
               {
                 routes.map(route => 

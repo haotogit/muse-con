@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Dashboard from './Dashboard'
 import Navigation from './Navigation'
 import { connect } from 'react-redux'
-import popsicle from 'popsicle'
 
 class App extends Component {
   render(){
@@ -11,7 +11,7 @@ class App extends Component {
     // clicking anchor
 
     let styles = {
-      marginTop: '5%',
+      marginTop: '10%',
       position:'relative',
       padding:'0 2em'
     }
@@ -31,7 +31,8 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    userAuth: state.user.userAuth
+    userAuth: state.user.userAuth,
+    loading: state.main.loading
   }
 }
 

@@ -10,17 +10,18 @@ export default function event(state={}, action) {
       return Object.assign({}, state, {
         loading: action.payload
       })
+    break;
 
     case 'SET_SEARCH_LIST':
       return Object.assign({}, state, {
         searchList: action.payload
       })
+    break;
 
     case 'TOGGLE_ARTIST':
       return Object.assign({}, state, {
         searchList: action.payload
       })
-
     break;
 
     default:

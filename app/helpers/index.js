@@ -10,12 +10,14 @@ function popWrap (reqArgs, dispatch, action?) {
     json: true,
   };
 
+  dispatch({ type: 'LOADING', payload: true });
   opts = Object.assign({}, opts, reqArgs);
 
   return rp(opts)
     .then((data) => {
       if (action) {
         dispatch(action(data));
+        dispatch({ type: 'LOADING', payload: false });
       }
       return data;
     })
