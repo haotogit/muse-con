@@ -5,17 +5,17 @@ import rp from 'request-promise'
 import alertify from 'alertify.js'
 const config = require('../../server/config/config');
 
-function popWrap (reqArgs, dispatch, action?) {
+function popWrap (reqArgs, dispatch?, action?) {
   let opts = {
     json: true,
   };
 
-  dispatch({ type: 'LOADING', payload: true });
+  if (dispatch) dispatch({ type: 'LOADING', payload: true });
   opts = Object.assign({}, opts, reqArgs);
 
   return rp(opts)
     .then((data) => {
-      if (action) {
+      if (action && dispatch) {
         dispatch(action(data));
         dispatch({ type: 'LOADING', payload: false });
       }
@@ -23,7 +23,10 @@ function popWrap (reqArgs, dispatch, action?) {
     })
     .catch(err => {
       alertify.alert(err.message);
-      dispatch({ type: 'FAILED REQUEST', payload: err });
+      if (dispatch) {
+        dispatch({ type: 'FAILED REQUEST', payload: err });
+        dispatch({ type: 'LOADING', payload: false });
+      }
     });
 }
 
@@ -54,7 +57,7 @@ function locateUser (currUser) {
   })
 }
 
-function eventLoader (userAuth, list) {
+function eventLoader (userAuth, list, dispatch) {
   let latLong = `${userAuth.lat},${userAuth.long}`,
       qParams = {},
       opts,
@@ -73,13 +76,13 @@ function eventLoader (userAuth, list) {
         url: `${config.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
       }
 
-      return popsicle(opts)
+      return popWrap(opts, dispatch)
     })
 
   return Promise.all(reqsArr);
 }
 
 // first check for - or \s, if one word cool.tolowercase, but if more than one word, take every word after the first and capitalize and then join that arr 
-const keyMaker = (str) => str.split(/\-|\s/).length === 1 ? str.toLowerCase() : str.split(/\-|\s/).map((each, i) => i === 0 ? each.toLowerCase() : each.replace(each[0], (match) => match.toUpperCase())).join('')
+const keyMaker = (str) => str.replace(/(\+|-|\s)+[a-z]/ig, (m) => m[1].toUpperCase())
 
 export { popWrap, locateUser, eventLoader, keyMaker }

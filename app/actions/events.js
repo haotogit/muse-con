@@ -18,28 +18,27 @@ function loadedEvents(payload){
 
 function loadEvents(userObj, list) {
   let load = [],
-      evObj = {}  
+    evObj = {}  
 
   return (dispatch) => {
     // signal initializing request
-    dispatch(requestEvents(true))
 
-    eventLoader(userObj, list)
+    eventLoader(userObj, list, dispatch)
       .then(resp => {
         resp.forEach((each, i) => {
-          let str = each.query.keyword
+          let str = each && each._links ? each._links.self.href.split('=')[2] : '';
           let key = keyMaker(str)
 
           evObj[key] = []
-          if (each.body._embedded && each.body._embedded.events) {
-            each.body._embedded.events.forEach(ev => {
+          if (each && each._embedded && each._embedded.events) {
+            each._embedded.events.forEach(ev => {
               if (!userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
             })
           }
         })
 
+        dispatch({ type: 'LOADING', payload: false });
         dispatch(loadedEvents(evObj))
-        dispatch(requestEvents(false))
       })
   }
 }

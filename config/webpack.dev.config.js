@@ -43,6 +43,9 @@ module.exports = webpackMerge(commonConfig, {
       modules: false,
     },
     historyApiFallback: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
     //proxy: {
     //'https://accounts.spotify.com/**': {
     //  target: 'https://accounts.spotify.com',
