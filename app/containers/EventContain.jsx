@@ -1,35 +1,47 @@
-import React from 'react'
+import * as actions from '../actions'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadEvents } from '../actions'
 import { bindActionCreators } from 'redux'
+import EventBlock from '../components/EventBlock'
+import Lists from '../components/Lists'
+import LinearProgress from 'material-ui/LinearProgress'
 
-const EventContain = ({ events }) => {
-  let styles = {
-    height: "19em",
-    width: "18em",
-    padding: "2em",
-    overflow: "auto",
-    border: "2px solid black"
+class EventContain extends Component {
+
+  componentWillReceiveProps (props) {
+    
   }
 
-  return (
-    <div style={styles}>
-      <h1>EventContain</h1>
-      {events ? Object.keys(events).map( key => <p key={key}>{key}: {events[key]}</p>) : 'Loading'}
-    </div>
-  )
+  componentWillMount() {
+    //let currList = this.props.userAuth.thirdParties[0][this.props.userAuth.searchOpts.by];
+    //this.props.dispatch(actions.setSearchList(currList))
+  }
+
+  render () {
+
+    return (
+      <div className='row content-contain'>
+        <Lists {...this.props}/>
+        
+        {this.props.events ? <EventBlock {...this.props} /> : ''}
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    events: state.reducer.events
+    userAuth: state.user.userAuth,
+    events: state.event.events,
+    loading: state.event.loading,
+    searchList: state.event.searchList
   }
 }
 
-//const mapDispatchToProps = (dispatch) => {
-//  return {
-//    load: (payload) => dispatch(loadEvents(payload))
-//  }
-//}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
 
-export default connect(mapStateToProps)(EventContain)
+export default connect(mapStateToProps, mapDispatchToProps)(EventContain)

@@ -1,32 +1,31 @@
-import express from 'express'
-import { authSpotify, spotifyCallback, evalSpotify, authUser, testing } from './controllers'
+const express = require('express');
+const spotifyControl = require('./controllers/spotifyControl');
+const mainControl = require('./controllers/mainControl');
 
-export default (app) => {
+module.exports = (app) => {
   const router = express.Router()
   // how come these spotify routes need to be off app, and the others it's cool to router?
 
-  app.get('/auth-spotify', authSpotify)
+  //app.get('/auth-spotify', spotifyControl.authSpotify)
 
-  app.get('/auth-spotify/callback', spotifyCallback)
+  //app.get('/auth-spotify/callback', spotifyControl.spotifyCallback)
 
-  router.route('/api/evalSpotify')
-        .get(isAuthenticated, evalSpotify)
+  //router.route('/api/users/:id/evalSpotify')
+  //  .post(isAuthenticated, spotifyControl.evalSpotify)
 
-  router.route('/api/authenticate')
-        .post(authUser)
+  //router.route('/api/authenticate')
+  //  .post(mainControl.authUser)
 
-  router.route('/test')
-        .post(testing)
+  //router.route('/api/user')
+  //  .put(isAuthenticated, mainControl.userUpdate)
+  //  .post(mainControl.createUser)
+
+  //router.route('/api/users/:id')
+  //  .put(isAuthenticated, mainControl.userUpdate)
 
   return router
 }
 
 function isAuthenticated (req, res, next) {
-  req.sessionStore.get(req.sessionID, (err, session) => {
-    if (session && session.user) {
-      next()
-    } else {
-      res.json({error: "No session found, please login"})
-    }
-  })
+  next();
 }

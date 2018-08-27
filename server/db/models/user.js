@@ -6,21 +6,30 @@ mongoose.Promise = bluebird
 
 const Schema = mongoose.Schema
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   access_token: String,
   user_type: String,
   name: String,
+  lat: Number,
+  long: Number,
   spotify: {
     id: String,
     profile_pic: String,
     access_token: String,
     refresh_token: String,
-    artists: Array
+    artists: Array,
+    genres: Array,
+    top10: Array
+  },
+  searchOpts: {
+    currSrc: String,
+    by: String
   },
   actvity_id: [{ type: Schema.Types.ObjectId, ref: 'activity' }],
-  notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
+  notification_id: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
+  events: Array
 }, { timestamps: true })
 
 UserSchema.pre('save', function(next) {
@@ -39,9 +48,10 @@ UserSchema.pre('save', function(next) {
   })
 })
 
-UserSchema.static.public = function() {
-  delete this.hash
-  return this
+// how do you make this work ??
+UserSchema.methods.public = function(cb) {
+  delete this.password
+  return cb(this)
 }
 
 UserSchema.methods.comparePassword = function(password, cb) {

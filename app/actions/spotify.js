@@ -1,21 +1,25 @@
 import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
+import { userUpdate } from './user'
+import urlLib from 'url'
+const config = require('../../server/config/config');
+import qString from 'query-string'
 
-function analyzeSpotify () {
+const BASE_PATH = urlLib.format(config.app.api);
+
+function analyzeSpotify (user) {
   return (dispatch) => {
-    popWrap('get', 'api/evalSpotify')
-      .then(resp => {
-        // move this error handling to the popwrap helper,
-        // otherwise need to handle no session redirect on
-        // every request
-
-        if (resp.body.error) {
-          console.log('resppp::', resp)
-          dispatch(routerActions.push('/login'))
-        } else {
-          console.log('evalResponse::', resp)
-        }
-      })
+    popWrap({ 
+      method: 'GET',
+      url: `${BASE_PATH}/users/${user._id}/evalSpotify`,
+      headers: {
+        Authorization: user.accessToken
+      }
+    }, dispatch)
+    .then((resp) => {
+      user.thirdParties[0] = resp;
+      dispatch(userUpdate(user));
+    });
   }
 }
 

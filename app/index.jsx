@@ -7,41 +7,62 @@ import { syncHistoryWithStore, routerReducer as routing, routerMiddleware } from
 import makeRoutes from './routes'
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
 import reducer from './reducers'
-import { initialize, loadEvents, login, changeText, auth } from './actions'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
-
-const reducerCombo = combineReducers({
-  reducer,
-  routing
-})
+import { composeWithDevTools } from 'redux-devtools-extension'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import { AppContainer } from 'react-hot-loader';
+import './vendor';
 
 const middleware = [
     thunk,
     routerMiddleware(browserHistory)
 ]
 
-if(process.env.NODE_ENV === 'develop') {
+if(process.env.NODE_ENV === 'dev') {
   const logger = createLogger()
   middleware.push(logger)
 }
 
-const initialState = {reducer: {userAuth: process.env.NODE_ENV === 'develop' ? true: false}}
-//const initialState = {}
+const initialState = { 
+  user: { 
+    userAuth: { 
+      
+    } 
+  } 
+}
+const muiTheme = getMuiTheme({
+  palette: {
+    palette: {
+      primary1Color: 'white'
+    }
+  },
+})
 
-const builtMiddle = compose(applyMiddleware(...middleware))
-const store = createStore(reducerCombo, initialState, builtMiddle)
-console.log('stow', store)
+const builtMiddle = composeWithDevTools(applyMiddleware(...middleware))
+const store = createStore(reducer, initialState, builtMiddle)
 
-//store.dispatch(loadEvents())
 const routes = makeRoutes(store)
 const history = syncHistoryWithStore(browserHistory, store)
 
+injectTapEventPlugin();
+
 render(
-  <Provider store={store}>
-    <Router history={history}>
-      { routes }
-    </Router>
-  </Provider>,
+  <AppContainer>
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+      <Provider store={store}>
+        <Router history={history}>
+          { routes }
+        </Router>
+      </Provider>
+    </MuiThemeProvider>
+  </AppContainer>,
   document.getElementById('app')
-)
+);
+
+if (module.hot) {
+  module.hot.accept();
+}

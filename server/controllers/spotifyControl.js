@@ -1,123 +1,152 @@
-import User from '../db/models/user'
-import bluebird from 'bluebird'
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-import qString from 'query-string'
-import request from 'request'
-import popsicle from 'popsicle'
+const rp = require('request-promise');
+const qString = require('query-string');
+const popsicle = require('popsicle');
 
-mongoose.Promise = bluebird
+const helpers = require('../library/helpers');
+const urlLib = require('url');
+const config = require('../../server/config/config');
 
-function authSpotify (req, res) {
-  let scope = 'playlist-read-private user-top-read user-library-read'
+const BASE_PATH = urlLib.format(config.app.url);
+const API_BASE_PATH = urlLib.format(config.app.api);
+
+module.exports.authSpotify = (req, res) => {
+  let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
 
   res.redirect('https://accounts.spotify.com/authorize?' + 
   qString.stringify({
     response_type: 'code',
-    client_id: process.env.SPOTIFY_CLIENT_ID,
-    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+    client_id: config.external.spotify.clientId,
+    client_secret: config.external.spotify.clientSecret,
     scope: scope,
-    redirect_uri: process.env.SPOTIFY_REDIRECT
-  }))
-}
+    redirect_uri: `${BASE_PATH}/auth-spotify/callback`,
+    state: `userId=${req.query.userId}`,
+  }));
+};
 
-function spotifyCallback (req, res) {
-    let code = req.query.code
-    let authParam = new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
+module.exports.spotifyCallback = (req, res) => {
+  const { code, state } = req.query;
+  const authParam = new Buffer(`${config.external.spotify.clientId}:${config.external.spotify.clientSecret}`).toString('base64');
+  const userId = state.split('=')[1];
 
-    let authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri: process.env.SPOTIFY_REDIRECT,
-        grant_type: 'authorization_code'
-      },
-      headers: {
-        'Authorization': `Basic ${authParam}` 
-      },
-      json: true
+  let authOptions = {
+    method: 'POST',
+    uri: 'https://accounts.spotify.com/api/token',
+    form: {
+      code,
+      redirect_uri: config.external.spotify.redirectUri,
+      grant_type: 'authorization_code'
+    },
+    headers: {
+      'Authorization': `Basic ${authParam}` 
     }
+  }
 
-    request.post(authOptions, (err, response, body) => {
-      if (!err && response.statusCode === 200) {
-        console.log('bod::', body)
-        let spotifyObj = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: {
-            'Authorization': `Bearer ${body.access_token}`
-          },
-          json: true
-        }
-        let tokens = {
-          access_token: body.access_token,
-          refresh_token: body.refresh_token
-        }
-        let currUser
-        request.get(spotifyObj, (err, resp, bod) => {
-          tokens.id = bod.id
+  rp(authOptions)
+    .then((response) => {
+      const { access_token, refresh_token, expires_in } = JSON.parse(response);
+      let thirdPartyOpts = {
+        method: 'POST',
+        // need to change this to BASE_PATH
+        uri: `${API_BASE_PATH}/users/${userId}/thirdParty`,
+        body: {
+          source: 'spotify',
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          expiresIn: expires_in
+        },
+        json: true
+      };
 
-          req.sessionStore.get(req.sessionID, (err, session) => {
-          
-            if (session && session.user) {
-              User.findOne({username: session.user.username})
-                .then((user) => {
-                  console.log('fuken finally::', user)
-                  //look up how to make public method on user model work
-                  
-                  user.spotify = tokens
-                  user.save()
-                  
-                  currUser = {
-                    id: user._id,
-                    username: user.username,
-                    spotify: user.spotify
-                  }
-              })
-            } else {
-              res.redirect('/login')
-            }
-          
-          })
-          
+      rp(thirdPartyOpts)
+        .then((resp) => {
+          res.redirect('/login');
         })
-        // need figure out a way to keep current session and resend user info to page
-        res.redirect('/user')
-        //res.redirect(`/user?spotify_access=${body.access_token}&spotify_refresh=${body.refresh_token}`)
-      }
+    })
+    .catch((err) => {
+      res.json(err);
     })
 }
 
-function evalSpotify (req, res) {
-  User.findOne({_id: req.session.user._id})
-      .then(user => {
-        let opts = {
-          method: 'get',
-          url: `${process.env.SPOTIFY_BASE}/me/top/artists?limit=50`,
-          headers: {
-            Authorization: `Bearer ${user.spotify.access_token}`
-          }
-        }
-        popsicle(opts)
-          .then(resp => {
-            if (resp.body.items) {
-              let artistList = resp.body.items.map(artist => {
-                return {
-                  name: artist.name,
-                  genres: artist.genres,
-                  image: artist.images[1].url
-                }
-              })
+  
+  function keyMaker (str) {
+      return str.split(/\-|\s/).length === 1 ? str : str.split(/\-|\s/).map((each, i) => i === 0 ? each : each.replace(each[0], (match) => match.toUpperCase())).join('')
+  }
 
-              user.spotify.artists = artistList
-              user.save()
-              res.json(user)
-            } else {
-              console.log('uhoh::', resp)
-              res.json({error: resp})
+  function sortArr (a, b) {
+    if (a.value > b.value) {
+      return -1
+    }
+
+    if (a.value < b.value) {
+      return 1
+    }
+
+    return 0
+  }
+
+module.exports.evalSpotify = (req, res) => {
+  let spotifyObj = req.body;
+  // change this to look at tracks too
+  let spotifyOpts = {
+    method: 'get',
+    url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
+    headers: {
+      Authorization: `Bearer ${spotifyObj.accessToken}`
+    }
+  }
+
+  helpers.spotifyRequestResolver(spotifyObj, spotifyOpts)
+    .then(data => {
+      let top10;
+      let thirdPartyObj = {};
+      let dataObj = data.body.items;
+      let genres = [];
+
+      thirdPartyObj.artists = dataObj.map(artist => {
+        let currArtist = {};
+        artist.genres.forEach((each, i) => {
+          let genreKey = keyMaker(each),
+            genre,
+            genreIndex,
+            artistIndex
+
+          if (genres.find((ea) => ea.label === genreKey)) {
+            genreIndex = genres.findIndex((ea) => ea.label === genreKey)
+            genres[genreIndex].value++
+          } else {
+            genre = {
+              label: genreKey,
+              value: 1,
             }
-          })
 
+            genres.push(genre);
+          }
+        });
+
+        currArtist = {
+          name: artist.name,
+          genres: artist.genres,
+          image: artist.images,
+          popularity: artist.popularity,
+          externalId: artist.id,
+          externalUri: artist.uri
+        };
+        return currArtist;
+      });
+
+      thirdPartyObj.genres = genres.sort(sortArr);
+      thirdPartyObj.top10 = genres.slice(0, 10)
+
+      return popsicle.request({
+        method: 'PUT',
+        url: `${API_BASE_PATH}/users/${spotifyObj.userId}/thirdParty/${spotifyObj._id}`,
+        body: thirdPartyObj
       })
-}
-
-export { authSpotify, spotifyCallback, evalSpotify }
+      .then((resp) => {
+        res.json(resp);
+      });
+    })
+    .catch(err => {
+      throw new Error(`error requesting spotify data, error: ${err.message}`);
+    });
+};

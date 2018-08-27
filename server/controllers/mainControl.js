@@ -1,46 +1,63 @@
-import User from '../db/models/user'
-import bluebird from 'bluebird'
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-import popsicle from 'popsicle'
+const httpClient = require('../library/httpClient');
 
 function authUser (req, res, next) {
-  User.findOne({username: req.body.username})
-      .then( (user) => {
-        if(!user) res.json({ success: false, message: 'Authentication failed, no user found' })
-        else {
-          user.comparePassword(req.body.password, (err, result) => {
-            if(!result) res.json({ error: true, message: 'Auth fail, wrong password' })
-            else {
-              req.session.user = user
-              req.user = req.session.user
-              req.session.save()
-              next()
+  const opts = {
+    method: 'POST',
+    uri: '/users/auth',
+    body: req.body
+  };
 
-              let currUser = {
-                id: user._id,
-                username: user.username,
-                spotify: user.spotify
-              }
-              
-              res.json(currUser)
-            }
-          })
-        }
-      })
+  httpClient(opts, res)
+    .then((resp) => {
+      res.json(resp);
+    });
 }
 
-function testing (req, res) {
-  popsicle({
-    method: 'get',
-    url: req.body.url,
+function checkUsername (req, res, next) {
+  const opts = {
+    method: 'POST',
+    uri: '/users/username',
+    body: {
+      username: req.body.username,
+    },
     headers: {
-      Authorization: req.body.headers
+      Authorization: req.headers.authorization
     }
-  })
-  .then(resp => {
-    res.json(resp.body)
-  })
+  };
+
+  httpClient(opts)
+    .then((resp) => {
+      res.json(resp);
+    });
 }
 
-export { authUser, testing }
+function createUser (req, res) {
+  const opts = {
+    method: 'POST',
+    uri: '/users',
+    body: req.body
+  };
+
+  httpClient(opts)
+    .then((resp) => {
+      res.json(resp);
+    });
+}
+
+function userUpdate (req, res, next) {
+  const opts = {
+    method: 'PUT',
+    uri: `/users/${req.params.id}`,
+    body: req.body,
+    headers: {
+      Authorization: req.headers.authorization
+    }
+  };
+
+  httpClient(opts, res)
+    .then((resp) => {
+      res.json(resp);
+    });
+}
+
+module.exports = { authUser, checkUsername, createUser, userUpdate }

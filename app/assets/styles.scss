@@ -1,0 +1,275 @@
+body {
+  font-family: 'meslo';
+  background-color:#333;
+  color:#ccc;
+}
+
+@font-face {
+  font-family: 'meslo';
+  src: url('./MesloLGMDZ-RegularForPowerline.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h4 {
+}
+
+.navbar-inverse {
+  background-color:#363e42;
+  box-shadow: 0px 0px 3px black;
+}
+
+.navbar-inverse .navbar-brand {
+  color:#ccc;
+}
+
+.active {
+  background-color:none;
+}
+
+.nav-tabs {
+  border: none;
+  background-color:none;
+}
+
+a:active {
+  background-color:none;
+}
+
+.label-text {
+  display: none;
+	color: #363e42;
+}
+
+.third-party-widget {
+  height: 25em;
+  position: fixed;
+
+  > div:first-child {
+    position: fixed;
+    width: 17%;
+    background-color: #333;
+  }
+
+  > div:nth-child(2) {
+    margin-top: 55%;
+    height: 20em;
+    overflow-y: scroll;
+  }
+}
+
+.tab-content {
+  height: 11em;
+  overflow: auto;
+}
+
+.fixed {
+}
+
+.sidebar {
+  position: fixed;
+  overflow-y: auto;
+  top: 0;
+  bottom: 0;
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.subgroup {
+  width: 31%;
+  position: relative;
+  margin: 0.5em;
+
+  .icon-times-container {
+    position: relative;
+    right: -2em;
+    top: -2em;
+    display: none;
+  }
+}
+
+.fixed {
+    position: fixed;
+}
+
+.ev-info {
+  padding:0.7em;
+}
+
+.ev-info p,
+.ev-info .fa {
+  display: inline-block;
+}
+
+.ev-img-contain {
+  overflow:hidden;
+  position: relative;
+  width: 100%;
+  height:11em;
+  background-size:cover;
+  background-position:50% 50%;
+  background-repeat:no-repeat;
+  right: 0;
+}
+
+.ev-img-contain img {
+  width: 21em;
+  object-position: -34px;
+}
+
+div.panel-body {
+  border-top: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.no-evs {
+  color: red;
+}
+
+.nav.nav-stacked {
+  overflow:auto;
+}
+
+.nav.nav-stacked li {
+  white-space: nowrap;
+}
+
+div.panel-body {
+  padding: 0;
+}
+
+div.panel-heading {
+  padding: 0;
+}
+
+.ev-date {
+  top: 0;
+}
+
+.third-party-widget::-webkit-scrollbar {
+ width: 3%;
+}
+.content-contain::-webkit-scrollbar {
+  width: 1%;
+}
+
+.content-contain::-webkit-scrollbar-thumb {
+  background: rgba(2, 128, 144, 1); 
+}
+
+.third-party-widget::-webkit-scrollbar-thumb {
+  background: rgba(51, 101, 138, 1);
+}
+
+a:hover,
+a:focus {
+  text-decoration:none;
+}
+
+.subnav-link {
+  color:black;
+  text-transform:uppercase;
+}
+
+.subnav-link.active {
+  color:#0097a7;
+  border-bottom:2px solid #0097a7;
+}
+
+.label a {
+  color:white;
+  text-transform:uppercase;
+}
+
+.content-contain {
+  height: 39em;
+  overflow-y: auto;
+  overflow-x:hidden;
+  margin-top: 2%;
+}
+
+
+.curr-ev {
+  display:inherit;
+}
+
+.nav-stacked > li > a {
+  padding: 10px 0;
+  font-size:0.8em;
+}
+
+#login-form label {
+  text-transform: uppercase;
+}
+
+a:hover {
+  color:#0097a7;
+}
+
+a {
+  color:#ccc;
+}
+
+.nav-stacked > li > a:hover,
+.nav-stacked > li > a:focus {
+  background:none;
+}
+
+.search-list-title {
+  display:inline-block;
+  margin-left: 1em;
+}
+
+.panel-heading {
+  white-space:nowrap;
+}
+
+.no-evs .panel-title > a {
+  cursor:default;
+}
+
+.btn-opt-toggle {
+  cursor:pointer;
+}
+
+.ev-count {
+  display:inline-block;
+}
+
+.search-list-events {
+  margin-left: 2em;
+}
+
+.hide-item {
+  display: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.dropdown {
+  &:hover .dropdown-menu {
+    display: block;
+  }
+
+  .nav {
+    li {
+      a {
+        padding-bottom: 5px;
+      }
+    }
+  }
+}
+
+.scroll-contain {
+  height: 15em;
+  overflow: scroll;
+}

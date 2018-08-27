@@ -1,27 +1,12 @@
-export default function reducer(state={}, action) {
+import { combineReducers } from 'redux'
+import { routerReducer as routing } from 'react-router-redux'
+import user from './user'
+import event from './event'
+import main from './main'
 
-  switch(action.type){
-
-    case 'LOGIN_SUCCESS':
-      return Object.assign({}, state, {
-        userAuth: action.payload
-      })
-    break;
-
-    case 'LOGOUT':
-      return Object.assign({}, state, {
-        userAuth: action.payload
-      })
-    break;
-
-    case 'LOADED_EVENTS':
-      return Object.assign({}, state, {
-        events: action.events
-      })
-    break;
-
-    default:
-      return state
-    break;
-  }
-}
+export default combineReducers({
+  routing,
+  main,
+  user,
+  event
+})
