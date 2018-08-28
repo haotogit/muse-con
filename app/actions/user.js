@@ -45,12 +45,12 @@ function login(opts){
 
 function checkUser (username, user) {
   return (dispatch) => {
-    popsicle({
+    popWrap({
       method: 'POST',
       url: '/username',
       body: username,
       headers: {
-        Authorization: user.accessToken
+        Authorization: `Bearer ${user.accessToken}`
       }
     })
     .then(res => {
@@ -72,7 +72,7 @@ function userSignup (obj) {
   return (dispatch) => {
     dispatch(newSignup(obj))
 
-    popsicle({
+    popWrap({
       method: 'POST',
       url: `${BASE_PATH}/users`,
       body: obj
@@ -159,14 +159,14 @@ function saveEvent (user, ev, events?, key?, index?) {
   return (dispatch) => {
     if (searchEvents) dispatch(loadedEvents(searchEvents));
 
-    popsicle({
+    popWrap({
       method: 'PUT',
       url: `${BASE_PATH}/users/${user._id}`,
       body: {
        events: userEvents 
       },
       headers: {
-        Authorization: user.accessToken
+        Authorization: `Bearer ${user.accessToken}`
       }
     })
     .then(res => {
