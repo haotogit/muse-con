@@ -14,7 +14,7 @@ const Spotify = (props) => {
     client_id: process.env.SPOTIFY_CLIENT_ID,
     client_secret: process.env.SPOTIFY_CLIENT_SECRET,
     scope: scope,
-    redirect_uri: `${BASE_PATH}/authSpotify/callback`,
+    redirect_uri: config.external.spotify.redirectUri,
     state: `userId=${userAuth._id}`,
   });
 

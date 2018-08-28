@@ -8,10 +8,8 @@
     "start:dev": "webpack-dev-server --progress --config ./config/webpack.dev.config.js",
     "start": "node server/index.js",
     "build:prod": "webpack --colors --progress --config ./config/webpack.production.config.js",
-    "build": "npm run clean && npm run build:prod",
-    "deploy": "npm run build && gh-pages -d dist"
+    "build": "npm run clean && npm run build:prod"
   },
-  "homepage": "https://samucapark.github.io/muse-con",
   "author": "",
   "dependencies": {
     "alertify.js": "^1.0.12",

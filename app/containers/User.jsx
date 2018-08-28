@@ -31,6 +31,7 @@ class User extends Component {
   render () {
     return (
       <div className='wrapper'>
+        <Spotify {...this.props}/>
         <div className='row' style={{marginTop:'3%'}}>
           <div className='col-xs-4'>
             <h3>top artists</h3>

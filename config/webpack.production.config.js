@@ -38,14 +38,14 @@ module.exports = webpackMerge(commonConfig, {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('prod'),
+        'NODE_ENV': JSON.stringify('production'),
         'TICKETMASTER_URL': JSON.stringify('https://app.ticketmaster.com/discovery/v2'),
         'TICKETMASTER_KEY': JSON.stringify('MwOoif9Ac5iZFedZG7xMW368oRbghDAz'),
         'API_PROTOCOL': JSON.stringify('http'),
-        'API_HOSTNAME': JSON.stringify('18.222.177.7'),
+        'API_HOSTNAME': JSON.stringify('18.218.255.222'),
         'SPOTIFY_CLIENT_ID': JSON.stringify('967d0ee071fc41c99fcd12d6dc5718c0'),
         'SPOTIFY_CLIENT_SECRET': JSON.stringify('caf7a40f87d342ac8735618a93b3a44d'),
-        'SPOTIFY_REDIRECT_URI': JSON.stringify('http://18.222.177.7/api/v1/authSpotify/callback'),
+        'SPOTIFY_REDIRECT_URI': JSON.stringify('http://18.218.255.222:8087/api/v1/authSpotify/callback'),
       }
     })
   ]

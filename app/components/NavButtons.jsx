@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 const NavButtons = ({buttons}) => {
   return  buttons.map( button => <h1>{button}</h1>)

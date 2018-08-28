@@ -12,7 +12,7 @@ import { requireAuth } from './containers/Auth'
 export default (store) => {
 
   return (
-    <Router basename="/muse-con">
+    <div>
       <Route path="/" component={App}>
         <IndexRoute component={requireAuth(Dashboard)} />
         <Route path="login" component={Login} />
@@ -20,6 +20,6 @@ export default (store) => {
         <Route path="explore" component={requireAuth(EventContain)} />
         <Route path="user" component={requireAuth(UserSettings)} />
       </Route>
-    </Router>
+    </div>
   )
 }

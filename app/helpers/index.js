@@ -23,10 +23,8 @@ function popWrap (reqArgs, dispatch?, action?) {
     })
     .catch(err => {
       alertify.alert(err.message);
-      if (dispatch) {
-        dispatch({ type: 'FAILED REQUEST', payload: err });
-        dispatch({ type: 'LOADING', payload: false });
-      }
+      dispatch({ type: 'FAILED REQUEST', payload: err });
+      dispatch({ type: 'LOADING', payload: false });
     });
 }
 
