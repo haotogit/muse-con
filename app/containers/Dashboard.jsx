@@ -29,7 +29,7 @@ class Dashboard extends Component{
   }
 
   componentDidMount () {
-    
+    this.props.actions.getUserEvents(this.props.userAuth);
   }
 
   render(){
@@ -54,7 +54,7 @@ class Dashboard extends Component{
 
 const mapStateToProps = (state) => ({
   userAuth: state.user.userAuth,
-  events: state.user.userAuth.events,
+  events: state.user.events,
   loading: state.main.loading
 })
 

@@ -36,6 +36,12 @@ export default function user(state={}, action) {
       })
     break;
 
+    case 'LOADED_USER_EVENTS':
+      return Object.assign({}, state, {
+        events: action.payload
+      })
+    break;
+
     default:
       return state
     break;

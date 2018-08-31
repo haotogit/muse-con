@@ -3,6 +3,7 @@ import { push } from 'react-router-redux'
 import { popWrap } from '../helpers'
 import { loadedEvents } from './events';
 import urlLib from 'url'
+const promise = require('bluebird');
 const config = require('../../server/config/config');
 
 const BASE_PATH = urlLib.format(config.app.api);
@@ -139,17 +140,16 @@ function userUpdate (payload) {
   }
 }
 
-function saveEvent (user, ev, events?, key?, index?) {
+function saveEvent(user, ev, events?, key?, index?) {
   let userEvents = user.events,
     evIndex,
     searchEvents;
 
-  if (userEvents.find(ea => ea.id === ev.id)) {
+  ev.userId = user.id;
+  if (userEvents && userEvents.find(ea => ea.id === ev.id)) {
     evIndex = userEvents.find(ea => ea.id === ev.id);
     userEvents.splice(evIndex, 1);
   } else {
-    userEvents.push(ev);
-
     if (events && key && index) {
       searchEvents = events;
       searchEvents[key].splice(index, 1);
@@ -158,22 +158,39 @@ function saveEvent (user, ev, events?, key?, index?) {
 
   return (dispatch) => {
     if (searchEvents) dispatch(loadedEvents(searchEvents));
-
-    popWrap({
-      method: 'PUT',
-      url: `${BASE_PATH}/users/${user._id}`,
-      body: {
-       events: userEvents 
-      },
+    let opts = {
+      method: 'POST',
+      url: `${BASE_PATH}/events`,
       headers: {
         Authorization: `Bearer ${user.accessToken}`
-      }
-    })
-    .then(res => {
-      dispatch(userUpdate(res.body))
-    })
-    .catch(err => console.log('error saving ev', err))
+      },
+      body: ev 
+    };
+
+    popWrap(opts)
+      .catch(err => console.log('error saving event', err));
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser }
+function loadedUserEvents(payload) {
+  return {
+    type: 'LOADED_USER_EVENTS',
+    payload
+  }
+}
+
+function getUserEvents(user) {
+  let opts = {
+    method: 'GET',
+    url: `${BASE_PATH}/users/${user.id}/events`,
+    headers: {
+      Authorization: `Bearer ${user.accessToken}`
+    }
+  };
+
+  return (dispatch) => {
+    return popWrap(opts, dispatch, loadedUserEvents);
+  }
+}
+
+export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser, getUserEvents }
