@@ -74,7 +74,7 @@ const EventBlock = (props) => {
               events.map((eachEv, i) => 
                 <div key={i} className='subgroup' onMouseOver={() => changeFocus(i)} onMouseOut={() => changeFocus(i)}>
                   <div className='icon-times-container' id={`iconTimesContainer${i}`}>
-                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
+                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv, events)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
                   </div>
                   {
                     eachEv.images ? 

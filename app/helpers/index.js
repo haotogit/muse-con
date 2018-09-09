@@ -15,8 +15,8 @@ function popWrap (reqArgs, dispatch?, action?) {
 
   return rp(opts)
     .then((data) => {
-      if (action && dispatch) {
-        dispatch(action(data));
+      if (dispatch) {
+        if (action) dispatch(action(data));
         dispatch({ type: 'LOADING', payload: false });
       }
       return data;
