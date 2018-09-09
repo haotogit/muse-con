@@ -7,7 +7,7 @@ const EventBlock = (props) => {
   let labels = Object.keys(events)
   let currFocus;
 
-  let prettyDate = (date, ref?) => {
+  let prettyDate = (date, ref) => {
     let currDate = moment()
 
     if (date) {

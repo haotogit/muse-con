@@ -139,7 +139,7 @@ function userUpdate (payload) {
   }
 }
 
-function saveEvent (user, ev, events?, key?, index?) {
+function saveEvent (user, ev, events, key, index) {
   let userEvents = user.events,
     evIndex,
     searchEvents;

@@ -5,7 +5,7 @@ import rp from 'request-promise'
 import alertify from 'alertify.js'
 const config = require('../../server/config/config');
 
-function popWrap (reqArgs, dispatch?, action?) {
+function popWrap (reqArgs, dispatch, action) {
   let opts = {
     json: true,
   };

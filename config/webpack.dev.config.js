@@ -8,6 +8,8 @@ module.exports = webpackMerge(commonConfig, {
   cache: true,
   entry: [
     'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
     path.join(__dirname, '..', 'app/index.jsx')
   ],
   devtool: 'inline-source-map',
@@ -15,20 +17,6 @@ module.exports = webpackMerge(commonConfig, {
     fs: 'empty',
     net: 'empty',
     tls: 'empty'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          query: {
-            'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
-          }
-        }
-      }
-    ]
   },
   devServer: {
     contentBase: path.join(__dirname, '..', 'dist'),
@@ -46,11 +34,6 @@ module.exports = webpackMerge(commonConfig, {
     headers: {
       'Access-Control-Allow-Origin': '*'
     }
-    //proxy: {
-    //'https://accounts.spotify.com/**': {
-    //  target: 'https://accounts.spotify.com',
-    //  changeOrigin: true
-    //}
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
