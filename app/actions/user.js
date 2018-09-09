@@ -3,6 +3,9 @@ import { push } from 'react-router-redux'
 import { popWrap } from '../helpers'
 import { loadedEvents } from './events';
 import urlLib from 'url'
+import rp from 'request-promise'
+import alertify from 'alertify.js'
+const promise = require('bluebird');
 const config = require('../../server/config/config');
 
 const BASE_PATH = urlLib.format(config.app.api);
@@ -139,41 +142,91 @@ function userUpdate (payload) {
   }
 }
 
-function saveEvent (user, ev, events, key, index) {
-  let userEvents = user.events,
-    evIndex,
-    searchEvents;
+// REFACTOR!! separate and abstract http
+function saveEvent(user, ev, events?, key?, index?) {
+  let evIndex,
+    searchEvents,
+    opts = {
+      headers: {
+        Authorization: `Bearer ${user.accessToken}`,
+      },
+      json: true,
+    };
+  let condition = events && Array.isArray(events) && events.find(ea => ea.id === ev.id);
 
-  if (userEvents.find(ea => ea.id === ev.id)) {
-    evIndex = userEvents.find(ea => ea.id === ev.id);
-    userEvents.splice(evIndex, 1);
+  ev.userId = user.id;
+  ev.externalId = ev.id;
+  //if deleting
+  if (condition) {
+    opts.method = 'DELETE';
+    opts.url = `${BASE_PATH}/events/${ev._id}`;
+    //searchEvents = [];
   } else {
-    userEvents.push(ev);
-
-    if (events && key && index) {
-      searchEvents = events;
-      searchEvents[key].splice(index, 1);
-    }
+    opts.method = 'POST';
+    opts.url = `${BASE_PATH}/events`;
+    opts.body = ev;
+    opts.body.externalId = ev.id;
+    opts.body.userId = user.id;
+    delete opts.body.id;
+    events[key].splice(index, 1);
+    searchEvents = Object.assign({}, events);
   }
 
   return (dispatch) => {
-    if (searchEvents) dispatch(loadedEvents(searchEvents));
+    //if deleting
+    dispatch({ type: 'LOADING', payload: true });
+    if (condition) {
+      return rp(opts)
+        .then(data => {
+          let getOpts = {
+            method: 'GET',
+            url: `${BASE_PATH}/users/${user.id}/events`,
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`
+            }
+          };
 
-    popWrap({
-      method: 'PUT',
-      url: `${BASE_PATH}/users/${user._id}`,
-      body: {
-       events: userEvents 
-      },
-      headers: {
-        Authorization: `Bearer ${user.accessToken}`
-      }
-    })
-    .then(res => {
-      dispatch(userUpdate(res.body))
-    })
-    .catch(err => console.log('error saving ev', err))
+          return popWrap(getOpts, dispatch, loadedUserEvents);
+        })
+        .catch(err => {
+          alertify.alert(err.message);
+          dispatch({ type: 'FAILED REQUEST', payload: err });
+          dispatch({ type: 'LOADING', payload: false });
+        });
+    } else {
+      dispatch(loadedEvents(searchEvents));
+      return rp(opts)
+        .then(res => {
+          dispatch({ type: 'LOADING', payload: false });
+        })
+        .catch(err => {
+          alertify.alert(err.message);
+          dispatch({ type: 'FAILED REQUEST', payload: err });
+          dispatch({ type: 'LOADING', payload: false });
+        });
+    }
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser }
+function loadedUserEvents(payload) {
+  return {
+    type: 'LOADED_USER_EVENTS',
+    payload
+  }
+}
+
+function getUserEvents(user) {
+  let opts = {
+    method: 'GET',
+    url: `${BASE_PATH}/users/${user.id}/events`,
+    headers: {
+      Authorization: `Bearer ${user.accessToken}`
+    }
+  };
+
+  return (dispatch) => {
+    return popWrap(opts, dispatch, loadedUserEvents);
+  }
+}
+
+export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser, getUserEvents }
