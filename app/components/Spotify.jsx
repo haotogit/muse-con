@@ -23,7 +23,7 @@ const Spotify = (props) => {
   if (userAuth.thirdParties.length !== 0) spotify = userAuth.thirdParties.find(item => item.source === 'spotify');
 
   return (
-    <div className='col-xs-6 col-xs-offset-3'>
+    <div className='row'>
       { 
         spotify ? '' :
           <span className='label label-primary'>
@@ -31,7 +31,6 @@ const Spotify = (props) => {
           </span>
       }
       <div id='genresGraph'>
-        <h3>Top Spotify Genres</h3>
         {
           spotify ?
             <button onClick={() => actions.analyzeSpotify(userAuth)} style={{display:'block', background:'none', border:'none'}}>

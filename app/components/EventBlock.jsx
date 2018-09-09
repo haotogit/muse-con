@@ -4,7 +4,7 @@ import IconButton from 'material-ui/IconButton'
 
 const EventBlock = (props) => {
   let { events, actions, userAuth } = props
-  let labels = Object.keys(events)
+  let labels = events ? Object.keys(events) : null;
   let currFocus;
 
   let prettyDate = (date, ref?) => {
@@ -27,7 +27,7 @@ const EventBlock = (props) => {
   return (
     <div className={/explore/.test(props.location.pathname) ? 'col-sm-9 col-sm-offset-3' : ''}>
       {
-        /explore/.test(props.location.pathname) ?
+        /explore/.test(props.location.pathname) && labels ?
           labels.map(key => 
             <div key={key}>
               <h3>{key}</h3>
@@ -41,7 +41,10 @@ const EventBlock = (props) => {
                       <div className='ev-info'>
                         <h5>{eachEv.name}</h5>
                         <div className='ev-date'>
-                          <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} @ {prettyDate(eachEv.dates.start.localTime)}</h3>
+                          { eachEv.dates ? 
+                            <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} @ {prettyDate(eachEv.dates.start.localTime)}</h3>
+                            : null
+                          }
                         </div>
                         <i className="fa fa-location-arrow" aria-hidden="true"></i> 
                         <p>&nbsp;{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
@@ -67,18 +70,25 @@ const EventBlock = (props) => {
           ) : <section className='container-fluid group'>
             {/* user saved events @ dashboard */}
             {
+              events ?
               events.map((eachEv, i) => 
                 <div key={i} className='subgroup' onMouseOver={() => changeFocus(i)} onMouseOut={() => changeFocus(i)}>
                   <div className='icon-times-container' id={`iconTimesContainer${i}`}>
-                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
+                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv, events)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
                   </div>
-                  <div className='ev-img-contain' 
-                    style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
-                  </div>
+                  {
+                    eachEv.images ? 
+                      <div className='ev-img-contain' 
+                        style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
+                      </div> : null
+                  }
                   <div className='ev-info'>
                     <h5>{eachEv.name}</h5>
                     <div className='ev-date'>
-                      <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} @ {prettyDate(eachEv.dates.start.localTime)}</h3>
+                      { eachEv.dates ?
+                        <h3>{prettyDate(eachEv.dates.start.localDate, 'month')} {prettyDate(eachEv.dates.start.localDate, 'date')} @ {prettyDate(eachEv.dates.start.localTime)}</h3>
+                        : null
+                      }
                     </div>
                     <i className="fa fa-location-arrow" aria-hidden="true"></i> 
                     <p>&nbsp;{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
@@ -95,7 +105,7 @@ const EventBlock = (props) => {
                     <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
                   </div>
                 </div>
-              )
+              ) : ''
             }
           </section>
       }

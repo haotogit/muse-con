@@ -13,7 +13,7 @@ function analyzeSpotify (user) {
       method: 'GET',
       url: `${BASE_PATH}/users/${user._id}/evalSpotify`,
       headers: {
-        Authorization: user.accessToken
+        Authorization: `Bearer ${user.accessToken}`
       }
     }, dispatch)
     .then((resp) => {
