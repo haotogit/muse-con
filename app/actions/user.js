@@ -143,7 +143,8 @@ function userUpdate (payload) {
 }
 
 // REFACTOR!! separate and abstract http
-function saveEvent(user, ev, events?, key?, index?) {
+//  events?, key?, index?
+function saveEvent(user, ev, events, key, index) {
   let evIndex,
     searchEvents,
     opts = {
