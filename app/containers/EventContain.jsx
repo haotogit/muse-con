@@ -31,9 +31,7 @@ class EventContain extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userAuth: state.user.userAuth,
     events: state.event.events,
-    loading: state.event.loading,
     searchList: state.event.searchList
   }
 }

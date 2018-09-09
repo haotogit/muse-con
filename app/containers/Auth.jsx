@@ -58,13 +58,12 @@ export function requireAuth (Comp) {
         </div>
       )
     }
-
   }
+
   const mapStateToProps = (state) => ({
     userAuth: state.user.userAuth,
-    loading: state.event.loading
+    loading: state.main.loading
   })
 
   return connect(mapStateToProps)(AuthedComp)
-
 }

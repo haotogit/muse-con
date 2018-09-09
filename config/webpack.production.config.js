@@ -6,7 +6,6 @@ var path = require('path'),
     commonConfig = require('./webpack.common'),
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'source-map',
   mode: 'production',
   entry: {
     'app': path.join(__dirname, '..', 'app/index.jsx'),

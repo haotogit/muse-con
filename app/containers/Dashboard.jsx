@@ -20,6 +20,7 @@ class Dashboard extends Component{
   // then reassign to state by using same key
   
   componentWillMount () {
+    console.log('thefuk=======', this.props)
     //if (!this.props.userAuth.lat || !this.props.userAuth.long) {
     //  locateUser(this.props.userAuth)
     //    .then(res => {
@@ -53,9 +54,7 @@ class Dashboard extends Component{
 }
 
 const mapStateToProps = (state) => ({
-  userAuth: state.user.userAuth,
   events: state.user.events,
-  loading: state.main.loading
 })
 
 const mapDispatchToProps = (dispatch) => ({
