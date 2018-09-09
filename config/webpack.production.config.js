@@ -6,7 +6,8 @@ var path = require('path'),
     commonConfig = require('./webpack.common'),
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'sourcemap',
+  devtool: 'source-map',
+  mode: 'production',
   entry: {
     'app': path.join(__dirname, '..', 'app/index.jsx'),
     'config': path.join(__dirname, '..', 'server/config/config.js')
@@ -21,8 +22,8 @@ module.exports = webpackMerge(commonConfig, {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
+          miniCssExtractPlugin.loader,
           'css-loader',
-          'postcss-loader',
           'sass-loader'
         ]
       },
@@ -31,9 +32,6 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
     new miniCssExtractPlugin('[name].[hash].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
@@ -46,5 +44,8 @@ module.exports = webpackMerge(commonConfig, {
         'SPOTIFY_REDIRECT_URI': JSON.stringify('http://18.218.255.222:8087/api/v1/authSpotify/callback'),
       }
     })
-  ]
+  ],
+  optimization: {
+    minimize: true
+  }
 })
