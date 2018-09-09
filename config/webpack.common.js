@@ -1,8 +1,7 @@
 const webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   path = require('path'),
-  autoprefixer = require('autoprefixer'),
-  extractTextPlugin = require('extract-text-webpack-plugin');
+  autoprefixer = require('autoprefixer');
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: path.join(__dirname, '..', 'app/index.html'),
@@ -30,27 +29,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
-      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      },
-      {
-        test: /\.css$/,
-        use: extractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?importLoaders=1'
-        })
-      },
-      {
-        test: /\.(sass|scss)$/,
-        use: extractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        })
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -64,7 +45,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new extractTextPlugin('styles.css'),
     HtmlWebpackPluginConfig,
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
@@ -73,10 +53,6 @@ module.exports = {
     }),
     new webpack.LoaderOptionsPlugin({
       postcss: [autoprefixer]
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['app', 'vendor', 'config'],
-      minChunks: 2
     })
   ]
 }

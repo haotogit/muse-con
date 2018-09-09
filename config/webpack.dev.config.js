@@ -1,11 +1,13 @@
 var webpack = require('webpack'),
     path = require('path'),
-    envVar = require('../server/env'),
     webpackMerge = require('webpack-merge'),
-    commonConfig = require('./webpack.common');
+    miniCssExtractPlugin = require('mini-css-extract-plugin');
+    envVar = require('../server/env'),
+    commonConfig = require('./webpack.common'),
 
 module.exports = webpackMerge(commonConfig, {
   cache: true,
+  mode: 'development',
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
@@ -35,7 +37,20 @@ module.exports = webpackMerge(commonConfig, {
       'Access-Control-Allow-Origin': '*'
     }
   },
+  module: {
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+    ]
+  },
   plugins: [
+    new miniCssExtractPlugin('[name].css'),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: true

@@ -1,9 +1,9 @@
 var path = require('path'),
     webpack = require('webpack'),
-    envVars = require('../server/env'),
     webpackMerge = require('webpack-merge'),
+    miniCssExtractPlugin = require('mini-css-extract-plugin');
+    envVars = require('../server/env'),
     commonConfig = require('./webpack.common'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
   devtool: 'sourcemap',
@@ -16,22 +16,20 @@ module.exports = webpackMerge(commonConfig, {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          'presets': [['es2015', { 'modules': false }], 'stage-2', 'react'],
-          'plugins': [
-            'transform-decorators-legacy',
-            'transform-object-assign',
-            'transform-react-remove-prop-types',
-            'transform-react-constant-elements',
-            'transform-react-inline-elements'
-          ]
-        }
-      }
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
+      },
     ]
   },
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new miniCssExtractPlugin('[name].[hash].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
