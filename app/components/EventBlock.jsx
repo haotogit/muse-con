@@ -4,7 +4,7 @@ import IconButton from 'material-ui/IconButton'
 
 const EventBlock = (props) => {
   let { events, actions, userAuth } = props
-  let labels = events ? Object.keys(events) : null;
+  let labels = events && !Array.isArray(events) ? Object.keys(events) : null;
   let currFocus;
 
   let prettyDate = (date, ref) => {
