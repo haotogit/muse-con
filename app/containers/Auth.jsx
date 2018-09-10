@@ -7,30 +7,29 @@ import Navigation from './Navigation'
 export function requireAuth (Comp) {
   class AuthedComp extends Component {
 
-    componentWillMount () {
+    componentWillMount() {
       if (!this.props.userAuth.username) {
         this.authenticate(this.props)
       }
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
       this.authenticate(nextProps)
     }
 
-    authenticate (props) {
+    authenticate(props) {
       // need to refactor to consider expiration
       if (!props.userAuth.username) props.dispatch(routerActions.push(`/login`));
       else props.dispatch(routerActions.push(``));
     }
 
-    render () {
+    render() {
       let containerStyle = {
         marginTop: '5%',
         position:'relative'
       }
 
       const routes = ['/', 'explore']
-
       return (
         <div className='container-fluid'>
           { /*

@@ -6,7 +6,7 @@ import promise from 'bluebird';
 import alertify from 'alertify.js'
 import { popWrap } from '../helpers'
 import { loadedEvents } from './events'
-import config from '../config'
+import config from '../../config/app.config'
 
 const BASE_PATH = urlLib.format(config.app.api);
 

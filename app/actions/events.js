@@ -32,7 +32,7 @@ function loadEvents(userObj, list) {
           evObj[key] = []
           if (each && each._embedded && each._embedded.events) {
             each._embedded.events.forEach(ev => {
-              if (!userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
+              if (userObj.events && !userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
             })
           }
         })

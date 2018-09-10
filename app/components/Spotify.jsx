@@ -1,7 +1,7 @@
 import React from 'react'
 import urlLib from 'url'
 import qString from 'query-string'
-import config from '../config'
+import config from '../../config/app.config'
 
 const Spotify = (props) => {
   const { actions, userAuth } = props

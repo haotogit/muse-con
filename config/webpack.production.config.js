@@ -7,8 +7,7 @@ var path = require('path'),
 module.exports = webpackMerge(commonConfig, {
   mode: 'production',
   entry: {
-    'app': path.join(__dirname, '..', 'app/index.jsx'),
-    'config': path.join(__dirname, '..', 'server/config/config.js')
+    'app': path.join(__dirname, '..', 'app/index.jsx')
   },
   module: {
     rules: [

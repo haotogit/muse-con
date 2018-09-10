@@ -2,8 +2,8 @@ import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
 import { userUpdate } from './user'
 import urlLib from 'url'
-import config from '../config'
 import qString from 'query-string'
+import config from '../../config/app.config'
 
 const BASE_PATH = urlLib.format(config.app.api);
 

@@ -1,20 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
+import Badge from 'material-ui/Badge';
+import { bindActionCreators } from 'redux'
 import EventContain from './EventContain'
 import * as actionCreators from '../actions'
-import { bindActionCreators } from 'redux'
-import popsicle from 'popsicle'
-import UserTaste from '../components/UserTaste'
 import Spotify from '../components/Spotify'
 import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
-import { Link } from 'react-router'
-import Badge from 'material-ui/Badge';
 
-class Dashboard extends Component{
+class Dashboard extends Component {
   // to touch nested children of state tree,
   // assign new properties to highest affected level,
   // then reassign to state by using same key

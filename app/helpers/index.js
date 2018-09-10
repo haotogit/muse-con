@@ -2,7 +2,7 @@ import popsicle from 'popsicle'
 import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
-import config from '../config'
+import config from '../../config/app.config'
 
 function popWrap (reqArgs, dispatch, action) {
   let opts = {
