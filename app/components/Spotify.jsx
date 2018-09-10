@@ -4,11 +4,10 @@ import config from '../app.config'
 import qString from 'query-string'
 
 const Spotify = (props) => {
-  const { actions, userAuth } = props
+  const { actions, userAuth } = props;
   let spotify;
   const BASE_PATH = urlLib.format(config.app.api);
   let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
-
   let query = qString.stringify({
     response_type: 'code',
     client_id: process.env.SPOTIFY_CLIENT_ID,
@@ -19,10 +18,8 @@ const Spotify = (props) => {
   });
 
   let url = `https://accounts.spotify.com/authorize?${query}`;
-
   if (userAuth.thirdParties.length !== 0) spotify = userAuth.thirdParties.find(item => item.source === 'spotify');
 
-  console.log('holla', config)
   return (
     <div className='row'>
       { 
