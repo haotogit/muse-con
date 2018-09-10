@@ -29,11 +29,9 @@ App.propTypes = {
   children: PropTypes.object
 }
 
-function mapStateToProps(state) {
-  return {
-    userAuth: state.user.userAuth,
-    loading: state.main.loading
-  }
-}
+const mapStateToProps = (state) => ({
+  userAuth: state.user.userAuth,
+  loading: state.main.loading,
+})
 
 export default connect(mapStateToProps)(App)

@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-
 class Login extends Component {
   constructor (props) {
     super(props)

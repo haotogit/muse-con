@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Spotify from '../components/Spotify'
 import { bindActionCreators } from 'redux'
-import * as actions from '../actions'
-import Lists from '../components/Lists'
+import * as d3 from 'd3'
+import * as actionCreators from '../actions'
 import List from '../components/List'
 
 class User extends Component {
@@ -114,17 +114,12 @@ class User extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    userAuth: state.user.userAuth,
-    searchList: state.event.searchList
-  }
-}
+const mapStateToProps = (state) => ({
+  searchList: state.event.searchList,
+})
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actionCreators, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(User)

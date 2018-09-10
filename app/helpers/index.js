@@ -76,7 +76,7 @@ function eventLoader (userAuth, list, dispatch) {
       return popWrap(opts, dispatch)
     })
 
-  return Promise.all(reqsArr);
+  return Promise.all(reqsArr)
 }
 
 // first check for - or \s, if one word cool.tolowercase, but if more than one word, take every word after the first and capitalize and then join that arr 

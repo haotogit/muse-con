@@ -4,9 +4,8 @@ import { Link } from 'react-router'
 import { push, routerActions } from 'react-router-redux'
 import Navigation from './Navigation'
 
-export function requireAuth (Comp) {
+const RequireAuth = (title, Comp) => {
   class AuthedComp extends Component {
-
     componentWillMount() {
       if (!this.props.userAuth.username) {
         this.authenticate(this.props)
@@ -19,8 +18,7 @@ export function requireAuth (Comp) {
 
     authenticate(props) {
       // need to refactor to consider expiration
-      if (!props.userAuth.username) props.dispatch(routerActions.push(`/login`));
-      else props.dispatch(routerActions.push(``));
+      if (!props.userAuth.username) props.dispatch(routerActions.push(`login`));
     }
 
     render() {
@@ -52,7 +50,8 @@ export function requireAuth (Comp) {
             
           </div>
           { this.props.userAuth.username ?
-            <Comp {...this.props}/>
+              <Comp {...this.props} 
+                currTitle={`${title}`}/>
             : null }
         </div>
       )
@@ -66,3 +65,5 @@ export function requireAuth (Comp) {
 
   return connect(mapStateToProps)(AuthedComp)
 }
+
+export default RequireAuth

@@ -23,11 +23,10 @@ function login(opts){
       username: opts.username,
       password: opts.password 
     }
-  };
+  }
 
   return (dispatch) => {
     dispatch(loginRequest(options.body))
-
     popWrap(options, dispatch, loginSuccess)
       .then((data) => {
         if (data){
@@ -233,4 +232,14 @@ function getUserEvents(user) {
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser, getUserEvents }
+export { 
+  login, 
+  logout, 
+  locationFound, 
+  checkUser, 
+  userSignup, 
+  userUpdate, 
+  saveEvent, 
+  newUser, 
+  getUserEvents 
+}
