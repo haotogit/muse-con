@@ -1,8 +1,8 @@
-var webpack = require('webpack'),
+const webpack = require('webpack'),
     path = require('path'),
     webpackMerge = require('webpack-merge'),
-    miniCssExtractPlugin = require('mini-css-extract-plugin');
-    commonConfig = require('./webpack.common'),
+    miniCssExtractPlugin = require('mini-css-extract-plugin'),
+    commonConfig = require('./webpack.common');
 
 module.exports = webpackMerge(commonConfig, {
   cache: true,
@@ -68,4 +68,4 @@ module.exports = webpackMerge(commonConfig, {
       }
     }),
   ]
-})
+});

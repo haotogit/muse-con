@@ -2,7 +2,8 @@ import popsicle from 'popsicle'
 import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
-import config from '../../config/app.config'
+import config from '../app.config'
+import { userUpdate } from '../actions'
 
 function popWrap (reqArgs, dispatch, action) {
   let opts = {
@@ -24,6 +25,9 @@ function popWrap (reqArgs, dispatch, action) {
       alertify.alert(err.message);
       dispatch({ type: 'FAILED REQUEST', payload: err });
       dispatch({ type: 'LOADING', payload: false });
+
+      if(err.response.body.error && 
+        err.response.body.error === 'TokenExpiredError: jwt expired') dispatch(userUpdate({}));
     });
 }
 

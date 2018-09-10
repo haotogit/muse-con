@@ -19,7 +19,7 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx', 'scss']
+    extensions: ['*', '.js', '.jsx', '.sass', '.scss']
   },
   node: {
     fs: 'empty',
@@ -55,4 +55,4 @@ module.exports = {
       postcss: [autoprefixer]
     })
   ]
-}
+};

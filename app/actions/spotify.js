@@ -1,9 +1,11 @@
-import { popWrap } from '../helpers'
 import { push, routerActions } from 'react-router-redux'
-import { userUpdate } from './user'
 import urlLib from 'url'
 import qString from 'query-string'
-import config from '../../config/app.config'
+import rp from 'request-promise'
+import alertify from 'alertify.js'
+import { popWrap } from '../helpers'
+import { userUpdate } from './user'
+import config from '../app.config'
 
 const BASE_PATH = urlLib.format(config.app.api);
 
@@ -23,18 +25,4 @@ function analyzeSpotify (user) {
   }
 }
 
-function authSpotify(user) {
-  let opts = {
-    method: 'GET',
-    url: `${BASE_PATH}/users/authSpotify`,
-    headers: {
-      Authorization: `Bearer ${user.accessToken}`
-    }
-  };
-
-  return (dispatch) => {
-    popWrap(opts, dispatch, userUpdate);
-  }
-}
-
-export { analyzeSpotify, authSpotify }
+export { analyzeSpotify }
