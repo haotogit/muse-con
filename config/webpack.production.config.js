@@ -2,7 +2,6 @@ var path = require('path'),
     webpack = require('webpack'),
     webpackMerge = require('webpack-merge'),
     miniCssExtractPlugin = require('mini-css-extract-plugin');
-    envVars = require('../server/env'),
     commonConfig = require('./webpack.common'),
 
 module.exports = webpackMerge(commonConfig, {

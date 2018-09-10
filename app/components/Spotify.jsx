@@ -1,7 +1,7 @@
 import React from 'react'
 import urlLib from 'url'
-import config from '../../server/config/config'
 import qString from 'query-string'
+import config from '../config'
 
 const Spotify = (props) => {
   const { actions, userAuth } = props
@@ -27,7 +27,7 @@ const Spotify = (props) => {
       { 
         spotify ? '' :
           <span className='label label-primary'>
-            <a href={url} style={{color:'white',textTransform:'uppercase'}}>Link Spotify</a>
+            <a style={{color:'white',textTransform:'uppercase'}} onClick={() => actions.authSpotify(userAuth)}>Link Spotify</a>
           </span>
       }
       <div id='genresGraph'>

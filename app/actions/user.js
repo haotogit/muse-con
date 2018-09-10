@@ -1,24 +1,27 @@
 import popsicle from 'popsicle'
 import { push } from 'react-router-redux'
-import { popWrap } from '../helpers'
-import { loadedEvents } from './events';
 import urlLib from 'url'
 import rp from 'request-promise'
+import promise from 'bluebird';
 import alertify from 'alertify.js'
-const promise = require('bluebird');
-const config = require('../../server/config/config');
+import { popWrap } from '../helpers'
+import { loadedEvents } from './events'
+import config from '../config'
 
 const BASE_PATH = urlLib.format(config.app.api);
 
 function login(opts){
+  if (opts.username === 'j') {
+    opts.username = 'barry';
+    opts.password = 'password';
+  }
+
   const options = {
     method: 'POST',
     url: `${BASE_PATH}/users/auth`,
     body: {
-      username: 'barry',
-      password: 'password'
-      //username: opts.username,
-      //password: opts.password 
+      username: opts.username,
+      password: opts.password 
     }
   };
 

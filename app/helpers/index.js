@@ -1,9 +1,8 @@
 import popsicle from 'popsicle'
-import * as actions from '../actions'
 import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
-const config = require('../../server/config/config');
+import config from '../config'
 
 function popWrap (reqArgs, dispatch, action) {
   let opts = {

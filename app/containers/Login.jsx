@@ -68,20 +68,16 @@ class Login extends Component {
 
   login (e) {
     e.preventDefault()
-
     const username = this.refs.username.input.value,
-          password = this.refs.password.input.value,
-          opts = {
-            username: username, 
-            password: password 
-          }
+      password = this.refs.password.input.value,
+      opts = {
+        username: username, 
+        password: password 
+      }
 
-    //if (username != '' && password != '') {
-      if (!this.props.newUser) this.props.actions.login(opts)
-
-      if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
-    }
-  //}
+    if (!this.props.newUser) this.props.actions.login(opts)
+    if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
+  }
 }
 
 const mapStateToProps = (state) => ({
