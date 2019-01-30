@@ -71,8 +71,10 @@ class Login extends Component {
     const username = this.refs.username.input.value,
       password = this.refs.password.input.value,
       opts = {
-        username: username, 
-        password: password 
+        username: 'barry',
+        password: 'password'
+      //  username: username, 
+      //  password: password 
       }
 
     if (!this.props.newUser) this.props.actions.login(opts)

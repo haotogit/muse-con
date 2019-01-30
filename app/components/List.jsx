@@ -11,7 +11,7 @@ const List = (props) => {
       </thead>
       <tbody>
         {
-          items.length !== 0 ?
+          items && items.length !== 0 ?
             items.map((each, i) => 
               <tr key={`${each.name}${i}`}>
                 <td key={`${each.name}${i}`}>{each.name}</td>
@@ -21,7 +21,7 @@ const List = (props) => {
                 }
                 */}
               </tr>
-            ) : 'No data'
+            ) : <tr><td>'No data'</td></tr>
         }
       </tbody>
     </table>

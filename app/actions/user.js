@@ -11,11 +11,6 @@ import config from '../../config/app.config'
 const BASE_PATH = urlLib.format(config.app.api);
 
 function login(opts){
-  if (opts.username === 'j') {
-    opts.username = 'barry';
-    opts.password = 'password';
-  }
-
   const options = {
     method: 'POST',
     url: `${BASE_PATH}/users/auth`,
@@ -30,6 +25,7 @@ function login(opts){
 
     popWrap(options, dispatch, loginSuccess)
       .then((data) => {
+        dispatch(push(''));
         if (data){
           const opts = {
             method: 'GET',
@@ -38,12 +34,6 @@ function login(opts){
               Authorization: `Bearer ${data.accessToken}`
             }
           };
-
-          return popWrap(opts, dispatch, userUpdate)
-            .then(resp => {
-              dispatch({ type: 'SET_SEARCH_LIST', payload: resp.artists });
-              dispatch(push(''));
-            })
         }
       });
   }

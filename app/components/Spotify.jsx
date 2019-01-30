@@ -9,6 +9,7 @@ const Spotify = (props) => {
   const BASE_PATH = urlLib.format(config.app.api);
   let scope = 'user-read-private user-top-read user-library-read user-read-email user-read-birthdate';
 
+  // remove this and change it to request from server
   let query = qString.stringify({
     response_type: 'code',
     client_id: process.env.SPOTIFY_CLIENT_ID,
@@ -20,14 +21,16 @@ const Spotify = (props) => {
 
   let url = `https://accounts.spotify.com/authorize?${query}`;
 
-  if (userAuth.thirdParties.length !== 0) spotify = userAuth.thirdParties.find(item => item.source === 'spotify');
+  if (userAuth.thirdParties && userAuth.thirdParties.length !== 0) spotify = userAuth.thirdParties.find(item => item.source === 'spotify');
 
   return (
     <div className='row'>
       { 
         spotify ? '' :
-          <span className='label label-primary'>
-            <a style={{color:'white',textTransform:'uppercase'}} onClick={() => actions.authSpotify(userAuth)}>Link Spotify</a>
+          <span className='label label-primary'
+            style={{cursor:'pointer'}}>
+            {/* change this link to remove all client creds */}
+            <a style={{color:'white',textTransform:'uppercase'}} href={url}>Link Spotify</a>
           </span>
       }
       <div id='genresGraph'>

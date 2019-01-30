@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "start:dev": "webpack-dev-server --progress --config ./config/webpack.dev.config.js",
+    "start": "webpack-dev-server --progress --config ./config/webpack.dev.config.js",
     "build:prod": "webpack --colors --progress --config ./config/webpack.production.config.js",
     "build": "npm run clean && npm run build:prod"
   },

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import Lists from '../components/Lists'
 import List from '../components/List'
+import d3 from 'd3';
 
 class User extends Component {
   componentWillReceiveProps () {
@@ -46,7 +47,7 @@ class User extends Component {
             </div>
           </div>
           <div className='col-xs-4'>
-            <svg></svg>
+            { this.props.userAuth.genres && this.props.userAuth.genres.lenght !== 0 ? <svg></svg> : null }
             <h3>top genres</h3>
             <div className='scroll-contain'>
               <List items={this.props.userAuth.genres} name='top genres'></List>
