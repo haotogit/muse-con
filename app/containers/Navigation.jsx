@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, IndexLink } from 'react-router'
 import { connect } from 'react-redux'
-import { logout } from '../actions'
 
 const sections = ['events']
 
@@ -35,11 +34,4 @@ const Navigation = ({userAuth, logout, loading}) => {
   ) : null
 }
 
-function mapStateToProps(state) {
-  return {
-    userAuth: state.user.userAuth,
-    loading: state.main.loading
-  }
-}
-
-export default connect(mapStateToProps, {logout})(Navigation)
+export default Navigation

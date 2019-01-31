@@ -3,6 +3,7 @@ import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
 import config from '../../config/app.config'
+import promise from 'bluebird'
 
 function popWrap (reqArgs, dispatch, action) {
   let opts = {
@@ -62,21 +63,19 @@ function eventLoader (userAuth, list, dispatch) {
 
   qParams = userAuth.searchOpts
   qParams.apikey = config.external.ticketmaster.apiKey
-  qParams.radius = 50
 
   reqsArr = list.filter(item => !item.exclude)
-    .map((each, i) => {
-      qParams.keyword = each.name
+  return promise.map(reqsArr, (each, i) => {
+    qParams.keyword = each.name
+    qParams.countryCode = 'US'
 
-      opts = {
-        method: 'GET',
-        url: `${config.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
-      }
+    opts = {
+      method: 'GET',
+      url: `${config.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
+    }
 
-      return popWrap(opts, dispatch)
-    })
-
-  return Promise.all(reqsArr);
+    return popWrap(opts, dispatch, null)
+  })
 }
 
 // first check for - or \s, if one word cool.tolowercase, but if more than one word, take every word after the first and capitalize and then join that arr 

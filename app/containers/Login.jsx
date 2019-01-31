@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as actionCreators from '../actions'
+import { login, userSignup, checkUser } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import RaisedButton from 'material-ui/RaisedButton';
@@ -7,10 +7,6 @@ import TextField from 'material-ui/TextField';
 
 
 class Login extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   componentWillMount () {
   }
 
@@ -63,7 +59,7 @@ class Login extends Component {
   checkUser () {
     let username = { username: this.refs.username.input.value }
 
-    if (this.newUser && this.refs.username.input.value != '') this.props.actions.checkUser(username, this.props.userAuth)
+    if (this.newUser && this.refs.username.input.value != '') this.props.checkUser(username, this.props.userAuth)
   }
 
   login (e) {
@@ -77,8 +73,8 @@ class Login extends Component {
       //  password: password 
       }
 
-    if (!this.props.newUser) this.props.actions.login(opts)
-    if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.actions.userSignup(opts)
+    if (!this.props.newUser) this.props.login(opts)
+    if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.userSignup(opts)
   }
 }
 
@@ -88,8 +84,4 @@ const mapStateToProps = (state) => ({
   usernameExists: state.user.usernameExists
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, { login, userSignup, checkUser })(Login)

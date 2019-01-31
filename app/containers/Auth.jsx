@@ -16,7 +16,7 @@ export function requireAuth (Comp) {
     }
 
     authenticate(props) {
-      // need to refactor to consider expiration
+      // need to refactor to consider token expiration
       if (!props.userAuth.username) props.dispatch(routerActions.push(`/login`));
     }
 
@@ -46,7 +46,6 @@ export function requireAuth (Comp) {
                 )
               }
             </ul>
-            
           </div>
           { this.props.userAuth.username ?
             <Comp {...this.props}/>

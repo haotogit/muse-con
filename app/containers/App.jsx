@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import Dashboard from './Dashboard'
 import Navigation from './Navigation'
 import { connect } from 'react-redux'
+import { logout } from '../actions'
 
 class App extends Component {
   render(){
-    let { userAuth } = this.props
+    //let { userAuth } = this.props
     // current fix to prevent scrolling out view when
     // clicking anchor
 
@@ -18,7 +19,7 @@ class App extends Component {
 
     return(
       <div className='container-fluid' style={styles}>
-        <Navigation />
+        <Navigation {...this.props}/>
         { this.props.children }
       </div>
     )
@@ -36,4 +37,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, { logout })(App)

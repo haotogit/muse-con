@@ -26,13 +26,13 @@ function loadEvents(userObj, list) {
     eventLoader(userObj, list, dispatch)
       .then(resp => {
         resp.forEach((each, i) => {
-          let str = each && each._links ? each._links.self.href.split('=')[2] : '';
-          let key = keyMaker(str)
+          let name = each && each._links ? each._links.self.href.split('=')[2] : '';
+          let key = keyMaker(name)
 
           evObj[key] = []
           if (each && each._embedded && each._embedded.events) {
             each._embedded.events.forEach(ev => {
-              if (userObj.events && !userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
+              if (!userObj.events || !userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
             })
           }
         })
@@ -52,10 +52,10 @@ function toggleSearchOpt (key, currState) {
 }
 
 function setSearchList(payload) {
-  return {
+  return (dispatch) => dispatch({
     type: 'SET_SEARCH_LIST',
     payload
-  }
+  })
 }
 
 function toggleArtist (artist, list) {
