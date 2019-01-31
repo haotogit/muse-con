@@ -15,11 +15,7 @@ function analyzeSpotify (user) {
       headers: {
         Authorization: `Bearer ${user.accessToken}`
       }
-    }, dispatch)
-    .then((resp) => {
-      user.thirdParties[0] = resp;
-      dispatch(userUpdate(user));
-    });
+    }, dispatch, userUpdate);
   }
 }
 

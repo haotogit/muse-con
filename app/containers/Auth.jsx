@@ -8,9 +8,7 @@ export function requireAuth (Comp) {
   class AuthedComp extends Component {
 
     componentWillMount() {
-      if (!this.props.userAuth.username) {
-        this.authenticate(this.props)
-      }
+      this.authenticate(this.props)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -20,7 +18,6 @@ export function requireAuth (Comp) {
     authenticate(props) {
       // need to refactor to consider expiration
       if (!props.userAuth.username) props.dispatch(routerActions.push(`/login`));
-      else props.dispatch(routerActions.push(``));
     }
 
     render() {

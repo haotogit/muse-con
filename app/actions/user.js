@@ -25,16 +25,7 @@ function login(opts){
 
     popWrap(options, dispatch, loginSuccess)
       .then((data) => {
-        dispatch(push(''));
-        if (data){
-          const opts = {
-            method: 'GET',
-            url: `${BASE_PATH}/users/${data.id}?accessList=all`,
-            headers: {
-              Authorization: `Bearer ${data.accessToken}`
-            }
-          };
-        }
+        if (data) dispatch(push(''));
       });
   }
 }
@@ -74,7 +65,7 @@ function userSignup (obj) {
       body: obj
     })
     .then(res => {
-      if (!res.error) {
+      if (res) {
         dispatch(loginSuccess(res.body))
         dispatch(push(''))
       }   

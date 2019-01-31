@@ -47,7 +47,7 @@ class User extends Component {
             </div>
           </div>
           <div className='col-xs-4'>
-            { this.props.userAuth.genres && this.props.userAuth.genres.lenght !== 0 ? <svg></svg> : null }
+            { this.props.userAuth.genres && this.props.userAuth.genres.length !== 0 ? <svg></svg> : null }
             <h3>top genres</h3>
             <div className='scroll-contain'>
               <List items={this.props.userAuth.genres} name='top genres'></List>
