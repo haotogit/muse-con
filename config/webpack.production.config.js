@@ -2,7 +2,8 @@ var path = require('path'),
     webpack = require('webpack'),
     webpackMerge = require('webpack-merge'),
     miniCssExtractPlugin = require('mini-css-extract-plugin');
-    commonConfig = require('./webpack.common'),
+    commonConfig = require('./webpack.common')
+    UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
 
 module.exports = webpackMerge(commonConfig, {
   mode: 'production',
@@ -40,9 +41,9 @@ module.exports = webpackMerge(commonConfig, {
         'SPOTIFY_CLIENT_SECRET': JSON.stringify('caf7a40f87d342ac8735618a93b3a44d'),
         'SPOTIFY_REDIRECT_URI': JSON.stringify('http://18.218.255.222:8087/api/v1/authSpotify/callback'),
       }
-    })
+    }),
   ],
   optimization: {
-    minimize: true
+    minimizer: [new UglifyJsPlugin()]
   }
 })
