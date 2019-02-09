@@ -3,7 +3,7 @@ import { keyMaker } from '../helpers'
 import IconButton from 'material-ui/IconButton'
 
 const EventBlock = (props) => {
-  let { events, actions, userAuth } = props
+  let { events, saveEvent, userAuth } = props
   let labels = events && !Array.isArray(events) ? Object.keys(events) : null;
   let currFocus;
 
@@ -60,7 +60,7 @@ const EventBlock = (props) => {
                         }
 
                         <a key={i} target='_blank' href={eachEv.url}><i className="fa fa-shopping-cart"></i> Buy Tickets</a>
-                        <IconButton iconClassName='fa fa-bookmark-o' onClick={() => actions.saveEvent(userAuth, eachEv, events, key, i)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
+                        <IconButton iconClassName='fa fa-bookmark-o' onClick={() => saveEvent(userAuth, eachEv, events, key, i)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
                       </div>
                     </div>
                   ) 
@@ -74,7 +74,7 @@ const EventBlock = (props) => {
               events.map((eachEv, i) => 
                 <div key={i} className='subgroup' onMouseOver={() => changeFocus(i)} onMouseOut={() => changeFocus(i)}>
                   <div className='icon-times-container' id={`iconTimesContainer${i}`}>
-                    <IconButton iconClassName='fa fa-times' onClick={() => actions.saveEvent(userAuth, eachEv, events)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
+                    <IconButton iconClassName='fa fa-times' onClick={() => saveEvent(userAuth, eachEv, events)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
                   </div>
                   {
                     eachEv.images ? 

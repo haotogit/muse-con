@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import Badge from 'material-ui/Badge';
 import { bindActionCreators } from 'redux'
 import EventContain from './EventContain'
-import { getUserEvents } from '../actions'
+import { getUserEvents, saveEvent } from '../actions'
 import Spotify from '../components/Spotify'
 import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
@@ -63,4 +63,4 @@ const mapStateToProps = (state) => ({
 //  actions: bindActionCreators(actionCreators, dispatch)
 //})
 
-export default connect(mapStateToProps, { getUserEvents })(Dashboard)
+export default connect(mapStateToProps, { getUserEvents, saveEvent })(Dashboard)

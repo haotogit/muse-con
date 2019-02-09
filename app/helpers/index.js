@@ -10,20 +10,18 @@ function popWrap (reqArgs, dispatch, action) {
     json: true,
   };
 
-  if (dispatch) dispatch({ type: 'LOADING', payload: true });
+  dispatch({ type: 'LOADING', payload: true });
   opts = Object.assign({}, opts, reqArgs);
 
   return rp(opts)
     .then((data) => {
-      if (dispatch) {
-        if (action) dispatch(action(data));
-        dispatch({ type: 'LOADING', payload: false });
-      }
+      if (action) dispatch(action(data));
+      dispatch({ type: 'LOADING', payload: false });
       return data;
     })
     .catch(err => {
       dispatch({ type: 'FAILED REQUEST', payload: err.message });
-      dispatch({ type: 'LOADING', payload: false });
+      //dispatch({ type: 'LOADING', payload: false });
       alertify.alert(err.message);
     });
 }

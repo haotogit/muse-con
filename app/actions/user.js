@@ -39,7 +39,7 @@ function checkUser (username, user) {
       headers: {
         Authorization: `Bearer ${user.accessToken}`
       }
-    })
+    }, dispatch)
     .then(res => {
       let payload = res.body ? false : true;
 
@@ -63,7 +63,7 @@ function userSignup (obj) {
       method: 'POST',
       url: `${BASE_PATH}/users`,
       body: obj
-    })
+    }, dispatch)
     .then(res => {
       if (res) {
         dispatch(loginSuccess(res.body))
