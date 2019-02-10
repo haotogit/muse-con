@@ -7,17 +7,16 @@ import Lists from '../components/Lists'
 import LinearProgress from 'material-ui/LinearProgress'
 
 class EventContain extends Component {
-
-  componentWillReceiveProps (props) {
+  componentDidMount() {
+    if (!this.props.events || !this.props.events.searchList ||
+        this.props.events.searchList == 0) 
+        this.props.actions.setSearchList(this.props.userAuth[this.props.userAuth.searchOpts.by])
+  }
+  componentDidUpdate(prevProps) {
     
   }
 
-  componentWillMount() {
-    this.props.actions.setSearchList(this.props.userAuth[this.props.userAuth.searchOpts.by])
-  }
-
   render () {
-
     return (
       <div className='row content-contain'>
         <Lists {...this.props}/>

@@ -16,12 +16,8 @@ class Dashboard extends Component {
   // to touch nested children of state tree,
   // assign new properties to highest affected level,
   // then reassign to state by using same key
-  //constructor(props) {
-  //  super(props);
-  //}
   
-  componentWillMount (nextProps) {
-    console.log('propsDash', this.props);
+  componentDidMount(nextProps) {
     //if (!this.props.userAuth.lat || !this.props.userAuth.long) {
     //  locateUser(this.props.userAuth)
     //    .then(res => {
@@ -29,9 +25,6 @@ class Dashboard extends Component {
     //    })
     //}
     this.props.getUserEvents(this.props.userAuth);
-  }
-
-  componentDidMount () {
   }
 
   render(){

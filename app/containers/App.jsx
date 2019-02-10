@@ -11,8 +11,6 @@ import Authorizer from './Authorizer'
 import { logout } from '../actions'
 
 class App extends Component {
-  componentWillReceiveProps(nextProps) {
-  }
   render(){
     //let { userAuth } = this.props
     // current fix to prevent scrolling out view when

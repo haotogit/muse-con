@@ -8,28 +8,13 @@ import List from '../components/List'
 import d3 from 'd3';
 
 class User extends Component {
-  componentWillReceiveProps () {
-  }
-
-  componentWillMount() {
-    if (this.props.userAuth.genres) {
-      this.renderGraph(this.props.userAuth.genres);
-    }
-  }
-
-  componentDidMount () {
-    if (this.props.userAuth.genres) {
-      this.renderGraph(this.props.userAuth.genres);
-    }
-  }
-
   componentDidUpdate() {
-    if (this.props.userAuth.genres) {
-      this.renderGraph(this.props.userAuth.genres);
+    if (this.props.userAuth.genres && this.props.userAuth.genres.length !== 0) {
+      this.renderGraph(this.props.userAuth.genres)
     }
   }
   
-  render () {
+  render() {
     return (
       <div className='wrapper'>
         <Spotify {...this.props}/>

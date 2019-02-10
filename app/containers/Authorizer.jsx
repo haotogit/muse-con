@@ -4,18 +4,18 @@ import { Link } from 'react-router-dom'
 
 export default function Authorizer (Comp) {
   class AuthedComp extends Component {
-
-    componentWillMount() {
-      this.authenticate(this.props)
+    componentDidMount() {
+      this.authenticate()
     }
 
-    componentWillReceiveProps(nextProps) {
-      this.authenticate(nextProps)
+    componentDidUpdate(prevProps) {
+      this.authenticate()
     }
 
-    authenticate(props) {
+    authenticate() {
       // need to refactor to consider token expiration
-      if (!props.userAuth.username && !props.userAuth.accesToken) this.props.history.push(`/login`);
+      // also make a request to validate token
+      if (!this.props.userAuth.accessToken) this.props.history.push(`/login`)
     }
 
     render() {
@@ -45,9 +45,8 @@ export default function Authorizer (Comp) {
               }
             </ul>
           </div>
-          { this.props.userAuth.username ?
-            <Comp {...this.props}/>
-            : null }
+
+          { this.props.userAuth.accessToken ? <Comp {...this.props}/> : null }
         </div>
       )
     }

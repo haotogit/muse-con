@@ -31,7 +31,7 @@ function checkUser (username, user) {
   return (dispatch) => {
     popWrap({
       method: 'POST',
-      url: '/username',
+      url: `${BASE_PATH}/username`,
       body: username,
       headers: {
         Authorization: `Bearer ${user.accessToken}`
