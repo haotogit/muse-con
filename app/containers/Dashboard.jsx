@@ -11,8 +11,6 @@ import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
-import Navigation from './Navigation'
-//import PersistenDrawer from '../components/PersistentDrawer'
 
 class Dashboard extends Component {
   // to touch nested children of state tree,
@@ -22,7 +20,8 @@ class Dashboard extends Component {
   //  super(props);
   //}
   
-  componentWillMount () {
+  componentWillMount (nextProps) {
+    console.log('propsDash', this.props);
     //if (!this.props.userAuth.lat || !this.props.userAuth.long) {
     //  locateUser(this.props.userAuth)
     //    .then(res => {
@@ -46,7 +45,6 @@ class Dashboard extends Component {
 
     return (
       <div className='container-fluid'>
-        <Navigation {...this.props} />
         <div className='row content-contain'>
           {checkUser(this.props.userAuth)}
           <div className='row'>

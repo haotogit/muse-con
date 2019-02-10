@@ -15,7 +15,7 @@ const Navigation = ({userAuth, logout, loading}) => {
     <nav className='navbar navbar-inverse navbar-fixed-top' role='navigation'>
       <ul className='nav navbar-right top-nav'>
         <li className='dropdown'>
-          <Link to='/user' href='#' activeClassName='active' className='dropdown-toggle' data-toggle='dropdown'><i className='fa fa-user'></i> {userAuth.username || 'User'}</Link>
+          <Link to='/user' href='#' activeclassname='active' className='dropdown-toggle' data-toggle='dropdown'><i className='fa fa-user'></i> {userAuth && userAuth.username ? userAuth.username : 'User'}</Link>
           <ul className='dropdown-menu'>
             <li>
               <Link to='user' to='/user'>Account</Link>

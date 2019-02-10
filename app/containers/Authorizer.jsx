@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Navigation from './Navigation'
 
-export function requireAuth (Comp) {
+export default function Authorizer (Comp) {
   class AuthedComp extends Component {
 
     componentWillMount() {
@@ -16,7 +15,7 @@ export function requireAuth (Comp) {
 
     authenticate(props) {
       // need to refactor to consider token expiration
-      if (!props.userAuth.username) this.props.history.push(`/login`);
+      if (!props.userAuth.username && !props.userAuth.accesToken) this.props.history.push(`/login`);
     }
 
     render() {

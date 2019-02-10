@@ -13,6 +13,7 @@ import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 import { blue, pink } from 'material-ui/styles/colors'
 import { AppContainer } from 'react-hot-loader'
+import AppWrapper from './containers/App'
 import './vendor'
 
 const middleware = [
@@ -34,7 +35,6 @@ const initialState = {
 
 const builtMiddle = composeWithDevTools(applyMiddleware(...middleware))
 const store = createStore(reducer, initialState, builtMiddle)
-
 const routes = makeRoutes(store)
 
 render(
@@ -42,7 +42,7 @@ render(
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <Provider store={store}>
         <BrowserRouter>
-          { routes }
+          <AppWrapper />
         </BrowserRouter>
       </Provider>
     </MuiThemeProvider>
