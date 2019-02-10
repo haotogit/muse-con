@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Badge from 'material-ui/Badge';
 import { bindActionCreators } from 'redux'
 import EventContain from './EventContain'
@@ -11,6 +11,8 @@ import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
+import Navigation from './Navigation'
+//import PersistenDrawer from '../components/PersistentDrawer'
 
 class Dashboard extends Component {
   // to touch nested children of state tree,
@@ -18,7 +20,6 @@ class Dashboard extends Component {
   // then reassign to state by using same key
   //constructor(props) {
   //  super(props);
-  //  console.log('construct', props)
   //}
   
   componentWillMount () {
@@ -32,7 +33,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount () {
-    console.log('yooo', this.props)
   }
 
   render(){
@@ -45,10 +45,13 @@ class Dashboard extends Component {
     } 
 
     return (
-      <div className='row content-contain'>
-        {checkUser(this.props.userAuth)}
-        <div className='row'>
-          <EventBlock {...this.props}/> 
+      <div className='container-fluid'>
+        <Navigation {...this.props} />
+        <div className='row content-contain'>
+          {checkUser(this.props.userAuth)}
+          <div className='row'>
+            <EventBlock {...this.props} /> 
+          </div>
         </div>
       </div>
     )

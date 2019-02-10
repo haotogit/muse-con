@@ -3,16 +3,32 @@ const webpack = require('webpack'),
   path = require('path'),
   autoprefixer = require('autoprefixer');
 
-var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: path.join(__dirname, '..', 'app/index.html'),
   inject: 'body',
   filename: 'index.html'
 });
 
+let entryArray = [
+  '@babel/polyfill',
+  path.join(__dirname, '..', 'app'),
+];
+
+// ran into errors because of hot loader not going in first
+if (process.env.NODE_ENV === 'DEV') {
+  let devEntries = [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+  ];
+
+  for (let i = devEntries.length - 1; i >= 0; i--) {
+    entryArray.unshift(devEntries[i]);
+  }
+}
+
 module.exports = {
-  entry: {
-    'app': path.join(__dirname, '..', 'app')
-  },
+  entry: entryArray,
   output: {
     path: path.join(__dirname, '..', 'dist'),
     filename: '[name]-[hash].js',
@@ -55,4 +71,4 @@ module.exports = {
       postcss: [autoprefixer]
     })
   ]
-}
+};

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import { push, routerActions } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import Navigation from './Navigation'
 
 export function requireAuth (Comp) {
@@ -17,7 +16,7 @@ export function requireAuth (Comp) {
 
     authenticate(props) {
       // need to refactor to consider token expiration
-      if (!props.userAuth.username) props.dispatch(routerActions.push(`/login`));
+      if (!props.userAuth.username) this.props.history.push(`/login`);
     }
 
     render() {
@@ -39,7 +38,7 @@ export function requireAuth (Comp) {
                   <li key={route} style={{width:'8em',padding:'1em'}}>
                     <Link to={route} 
                       className='subnav-link'
-                      activeClassName={this.props.location.pathname === route ? 'active' : ''}>
+                      activeclassname={this.props.location.pathname === route ? 'active' : ''}>
                       {route === '/' ? 'dashboard' : route}
                     </Link>
                   </li>

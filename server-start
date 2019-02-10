@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export NODE_ENV='dev'
+export NODE_ENV='DEV'
 export SPOTIFY_CLIENT_ID=967d0ee071fc41c99fcd12d6dc5718c0
 export SPOTIFY_CLIENT_SECRET=caf7a40f87d342ac8735618a93b3a44d
 export SPOTIFY_REDIRECT_URI='http://localhost:8087/api/v1/authSpotify/callback'

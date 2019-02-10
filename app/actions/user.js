@@ -23,10 +23,7 @@ function login(opts){
   return (dispatch) => {
     dispatch(loginRequest(options.body))
 
-    popWrap(options, dispatch, loginSuccess)
-      .then((data) => {
-        if (data) dispatch(push(''));
-      });
+    return popWrap(options, dispatch, loginSuccess);
   }
 }
 

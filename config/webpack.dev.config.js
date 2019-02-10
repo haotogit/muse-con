@@ -7,12 +7,6 @@ var webpack = require('webpack'),
 module.exports = webpackMerge(commonConfig, {
   cache: true,
   mode: 'development',
-  entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    path.join(__dirname, '..', 'app/index.jsx')
-  ],
   devtool: 'inline-source-map',
   node: {
     fs: 'empty',
@@ -57,7 +51,7 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('dev'),
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'TICKETMASTER_URL': JSON.stringify(process.env.TICKETMASTER_URL),
         'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY),
         'API_PROTOCOL': JSON.stringify(process.env.API_PROTOCOL),

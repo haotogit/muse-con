@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { login, userSignup, checkUser } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
 class Login extends Component {
@@ -11,7 +11,6 @@ class Login extends Component {
   }
 
   componentDidMount () {
-    this.refs.username.focus()
   }
 
   render () {
@@ -23,23 +22,23 @@ class Login extends Component {
           <h1 style={{textTransform:'uppercase'}}>{newUser ? 'Sign Up' : 'Login'}</h1>
           <form id='login-form'>
             <TextField
-              ref='username'
-              floatingLabelText='Username'
-              onBlur={() => this.checkUser()}
+              label='Username'
+              autoFocus={true}
+              onBlur={(e) => this.checkUser(e)}
             /><br />
             { usernameExists ? <p>Username exists, please another</p> : null }
             <TextField
-              ref='password'
-              floatingLabelText='Password'
+              label='Password'
               type='password'
             /><br />
             { newUser ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
-            <RaisedButton
-              type='submit'
-              label={newUser ? 'Sign Up' : 'Log In'} 
+            <Button
+              variant="contained"
+              color="primary"
               style={{marginTop:'2%'}}
-              onClick={(e) => this.login(e)} 
-              primary={true}/>
+              onClick={(e) => this.login(e)}>
+              {newUser ? 'Sign Up' : 'Log In'} 
+            </Button>
           </form>
           <a data-toggle='collapse' href='#loginInfo' aria-expanded='false' aria-controls='loginInfo'>
             <i className='fa fa-info fa-2x' style={{marginTop:'3%'}}></i>
@@ -56,25 +55,27 @@ class Login extends Component {
     )
   }
 
-  checkUser () {
-    let username = { username: this.refs.username.input.value }
-
-    if (this.newUser && this.refs.username.input.value != '') this.props.checkUser(username, this.props.userAuth)
+  checkUser(e) {
+    let username = e.target.value
+    if (username != '') this.props.checkUser(username, this.props.userAuth)
   }
 
-  login (e) {
-    e.preventDefault()
-    const username = this.refs.username.input.value,
-      password = this.refs.password.input.value,
-      opts = {
+  login(e) {
+    //const username = this.refs.username.input.value,
+    //  password = this.refs.password.input.value,
+    const opts = {
         username: 'barry',
         password: 'password'
       //  username: username, 
       //  password: password 
       }
 
-    if (!this.props.newUser) this.props.login(opts)
-    if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.userSignup(opts)
+    this.props.login(opts)
+      .then((data) => {
+        if (data && this.props.userAuth.accessToken) this.props.history.push(`/`)
+      })
+    //if (!this.props.newUser) this.props.login(opts)
+    //if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.userSignup(opts)
   }
 }
 
