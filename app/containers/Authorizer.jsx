@@ -28,7 +28,7 @@ export default function Authorizer (Comp) {
       const routes = ['/', 'explore']
       return (
         <div className='container-fluid'>
-          <div className='row' style={{position:'fixed',width:'100%',zIndex:'1000',left:'1%',top:'10%'}}>
+          <div className='row' style={{position:'fixed',width:'100%',left:'0',top:'10%'}}>
             <ul style={{display:'flex'}}>
               {
                 routes.map(route => 

@@ -6,12 +6,6 @@ export default function user(state={}, action) {
       })
     break;
 
-    case 'LOGOUT':
-      return Object.assign({}, state, {
-        userAuth: action.payload
-      })
-    break;
-
     case 'CURR_USER_LOCATION':
       return Object.assign({}, state, {
         userAuth: action.payload

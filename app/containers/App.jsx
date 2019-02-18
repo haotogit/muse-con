@@ -14,8 +14,7 @@ import { logout } from '../actions'
 
 const App = () => {
   let styles = {
-    position:'relative',
-    padding:'0 2em'
+    position:'relative'
   }
 
   const gridStyles = theme => ({

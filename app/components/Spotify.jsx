@@ -39,7 +39,6 @@ const Spotify = (props) => {
             <button onClick={() => actions.analyzeSpotify(userAuth)} style={{display:'block', background:'none', border:'none'}}>
               <span className='label label-info'>
                 Get Spotify Data
-                <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{paddingLeft:'1em'}}></i>
               </span>
             </button>
           : ''

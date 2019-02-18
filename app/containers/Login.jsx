@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'; 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { InfoTwoTone } from '@material-ui/icons'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -34,65 +35,63 @@ class Login extends Component {
     };
 
     return (
-      <div className='wrapper'>
-        <div className='container' style={{textAlign:'center', marginTop:'12%'}}>
-          <h1 style={{textTransform:'uppercase'}}>{newUser ? 'Sign Up' : 'Login'}</h1>
-          <form id='login-form'>
-            <TextField
-              label='Username'
-              variant='outlined'
-              autoFocus={true}
-              onBlur={(e) => this.checkUser(e)}
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel
-                }
-              }}
-              InputProps={{
-                classes: {
-                  input: classes.cssOutlinedInput,
-                },
-              }}
-              style={textFormField}
-            /><br />
-            { usernameExists ? <p>Username exists, please another</p> : null }
-            <TextField
-              label='Password'
-              type='password'
-              variant="outlined"
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel
-                }
-              }}
-              InputProps={{
-                classes: {
-                  input: classes.cssOutlinedInput,
-                },
-              }}
-              style={textFormField}
-            /><br />
-            { newUser ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
-            <Button
-              variant='outlined'
-              color='primary'
-              style={{marginTop:'2%'}}
-              onClick={(e) => this.login(e)}>
-              {newUser ? 'Sign Up' : 'Log In'} 
-            </Button>
-          </form>
-          <a data-toggle='collapse' href='#loginInfo' aria-expanded='false' aria-controls='loginInfo'>
-            <i className='fa fa-info fa-2x' style={{marginTop:'3%'}}></i>
-          </a>
-          <div className='collapse' id='loginInfo'>
-            <p>Login with an existing username, or <a onClick={() => this.props.actions.newUser(true)}>sign up</a></p>
-            <hr style={{width:'30%',border:'2px solid'}}></hr>
-            <h6>DEMO LOGIN</h6>
-            <p>USERNAME: demo</p>
-            <p>PW: pw</p>
-          </div>
-         </div>
-      </div>
+      <div className='container' style={{textAlign:'center', marginTop:'12%'}}>
+        <h1 style={{textTransform:'uppercase'}}>{newUser ? 'Sign Up' : 'Login'}</h1>
+        <form id='login-form'>
+          <TextField
+            label='Username'
+            variant='outlined'
+            autoFocus={true}
+            onBlur={(e) => this.checkUser(e)}
+            InputLabelProps={{
+              classes: {
+                root: classes.cssLabel
+              }
+            }}
+            InputProps={{
+              classes: {
+                input: classes.cssOutlinedInput,
+              },
+            }}
+            style={textFormField}
+          /><br />
+          { usernameExists ? <p>Username exists, please another</p> : null }
+          <TextField
+            label='Password'
+            type='password'
+            variant="outlined"
+            InputLabelProps={{
+              classes: {
+                root: classes.cssLabel
+              }
+            }}
+            InputProps={{
+              classes: {
+                input: classes.cssOutlinedInput,
+              },
+            }}
+            style={textFormField}
+          /><br />
+          { newUser ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
+          <Button
+            variant='outlined'
+            color='primary'
+            style={{marginTop:'2%'}}
+            onClick={(e) => this.login(e)}>
+            {newUser ? 'Sign Up' : 'Log In'} 
+          </Button>
+        </form>
+        <a data-toggle='collapse' href='#loginInfo' aria-expanded='false' aria-controls='loginInfo'>
+          <InfoTwoTone />
+        </a>
+        <div className='collapse' id='loginInfo'>
+          <p>Login with an existing username, or <a onClick={() => this.props.actions.newUser(true)}>sign up</a></p>
+          <hr style={{width:'30%',border:'2px solid'}}></hr>
+          <h6>DEMO LOGIN</h6>
+          <p>USERNAME: demo</p>
+          <p>PW: pw</p>
+        </div>
+       </div>
     )
   }
 

@@ -4,8 +4,8 @@ import { IconButton } from '@material-ui/core';
 import { LocationOnTwoTone, 
   AttachMoneyTwoTone, 
   LocalPlayTwoTone, 
+  CollectionsBookmarkTwoTone,
   DeleteOutlineTwoTone } from '@material-ui/icons'
-import { CollectionsBookmarkTwoTone } from '@material-ui/icons';
 
 const EventBlock = (props) => {
   let { events, actions, userAuth, saveEvent } = props

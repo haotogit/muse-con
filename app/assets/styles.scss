@@ -1,3 +1,6 @@
+$primary-color: #3f51b5;
+$secondary-color: #64ffda;
+
 body {
   font-family: 'Roboto', sans-serif;
   background-color:#333;
@@ -7,10 +10,11 @@ body {
 .navbar-inverse {
   background-color:#363e42;
   box-shadow: 0px 0px 3px black;
+  padding: 0 1em;
 }
 
 .navbar-inverse .navbar-brand {
-  color:#ccc;
+  color: white;
 }
 
 .active {
@@ -35,16 +39,17 @@ a:active {
   height: 25em;
   position: fixed;
 
-  > div:first-child {
-    position: fixed;
-    width: 17%;
-    background-color: #333;
-  }
-
   > div:nth-child(2) {
-    margin-top: 55%;
     height: 20em;
-    overflow-y: scroll;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+       width: 3%;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $secondary-color;
+    }
   }
 }
 
@@ -73,7 +78,7 @@ a:active {
   width: 31%;
   position: relative;
   margin: 0.5em;
-  border-top: 4px solid;
+  border-top: 4px solid $primary-color;
 
   .icon-times-container {
     position: absolute;
@@ -151,11 +156,7 @@ div.panel-heading {
 }
 
 .content-contain::-webkit-scrollbar-thumb {
-  background: rgba(2, 128, 144, 1); 
-}
-
-.third-party-widget::-webkit-scrollbar-thumb {
-  background: rgba(51, 101, 138, 1);
+  background: $secondary-color; 
 }
 
 a:hover,
@@ -178,11 +179,19 @@ a:focus {
   text-transform:uppercase;
 }
 
-.content-contain {
-  height: 39em;
+.content-container {
+  height: 37em;
   overflow-y: auto;
-  overflow-x:hidden;
+  overflow-x: hidden;
   margin-top: 10%;
+
+  &::-webkit-scrollbar {
+    width: 1%;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $secondary-color;
+  }
 }
 
 
@@ -196,7 +205,7 @@ a:focus {
 }
 
 a:hover {
-  color:#0097a7;
+  color: $secondary-color;
 }
 
 a {
@@ -253,11 +262,23 @@ a {
       }
     }
   }
+
+  .dropdown-toggle svg {
+    vertical-align: middle;
+  }
 }
 
 .scroll-contain {
   height: 15em;
-  overflow: scroll;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 1%;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $secondary-color;
+  }
 }
 
 .alertify {

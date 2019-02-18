@@ -35,7 +35,7 @@ const store = createStore(reducer, initialState, builtMiddle)
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#5965b2'
+      main: '#3f51b5'
     },
     secondary: {
       main: '#64ffda'

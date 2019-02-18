@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EventBlock from '../components/EventBlock'
 import Lists from '../components/Lists'
-import LinearProgress from 'material-ui/LinearProgress'
 
 class EventContain extends Component {
   componentDidMount() {
@@ -18,7 +17,7 @@ class EventContain extends Component {
 
   render () {
     return (
-      <div className='row content-contain'>
+      <div className='container-fluid content-container'>
         <Lists {...this.props}/>
         
         {this.props.events ? <EventBlock {...this.props} /> : ''}
