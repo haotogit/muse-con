@@ -1,6 +1,7 @@
 import { eventLoader, keyMaker } from '../helpers'
 import popsicle from 'popsicle'
 import qString from 'query-string'
+import alertify from 'alertify.js'
 
 function requestEvents(opt){
   return {
@@ -22,24 +23,26 @@ function loadEvents(userObj, list) {
 
   return (dispatch) => {
     // signal initializing request
-
-    eventLoader(userObj, list, dispatch)
+    dispatch({ type: 'LOADING', payload: true });
+    eventLoader(userObj, list)
       .then(resp => {
         resp.forEach((each, i) => {
           let name = each && each._links ? each._links.self.href.split('=')[2] : '';
           let key = keyMaker(name)
 
-          evObj[key] = []
           if (each && each._embedded && each._embedded.events) {
-            each._embedded.events.forEach(ev => {
-              if (!userObj.events || !userObj.events.find(userEv => ev.id == userEv.id)) evObj[key].push(ev)
-            })
+            evObj[key] = each._embedded.events;
           }
         })
 
         dispatch({ type: 'LOADING', payload: false });
         dispatch(loadedEvents(evObj))
       })
+      .catch((err) => {
+        dispatch({ type: 'FAILED REQUEST', payload: err.message });
+        dispatch({ type: 'LOADING', payload: false });
+        alertify.alert(err.message);
+      });
   }
 }
 

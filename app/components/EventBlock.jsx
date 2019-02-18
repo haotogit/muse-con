@@ -1,11 +1,18 @@
 import React from 'react'
 import { keyMaker } from '../helpers'
-import IconButton from 'material-ui/IconButton'
+import { IconButton } from '@material-ui/core';
+import { LocationOnTwoTone, 
+  AttachMoneyTwoTone, 
+  LocalPlayTwoTone, 
+  DeleteOutlineTwoTone } from '@material-ui/icons'
+import { CollectionsBookmarkTwoTone } from '@material-ui/icons';
 
 const EventBlock = (props) => {
-  let { events, saveEvent, userAuth } = props
+  let { events, actions, userAuth, saveEvent } = props
   let labels = events && !Array.isArray(events) ? Object.keys(events) : null;
   let currFocus;
+  // temp
+  saveEvent = saveEvent ? saveEvent : actions.saveEvent;
 
   let prettyDate = (date, ref) => {
     let currDate = moment()
@@ -19,7 +26,7 @@ const EventBlock = (props) => {
   }
 
   let changeFocus = (index) => {
-    const currEl = document.getElementById(`iconTimesContainer${index}`);
+    const currEl = /explore/.test(props.location.pathname) && labels ? document.getElementById(`iconTimesContainerOther${index}`) : document.getElementById(`iconTimesContainer${index}`);
 
     currEl.style.display = currEl.style.display === 'block' ? 'none' : 'block';
   };
@@ -34,8 +41,11 @@ const EventBlock = (props) => {
               <section key={key} id={key} className='container-fluid group'>
                 { 
                   events[key].map((eachEv, i) => 
-                    <div key={`${key}${i}`} id={`${key}${i}`} className='subgroup'>
-                      <div className='ev-img-contain' 
+                    <div key={`${key}${i}`} id={`${key}${i}`} className='subgroup' onMouseOver={() => changeFocus(i)} onMouseOut={() => changeFocus(i)}>
+                      <div className='icon-times-container' id={`iconTimesContainerOther${i}`}>
+                        <IconButton onClick={() => saveEvent(userAuth, eachEv, events, key, i)}><CollectionsBookmarkTwoTone color='secondary' /></IconButton>
+                      </div>
+                      <div className='ev-img-contain'
                            style={{backgroundImage:`url(${eachEv.images.find(ea => ea.ratio == '3_2' || ea.ratio == '4_3').url})`,}}>
                       </div>
                       <div className='ev-info'>
@@ -46,21 +56,19 @@ const EventBlock = (props) => {
                             : null
                           }
                         </div>
-                        <i className="fa fa-location-arrow" aria-hidden="true"></i> 
-                        <p>&nbsp;{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
+                        <p><LocationOnTwoTone />{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
                         {
                           eachEv.priceRanges && eachEv.priceRanges[0] ?
                             (
                               <div>
-                                <i className="fa fa-money" aria-hidden="true"></i>
-                                <p>&nbsp;{eachEv.priceRanges[0]['min'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})} - {eachEv.priceRanges[0]['max'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})}</p>
+                                <p>{eachEv.priceRanges[0]['min'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})} - {eachEv.priceRanges[0]['max'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})}</p>
                               </div>
                             )
                             : ''
                         }
 
-                        <a key={i} target='_blank' href={eachEv.url}><i className="fa fa-shopping-cart"></i> Buy Tickets</a>
-                        <IconButton iconClassName='fa fa-bookmark-o' onClick={() => saveEvent(userAuth, eachEv, events, key, i)} style={{position:'absolute',top:'-6%',right:'0'}}></IconButton>
+                        <LocalPlayTwoTone />
+                        <a key={i} target='_blank' href={eachEv.url}>&nbsp;Buy Tickets</a>
                       </div>
                     </div>
                   ) 
@@ -74,7 +82,7 @@ const EventBlock = (props) => {
               events.map((eachEv, i) => 
                 <div key={i} className='subgroup' onMouseOver={() => changeFocus(i)} onMouseOut={() => changeFocus(i)}>
                   <div className='icon-times-container' id={`iconTimesContainer${i}`}>
-                    <IconButton iconClassName='fa fa-times' onClick={() => saveEvent(userAuth, eachEv, events)} style={{position:'absolute',top:'-9%',right:'6%',fontSize:'2.5em',cursor:'pointer',zIndex:'50'}}></IconButton>
+                    <IconButton onClick={() => saveEvent(userAuth, eachEv, events, events)}><DeleteOutlineTwoTone color='secondary' /></IconButton>
                   </div>
                   {
                     eachEv.images ? 
@@ -90,19 +98,17 @@ const EventBlock = (props) => {
                         : null
                       }
                     </div>
-                    <i className="fa fa-location-arrow" aria-hidden="true"></i> 
-                    <p>&nbsp;{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
+                    
+                    <p><LocationOnTwoTone />{eachEv._embedded && eachEv._embedded.venues && eachEv._embedded.venues.length > 0 ? `${eachEv._embedded.venues[0].name}` : ''}</p>
                     {
                       eachEv.priceRanges && eachEv.priceRanges[0] ?
                         (
-                          <div>
-                            <i className="fa fa-money" aria-hidden="true"></i>
-                            <p>&nbsp;{eachEv.priceRanges[0]['min'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})} - {eachEv.priceRanges[0]['max'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})}</p>
-                          </div>
+                          <p>{eachEv.priceRanges[0]['min'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})} - {eachEv.priceRanges[0]['max'].toLocaleString(eachEv.priceRanges[0]['currency'], {style:'currency', currency:eachEv.priceRanges[0]['currency']})}</p>
                         )
                         : ''
                     }
-                    <a key={i} target='_blank' href={eachEv.url}>Buy Tickets</a>
+                    <LocalPlayTwoTone />
+                    <a key={i} target='_blank' href={eachEv.url}>&nbsp;Buy Tickets</a>
                   </div>
                 </div>
               ) : ''

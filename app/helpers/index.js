@@ -21,7 +21,7 @@ function popWrap (reqArgs, dispatch, action) {
     })
     .catch(err => {
       dispatch({ type: 'FAILED REQUEST', payload: err.message });
-      //dispatch({ type: 'LOADING', payload: false });
+      dispatch({ type: 'LOADING', payload: false });
       alertify.alert(err.message);
     });
 }
@@ -53,7 +53,7 @@ function locateUser (currUser) {
   })
 }
 
-function eventLoader (userAuth, list, dispatch) {
+function eventLoader (userAuth, list) {
   let latLong = `${userAuth.lat},${userAuth.long}`,
       qParams = {},
       opts,
@@ -63,16 +63,17 @@ function eventLoader (userAuth, list, dispatch) {
   qParams.apikey = config.external.ticketmaster.apiKey
 
   reqsArr = list.filter(item => !item.exclude)
-  return promise.map(reqsArr, (each, i) => {
+  return promise.mapSeries(reqsArr, (each, i) => {
     qParams.keyword = each.name
     qParams.countryCode = 'US'
 
     opts = {
       method: 'GET',
-      url: `${config.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`
+      url: `${config.external.ticketmaster.baseUrl}/events.json?${qString.stringify(qParams)}`,
+      json: true
     }
 
-    return popWrap(opts, dispatch, null)
+    return rp(opts);
   })
 }
 

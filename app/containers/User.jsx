@@ -10,13 +10,13 @@ import d3 from 'd3';
 class User extends Component {
   componentDidUpdate() {
     if (this.props.userAuth.genres && this.props.userAuth.genres.length !== 0) {
-      this.renderGraph(this.props.userAuth.genres)
+      //this.renderGraph(this.props.userAuth.genres)
     }
   }
   
   render() {
     return (
-      <div className='wrapper'>
+      <div className='wrapper' style={{marginTop:'10%'}}>
         <Spotify {...this.props}/>
         <div className='row' style={{marginTop:'3%'}}>
           <div className='col-xs-4'>
@@ -32,7 +32,7 @@ class User extends Component {
             </div>
           </div>
           <div className='col-xs-4'>
-            { this.props.userAuth.genres && this.props.userAuth.genres.length !== 0 ? <svg></svg> : null }
+            {/* this.props.userAuth.genres && this.props.userAuth.genres.length !== 0 ? <svg></svg> : null */}
             <h3>top genres</h3>
             <div className='scroll-contain'>
               <List items={this.props.userAuth.genres} name='top genres'></List>

@@ -1,6 +1,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   background-color:#333;
+  color: white;
 }
 
 .navbar-inverse {
@@ -72,12 +73,17 @@ a:active {
   width: 31%;
   position: relative;
   margin: 0.5em;
+  border-top: 4px solid;
 
   .icon-times-container {
-    position: relative;
-    right: -2em;
-    top: -2em;
+    position: absolute;
     display: none;
+    right: 0;
+    z-index: 9;
+  }
+
+  svg {
+    vertical-align: bottom;
   }
 }
 
@@ -87,11 +93,6 @@ a:active {
 
 .ev-info {
   padding:0.7em;
-}
-
-.ev-info p,
-.ev-info .fa {
-  display: inline-block;
 }
 
 .ev-img-contain {
@@ -194,10 +195,6 @@ a:focus {
   font-size:0.8em;
 }
 
-#login-form label {
-  text-transform: uppercase;
-}
-
 a:hover {
   color:#0097a7;
 }
@@ -261,4 +258,10 @@ a {
 .scroll-contain {
   height: 15em;
   overflow: scroll;
+}
+
+.alertify {
+  .msg {
+    color: #333;
+  }
 }

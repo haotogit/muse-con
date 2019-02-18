@@ -1,18 +1,37 @@
 import React, { Component } from 'react'
 import { login, userSignup, checkUser } from '../actions'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles'; 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+const styles = () => ({
+  cssLabel: {
+    color: 'white'
+  },
+  cssOutlinedInput: {
+    color: 'white'
+  },
+  inputRoot: {
+    'fieldset': {
+      borderColor: 'white'
+    }
+  }
+});
 
 class Login extends Component {
 
-  componentDidMount () {
+  componentDidUpdate() {
   }
 
   render () {
-    const { userAuth, newUser, usernameExists } = this.props
+    const { userAuth, newUser, usernameExists, classes } = this.props
+    const textFormField = {
+      margin: '5px',
+      width: '20%'
+    };
 
     return (
       <div className='wrapper'>
@@ -21,18 +40,42 @@ class Login extends Component {
           <form id='login-form'>
             <TextField
               label='Username'
+              variant='outlined'
               autoFocus={true}
               onBlur={(e) => this.checkUser(e)}
+              InputLabelProps={{
+                classes: {
+                  root: classes.cssLabel
+                }
+              }}
+              InputProps={{
+                classes: {
+                  input: classes.cssOutlinedInput,
+                },
+              }}
+              style={textFormField}
             /><br />
             { usernameExists ? <p>Username exists, please another</p> : null }
             <TextField
               label='Password'
               type='password'
+              variant="outlined"
+              InputLabelProps={{
+                classes: {
+                  root: classes.cssLabel
+                }
+              }}
+              InputProps={{
+                classes: {
+                  input: classes.cssOutlinedInput,
+                },
+              }}
+              style={textFormField}
             /><br />
             { newUser ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
             <Button
-              variant="contained"
-              color="primary"
+              variant='outlined'
+              color='primary'
               style={{marginTop:'2%'}}
               onClick={(e) => this.login(e)}>
               {newUser ? 'Sign Up' : 'Log In'} 
@@ -83,4 +126,8 @@ const mapStateToProps = (state) => ({
   usernameExists: state.user.usernameExists
 })
 
-export default connect(mapStateToProps, { login, userSignup, checkUser })(Login)
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default connect(mapStateToProps, { login, userSignup, checkUser })(withStyles(styles)(Login))

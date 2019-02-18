@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as actions from '../actions'
 import { keyMaker } from '../helpers'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from '@material-ui/core/Button';
 import SvgIcon from 'material-ui/SvgIcon'
 
 const Lists = (props) => {
@@ -28,9 +27,8 @@ const Lists = (props) => {
 
   let isExcluded = (item) => searchList.find(each => each.name === item.name).exclude
   let checkCount = (each) => events[keyMaker(each.name)].length
-  let checkList = () => {
-    if (searchList) return searchList.filter(item => !item.exclude).length > 0
-  }
+  let checkList = () => searchList ? searchList.filter(item => !item.exclude).length : null;
+  let temp = checkList();
 
   return (
     <div className='third-party-widget col-sm-3'>
@@ -39,16 +37,14 @@ const Lists = (props) => {
 
       {
         /explore/.test(props.location.pathname) ? 
-          <RaisedButton
-            label='Search'
-            primary={true}
-            icon={
-              <i className='fa fa-spotify fa-2x' style={{verticalAlign:'middle',color:'#333'}}></i>
-            }
+          <Button
+            variant='contained'
+            color='secondary'
             onClick={() => actions.loadEvents(userAuth, searchList)}
-            disabled={!checkList()}
-            style={{display:'block'}}
-          />
+            disabled={temp === null || temp === 0}
+            style={{display:'block'}}>
+            Search
+          </Button>
         : ''
       }
 
@@ -59,7 +55,7 @@ const Lists = (props) => {
       }
 
       { events && events.length !== 0 ? <p className='clickable' onClick={() => actions.loadedEvents({})}>Clear Search</p> : '' }
-      <h5 style={{margin:'8% auto 2% auto'}}>artists:</h5>
+      <h5 style={{margin:'8% auto 2% auto'}}>artists selected: {temp}</h5>
       <hr></hr>
     </div>
     <div className='row'>
