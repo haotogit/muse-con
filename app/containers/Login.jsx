@@ -42,7 +42,7 @@ class Login extends Component {
             label='Username'
             variant='outlined'
             autoFocus={true}
-            onBlur={(e) => this.checkUser(e)}
+            //onBlur={(e) => this.checkUser(e)}
             InputLabelProps={{
               classes: {
                 root: classes.cssLabel
@@ -112,6 +112,7 @@ class Login extends Component {
 
     this.props.login(opts)
       .then((data) => {
+        console.log('thefuk', data);
         if (data && this.props.userAuth.accessToken) this.props.history.push(`/`)
       })
     //if (!this.props.newUser) this.props.login(opts)

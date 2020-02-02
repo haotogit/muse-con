@@ -57,16 +57,10 @@ module.exports = {
         test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
         loader: 'file-loader?name=[name].[ext]'
       },
-      { test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' },
     ]
   },
   plugins: [
     HtmlWebpackPluginConfig,
-    new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery',
-      moment: 'moment'
-    }),
     new webpack.LoaderOptionsPlugin({
       postcss: [autoprefixer]
     })

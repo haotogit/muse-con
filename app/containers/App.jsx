@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router'
 import { Switch, BrowserRouter } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid';
+import { Grid, Container } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Dashboard from './Dashboard'
 import Navigation from './Navigation'
@@ -29,7 +29,7 @@ const App = () => {
   });
 
   return(
-    <div className='container-fluid' style={styles}>
+    <Container fixed>
       <Navigation />
         <Switch>
           <Route path="/" exact={true} component={Authorizer(Dashboard)} />
@@ -37,7 +37,7 @@ const App = () => {
           <Route path="/user" component={Authorizer(UserSettings)} />
           <Route path="/login" component={Login} />
         </Switch>
-    </div>
+    </Container>
   )
 }
 
