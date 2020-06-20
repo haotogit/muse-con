@@ -3,13 +3,7 @@ import user from './user'
 import event from './event'
 import main from './main'
 
-const initialState = { 
-  user: { 
-    userAuth: { 
-
-    } 
-  } 
-}
+const initialState = {}
 
 export default (state, action) => {
   if (action && action.type === 'LOGOUT') {

@@ -7,7 +7,8 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Button
+  Button,
+	Grid,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,26 +50,50 @@ const Navigation = ({userAuth, logout, loading}) => {
   return (
     <React.Fragment>
       <AppBar fixed='true'>
+				{ progress() }
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            MuseCon
-          </Typography>
-          <Button color="inherit">
-            <Link to='/user' href='#'><AccountCircleTwoTone /> {userAuth && userAuth.username ? userAuth.username : 'User'}</Link>
-          </Button>
+					<Grid
+						container
+						direction='row'
+						alignItems='center'
+						justify='space-between'>
+						<Grid item xs={3}>
+							<ul style={{display:'flex',alignItems:'baseline'}}>
+								<li>
+									<Typography variant="h6" className={classes.title}>
+										MuseCon
+									</Typography>
+								</li>
+								{
+									userAuth ?
+										routes.map(route => 
+											<li key={route} style={{width:'8em',padding:'1em'}}>
+												<Link to={route}>
+													{route === '/' ? 'dashboard' : route}
+												</Link>
+											</li>
+										)
+									: null
+								}
+							</ul>
+						</Grid>
+
+						<Grid item xs={3}>
+							<Button color="inherit">
+								<AccountCircleTwoTone style={{marginRight: '0.1em'}}/>
+								<Link to='/user' href='#'>{userAuth ? userAuth.username : 'User'}</Link>
+							</Button>
+						</Grid>
+					</Grid>
         </Toolbar>
       </AppBar>
-      { progress() }
     </React.Fragment>
   )
 }
 
 const mapStateToProps = (state) => ({
-  userAuth: state.user.userAuth,
+  userAuth: state.user.auth,
   loading: state.main.loading,
 })
 
 export default connect(mapStateToProps, { logout })(Navigation)
-  

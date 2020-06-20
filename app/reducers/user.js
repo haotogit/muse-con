@@ -2,19 +2,19 @@ export default function user(state={}, action) {
   switch(action.type){
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
-        userAuth: action.payload
+        auth: action.payload
       })
     break;
 
     case 'CURR_USER_LOCATION':
       return Object.assign({}, state, {
-        userAuth: action.payload
+        auth: action.payload
       })
     break;
 
     case 'USER_UPDATE':
       return Object.assign({}, state, {
-        userAuth: action.payload
+        auth: action.payload
       })
     break;
 

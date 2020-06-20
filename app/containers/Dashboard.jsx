@@ -14,6 +14,21 @@ import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
 
 class Dashboard extends Component {
+	static getContainerStateScope() {
+		return {
+			props: (state) => {
+				return {
+					events: state.userEvents,
+				}
+			},
+			actions: () => {
+				return {
+					getUserEvents,
+					saveEvent,
+				}
+			}
+		}
+	}
   // to touch nested children of state tree,
   // assign new properties to highest affected level,
   // then reassign to state by using same key
@@ -31,6 +46,7 @@ class Dashboard extends Component {
 
   componentDidUpdate(prevProps) {
   }
+
   render(){
     let checkUser = (user) => {
       if (!user.thirdParties || user.thirdParties.length === 0) {
@@ -51,8 +67,4 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  events: state.user.events,
-})
-
-export default connect(mapStateToProps, { getUserEvents, saveEvent })(Dashboard)
+export default Dashboard

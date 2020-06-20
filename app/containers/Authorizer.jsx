@@ -6,17 +6,19 @@ import Navigation from './Navigation'
 export default function Authorizer (Comp) {
   class AuthedComp extends Component {
     componentDidMount() {
+			console.log('faaaaaaaaakkk');
       this.authenticate()
     }
 
     componentDidUpdate(prevProps) {
+			console.log('faaaaaaaaakkkupdate');
       this.authenticate()
     }
 
     authenticate() {
       // need to refactor to consider token expiration
       // also make a request to validate token
-      if (!this.props.userAuth.accessToken) this.props.history.push(`/login`);
+      if (!this.props.userAuth || !this.props.userAuth.accessToken) this.props.history.push(`/login`);
     }
 
     render() {
@@ -25,38 +27,20 @@ export default function Authorizer (Comp) {
         position:'relative'
       }
 
-      const routes = ['/', 'explore']
       return (
-        <div className='container-fluid'>
-          <div className='row' style={{position:'fixed',width:'100%',left:'0',top:'10%'}}>
-            <ul style={{display:'flex'}}>
-              {
-                routes.map(route => 
-                  <li key={route} style={{width:'8em',padding:'1em'}}>
-                    <Link to={route}>
-                      {route === '/' ? 'dashboard' : route}
-                    </Link>
-                  </li>
-                )
-              }
-            </ul>
-          </div>
-          { /*
-              this.props.loading ? <LinearProgress mode='indeterminate' style={{backgroundColor:'none',overflow:'hidden',position:'fixed',left:'0',top:'6%',width:'100%'}} /> : ''
-              */ }
-          
-
-          { this.props.userAuth.accessToken ? <Comp {...this.props}/> : null }
-        </div>
+				<React.Fragment>
+					{ this.props.userAuth && this.props.userAuth.accessToken ? <Comp {...this.props}/> : null }
+				</React.Fragment>
       )
     }
   }
 
-  const mapStateToProps = (state) => ({
-    userAuth: state.user.userAuth,
-    loading: state.main.loading,
-    events: state.user.events,
-  })
+	const containerScope = Comp.getContainerStateScope();
+	const mapStateToProps = (state) => (Object.assign({}, {
+			userAuth: state.user.auth,
+			loading: state.main.loading,
+  	}, containerScope.props(state)));
+	const mapDispatchToProps = (dispatch) => containerScope.actions();
 
-  return connect(mapStateToProps)(AuthedComp)
+  return connect(mapStateToProps, mapDispatchToProps())(AuthedComp);
 }

@@ -112,7 +112,6 @@ class Login extends Component {
 
     this.props.login(opts)
       .then((data) => {
-        console.log('thefuk', data);
         if (data && this.props.userAuth.accessToken) this.props.history.push(`/`)
       })
     //if (!this.props.newUser) this.props.login(opts)
@@ -121,7 +120,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userAuth: state.user.userAuth,
+  userAuth: state.user.auth,
   newUser: state.user.newUser,
   usernameExists: state.user.usernameExists
 })

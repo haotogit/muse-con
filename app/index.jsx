@@ -10,24 +10,19 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { AppContainer } from 'react-hot-loader'
 import AppWrapper from './containers/App'
-import Authorizer from './containers/Authorizer'
 import './vendor'
 
 const middleware = [
     thunk,
 ]
 
-if(process.env.NODE_ENV === 'DEV') {
+if(process.env.NODE_ENV === 'dev') {
   const logger = createLogger()
   middleware.push(logger)
 }
 
 const initialState = { 
-  user: { 
-    userAuth: { 
-      
-    } 
-  } 
+  user: {} 
 }
 
 const builtMiddle = composeWithDevTools(applyMiddleware(...middleware))
@@ -47,14 +42,12 @@ const theme = createMuiTheme({
 render(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <BrowserRouter>
-        <AppWrapper />
-      </BrowserRouter>
+      <AppWrapper />
     </Provider>
   </MuiThemeProvider>,
   document.getElementById('app')
 );
 
-if (module.hot && process.env.NODE_ENV === 'DEV') {
+if (module.hot && process.env.NODE_ENV === 'dev') {
   module.hot.accept();
 }

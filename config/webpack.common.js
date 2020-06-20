@@ -15,11 +15,11 @@ let entryArray = [
 ];
 
 // ran into errors because of hot loader not going in first
-if (process.env.NODE_ENV === 'DEV') {
+if (process.env.NODE_ENV === 'dev') {
   let devEntries = [
-    'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
+    'react-hot-loader/patch',
   ];
 
   for (let i = devEntries.length - 1; i >= 0; i--) {
