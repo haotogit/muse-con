@@ -8,6 +8,21 @@ import List from '../components/List'
 import d3 from 'd3';
 
 class User extends Component {
+	static getContainerStateScope() {
+		return {
+			props: (state) => {
+				return {
+					searchList: state.event.searchList
+				}
+			},
+			actions: (dispatch) => {
+				return {
+					actions: bindActionCreators(actions, dispatch)
+				}
+			}
+		}
+	}
+
   componentDidUpdate() {
     if (this.props.userAuth.genres && this.props.userAuth.genres.length !== 0) {
       //this.renderGraph(this.props.userAuth.genres)
@@ -100,17 +115,4 @@ class User extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    userAuth: state.user.userAuth,
-    searchList: state.event.searchList
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default User;

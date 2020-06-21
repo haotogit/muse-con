@@ -21,7 +21,7 @@ class Dashboard extends Component {
 					events: state.userEvents,
 				}
 			},
-			actions: () => {
+			actions: (dispatch) => {
 				return {
 					getUserEvents,
 					saveEvent,

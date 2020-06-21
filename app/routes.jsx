@@ -20,8 +20,8 @@ export default () => {
 				<Navigation />
 				<Switch>
 					<Route path="/" exact={true} component={Authorizer(Dashboard)} />
-						{/*<Route path="/explore" component={Authorizer(EventContain)} />
 					<Route path="/user" component={Authorizer(UserSettings)} />
+						{/*<Route path="/explore" component={Authorizer(EventContain)} />
 					*/}
 					<Route path="/login" component={Login} />
 				</Switch>

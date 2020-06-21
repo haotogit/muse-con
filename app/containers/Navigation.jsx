@@ -78,7 +78,7 @@ const Navigation = ({userAuth, logout, loading}) => {
 							</ul>
 						</Grid>
 
-						<Grid item xs={3}>
+						<Grid item xs={3} style={{textAlign: 'right', flexBasis: '8%'}}>
 							<Button color="inherit">
 								<AccountCircleTwoTone style={{marginRight: '0.1em'}}/>
 								<Link to='/user' href='#'>{userAuth ? userAuth.username : 'User'}</Link>

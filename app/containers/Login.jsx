@@ -23,7 +23,6 @@ const styles = () => ({
 });
 
 class Login extends Component {
-
   componentDidUpdate() {
   }
 
@@ -39,6 +38,7 @@ class Login extends Component {
         <h1 style={{textTransform:'uppercase'}}>{newUser ? 'Sign Up' : 'Login'}</h1>
         <form id='login-form'>
           <TextField
+						id='standard-basic'
             label='Username'
             variant='outlined'
             autoFocus={true}
@@ -57,6 +57,7 @@ class Login extends Component {
           /><br />
           { usernameExists ? <p>Username exists, please another</p> : null }
           <TextField
+						id='standard-basic'
             label='Password'
             type='password'
             variant="outlined"

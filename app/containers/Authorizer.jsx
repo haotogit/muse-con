@@ -6,12 +6,10 @@ import Navigation from './Navigation'
 export default function Authorizer (Comp) {
   class AuthedComp extends Component {
     componentDidMount() {
-			console.log('faaaaaaaaakkk');
       this.authenticate()
     }
 
     componentDidUpdate(prevProps) {
-			console.log('faaaaaaaaakkkupdate');
       this.authenticate()
     }
 
@@ -40,7 +38,7 @@ export default function Authorizer (Comp) {
 			userAuth: state.user.auth,
 			loading: state.main.loading,
   	}, containerScope.props(state)));
-	const mapDispatchToProps = (dispatch) => containerScope.actions();
+	const mapDispatchToProps = (dispatch) => containerScope.actions(dispatch);
 
   return connect(mapStateToProps, mapDispatchToProps())(AuthedComp);
 }
