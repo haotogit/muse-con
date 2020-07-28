@@ -23,7 +23,7 @@ class User extends Component {
 		}
 	}
 
-  componentDidUpdate() {
+  componentDidMount() {
     if (this.props.userAuth.genres && this.props.userAuth.genres.length !== 0) {
       //this.renderGraph(this.props.userAuth.genres)
     }

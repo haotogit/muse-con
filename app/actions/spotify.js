@@ -8,7 +8,6 @@ import config from '../../config/app.config'
 const BASE_PATH = urlLib.format(config.app.api);
 
 function analyzeSpotify (user) {
-  const spotifyObj = user.thirdParties[0];
   return (dispatch) => {
     dispatch({ type: 'REQUESTING_SPOTIFY_DATA' });
     popWrap({ 
@@ -17,12 +16,10 @@ function analyzeSpotify (user) {
       headers: {
         Authorization: `Bearer ${user.accessToken}`
       },
-      qs: {
-        spotifyId: spotifyObj._id,
-        spotifyAccessToken: spotifyObj.accessToken,
-        spotifyRefreshToken: spotifyObj.refreshToken
-      }
-    }, dispatch, userUpdate);
+		}, dispatch)
+		.then(updated => {
+			dispatch(userUpdate(Object.assign({}, user, updated)))
+		});
   }
 }
 

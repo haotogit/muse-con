@@ -10,6 +10,33 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color:#333;
   color: white;
+
+	header {
+		ul {
+			li {
+				a {
+					color: inherit;
+					&.active {
+						text-decoration: underline;
+						color: $secondary-color;
+					}
+				}
+			}
+		}
+	}
+
+	a {
+		color: $secondary-color;
+		text-decoration: none;
+		&:active {
+			background-color:none;
+		}
+
+		&:hover {
+			color: $secondary-color;
+			cursor: pointer;
+		}
+	}
 }
 
 .navbar-inverse {
@@ -29,18 +56,6 @@ body {
 .nav-tabs {
   border: none;
   background-color:none;
-}
-
-a {
-	color: $secondary-color!important;
-	&:active {
-		background-color:none;
-	}
-
-	&:hover {
-		color: white;
-		cursor: pointer;
-	}
 }
 
 .label-text {
@@ -187,11 +202,6 @@ a:focus {
   border-bottom:2px solid #0097a7;
 }
 
-.label a {
-  color:white;
-  text-transform:uppercase;
-}
-
 .content-container {
   height: 37em;
   overflow-y: auto;
@@ -215,14 +225,6 @@ a:focus {
 .nav-stacked > li > a {
   padding: 10px 0;
   font-size:0.8em;
-}
-
-a:hover {
-  color: $secondary-color;
-}
-
-a {
-  color:#ccc;
 }
 
 .nav-stacked > li > a:hover,
@@ -296,6 +298,6 @@ a {
 
 .alertify {
   .msg {
-    color: #333;
+    color: $primary-color;
   }
 }

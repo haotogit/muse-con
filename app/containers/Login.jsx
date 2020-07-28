@@ -174,7 +174,6 @@ class Login extends Component {
 						})
 					})
 			}
-			console.log('-------', this.state);
 		}
 
 		this.updateState(this.toggleSubmit)

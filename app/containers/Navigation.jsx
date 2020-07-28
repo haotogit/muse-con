@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { 
   LinearProgress,
@@ -56,10 +56,11 @@ const Navigation = ({userAuth, logout, loading}) => {
 		setAnchorEl(ev.currentTarget);
 	};
 
-	const closeMenu = (ev, action) => {
-		if (action === 'logout') {
+	const closeMenu = (ev) => {
+		const currTarget = ev && ev.target ? ev.target.textContent : null
+		if (currTarget === 'Logout') {
 			logout();
-		} else if (action === 'user') {
+		} else if (currTarget === 'Profile') {
 			history.push(`/user`);
 		}
 		setAnchorEl(null);
@@ -76,7 +77,7 @@ const Navigation = ({userAuth, logout, loading}) => {
 						alignItems='center'
 						justify='space-between'>
 						<Grid item xs={3}>
-							<ul style={{display:'flex',alignItems:'baseline', margin:0}}>
+							<ul className='top-nav' style={{display:'flex',alignItems:'baseline', margin:0}}>
 								<li>
 									<Typography variant="h6" className={classes.title}>
 										MuseCon
@@ -86,9 +87,9 @@ const Navigation = ({userAuth, logout, loading}) => {
 									userAuth ?
 										routes.map(route => 
 											<li key={route} style={{width:'8em',padding:'1em'}}>
-												<Link to={route}>
+												<NavLink exact to={route}>
 													{route === '/' ? 'dashboard' : route}
-												</Link>
+												</NavLink>
 											</li>
 										)
 									: null
@@ -112,9 +113,10 @@ const Navigation = ({userAuth, logout, loading}) => {
 										id='user-menu'
 										anchorEl={anchorEl}
 										keepMounted
-										open={Boolean(anchorEl)}>
-										<MenuItem onClick={(ev) => closeMenu(ev, 'user')}>Profile</MenuItem>
-										<MenuItem onClick={(ev) => closeMenu(ev, 'logout')}>Logout</MenuItem>
+										open={Boolean(anchorEl)}
+										onClose={() => closeMenu()}>
+										<MenuItem onClick={(ev) => closeMenu(ev)}>Profile</MenuItem>
+										<MenuItem onClick={(ev) => closeMenu(ev)}>Logout</MenuItem>
 									</Menu>
 								</Grid>
 							: null
