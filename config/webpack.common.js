@@ -37,17 +37,17 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx', 'scss']
   },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+			{
+        test: /\.jsx?$/,
+				use: 'react-hot-loader/webpack',
+				include: /node_modules/
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

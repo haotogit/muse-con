@@ -1,9 +1,14 @@
-$primary-color: #3f51b5;
-$secondary-color: #64ffda;
+$primary-color: #5899E2;
+$secondary-color: #FFAA00;
+
+/* light corl ef6f6c
+ * pine green 136f63
+ * flame e4572e
+ * */
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color:#ccc;
+  background-color:#333;
   color: white;
 }
 
@@ -26,8 +31,16 @@ body {
   background-color:none;
 }
 
-a:active {
-  background-color:none;
+a {
+	color: $secondary-color!important;
+	&:active {
+		background-color:none;
+	}
+
+	&:hover {
+		color: white;
+		cursor: pointer;
+	}
 }
 
 .label-text {

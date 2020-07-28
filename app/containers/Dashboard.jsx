@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
-import Badge from '@material-ui/core/Badge';
 import { CalendarTodayTwoTone } from '@material-ui/icons';
-import EventContain from './EventContain'
+import { Fab, Badge } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { getUserEvents, saveEvent } from '../actions'
-import Spotify from '../components/Spotify'
-import { loadEvents } from '../actions'
 import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
@@ -42,9 +41,6 @@ class Dashboard extends Component {
     //}
     //this.props.dispatch({ type: 'LOADED_USER_EVENTS', payload: [] });
     this.props.getUserEvents(this.props.userAuth);
-  }
-
-  componentDidUpdate(prevProps) {
   }
 
   render(){

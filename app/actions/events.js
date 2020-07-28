@@ -1,5 +1,4 @@
 import { eventLoader, keyMaker } from '../helpers'
-import popsicle from 'popsicle'
 import qString from 'query-string'
 import alertify from 'alertify.js'
 

@@ -15,6 +15,7 @@ module.exports = webpackMerge(commonConfig, {
   },
   devServer: {
     contentBase: path.join(__dirname, '..', 'dist'),
+		compress: true,
     inline: true,
     hot: true,
     stats: {
@@ -27,7 +28,7 @@ module.exports = webpackMerge(commonConfig, {
     },
     historyApiFallback: true,
     headers: {
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': 'localhost'
     }
   },
   module: {
@@ -56,9 +57,6 @@ module.exports = webpackMerge(commonConfig, {
         'TICKETMASTER_KEY': JSON.stringify(process.env.TICKETMASTER_KEY),
         'API_PROTOCOL': JSON.stringify(process.env.API_PROTOCOL),
         'API_HOST': JSON.stringify(process.env.API_HOST),
-        'SPOTIFY_CLIENT_ID': JSON.stringify(process.env.SPOTIFY_CLIENT_ID),
-        'SPOTIFY_CLIENT_SECRET': JSON.stringify(process.env.SPOTIFY_CLIENT_SECRET),
-        'SPOTIFY_REDIRECT_URI': JSON.stringify(process.env.SPOTIFY_REDIRECT_URI),
       }
     }),
   ]

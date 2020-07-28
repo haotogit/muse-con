@@ -1,48 +1,70 @@
 import React, { Component } from 'react'
-import { login, userSignup, checkUser } from '../actions'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles'; 
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { InfoTwoTone } from '@material-ui/icons'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import {
+	Button,
+	TextField,
+	Container,
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles' 
+import { 
+	login,
+	checkUsername,
+	userSignup,
+} from '../actions'
 
 const styles = () => ({
   cssLabel: {
     color: 'white'
   },
-  cssOutlinedInput: {
-    color: 'white'
-  },
-  inputRoot: {
-    'fieldset': {
-      borderColor: 'white'
-    }
-  }
-});
+  cssInput: {
+    color: 'white',
+		borderBottom: '1px solid white'
+	},
+	mainContain: {
+		textAlign: 'center',
+		marginTop: '12%',
+	}
+})
 
 class Login extends Component {
-  componentDidUpdate() {
-  }
+	constructor(props) {
+		super(props)
+		this.currUsername = React.createRef()
+		this.currPw = React.createRef()
+		this.confirmPw = React.createRef()
+	}
+
+	componentDidMount() {
+		this.setState({
+			invalidLogin: true
+		})
+	}
 
   render () {
-    const { userAuth, newUser, usernameExists, classes } = this.props
+		const { 
+			userAuth,
+			classes,
+		} = this.props
+		const {
+			freshUser,
+		} = this.state || {}
     const textFormField = {
       margin: '5px',
       width: '20%'
-    };
+    }
 
     return (
-      <div className='container' style={{textAlign:'center', marginTop:'12%'}}>
-        <h1 style={{textTransform:'uppercase'}}>{newUser ? 'Sign Up' : 'Login'}</h1>
-        <form id='login-form'>
+      <Container classes={{ root: classes.mainContain }}>
+        <h1 style={{textTransform:'uppercase'}}>{freshUser ? 'Sign Up' : 'Login'}</h1>
+				<a onClick={() => this.updateState(this.toggleSignup)}>{freshUser ? 'Already have an account? Login' : 'No Account? Sign up'}</a>
+				<form id='login-form' onSubmit={(e) => this.login(e)}>
           <TextField
-						id='standard-basic'
+						id='currUsername'
             label='Username'
-            variant='outlined'
             autoFocus={true}
-            //onBlur={(e) => this.checkUser(e)}
             InputLabelProps={{
               classes: {
                 root: classes.cssLabel
@@ -50,17 +72,19 @@ class Login extends Component {
             }}
             InputProps={{
               classes: {
-                input: classes.cssOutlinedInput,
+                input: classes.cssInput,
               },
             }}
             style={textFormField}
+						inputRef={this.currUsername}
+						onChange={(e) => this.updateCreds(e)}
+						error={freshUser && freshUser.validUsername === false}
+						helperText={freshUser && freshUser.validUsername === false ? 'Username already exists' : null}
           /><br />
-          { usernameExists ? <p>Username exists, please another</p> : null }
           <TextField
-						id='standard-basic'
+						id='currPw'
             label='Password'
             type='password'
-            variant="outlined"
             InputLabelProps={{
               classes: {
                 root: classes.cssLabel
@@ -68,66 +92,134 @@ class Login extends Component {
             }}
             InputProps={{
               classes: {
-                input: classes.cssOutlinedInput,
+                input: classes.cssInput,
               },
             }}
             style={textFormField}
+						inputRef={this.currPw}
+						onChange={(e) => this.updateCreds(e)}
+						error={freshUser && freshUser.validPw === false}
+						helperText={freshUser && freshUser.validPw === false ? `Passwords don't match` : null}
           /><br />
-          { newUser ? <div><TextField type='password' ref='confirmPassword' floatingLabelText='Confirm Password' /><br /></div> : '' }
+					{ freshUser ? 
+							<React.Fragment>
+								<TextField
+									id='confirmPw'
+									label='Confirm Password'
+									type='password'
+									InputLabelProps={{
+										classes: {
+											root: classes.cssLabel
+										}
+									}}
+									InputProps={{
+										classes: {
+											input: classes.cssInput,
+										},
+									}}
+									style={textFormField}
+									inputRef={this.confirmPw}
+									onChange={(e) => this.updateCreds(e)}
+									error={freshUser && freshUser.validPw === false}
+									helperText={freshUser && freshUser.validPw === false ? `Passwords don't match` : null}
+								/><br />
+							</React.Fragment>
+							: null 
+					}
           <Button
-            variant='outlined'
             color='primary'
+						type='submit'
             style={{marginTop:'2%'}}
-            onClick={(e) => this.login(e)}>
-            {newUser ? 'Sign Up' : 'Log In'} 
+						disabled={!this.state || this.state.invalidLogin}>
+            {freshUser ? 'Sign up' : 'Log in'} 
           </Button>
         </form>
-        <a data-toggle='collapse' href='#loginInfo' aria-expanded='false' aria-controls='loginInfo'>
-          <InfoTwoTone />
-        </a>
-        <div className='collapse' id='loginInfo'>
-          <p>Login with an existing username, or <a onClick={() => this.props.actions.newUser(true)}>sign up</a></p>
-          <hr style={{width:'30%',border:'2px solid'}}></hr>
-          <h6>DEMO LOGIN</h6>
-          <p>USERNAME: demo</p>
-          <p>PW: pw</p>
-        </div>
-       </div>
+       </Container>
     )
   }
 
-  checkUser(e) {
-    let username = e.target.value
-    if (username != '') this.props.checkUser(username, this.props.userAuth)
-  }
+	updateState(toUpdate) {
+		this.setState(toUpdate)
+	}
+
+	toggleSubmit(state) {
+		return {
+			invalidLogin: ((this.currUsername.current && this.currUsername.current.value === '') || (this.currPw.current && this.currPw.current.value === '')) ||
+				(state.freshUser && (state.freshUser.validUsername === false || state.freshUser.validPw === false))
+		}
+	}
+
+	toggleSignup(state) {
+		return {
+			freshUser: state.freshUser ? null : {}
+		}
+	}
+
+	updateCreds(e) {
+		let currField = e.target.id
+		if (this.state.freshUser) {
+			if (currField !== 'currUsername') {
+				this.setState((state) => {
+					return {
+						freshUser: Object.assign(state.freshUser, { validPw: this.checkPw() })
+					}
+				})
+			} else if (this.currUsername.current && this.currUsername.current !== '') {
+				this.props.checkUsername(this.currUsername.current.value)
+					.then(result => {
+						this.setState((state) => { 
+							return {
+								freshUser: Object.assign(state.freshUser, { validUsername: result === null }) 
+							}
+						})
+					})
+			}
+			console.log('-------', this.state);
+		}
+
+		this.updateState(this.toggleSubmit)
+	}
 
   login(e) {
-    //const username = this.refs.username.input.value,
-    //  password = this.refs.password.input.value,
-    const opts = {
-        username: 'barry',
-        password: 'password'
-      //  username: username, 
-      //  password: password 
-      }
+		e.preventDefault()
+		let username = this.currUsername.current.value,
+			password = this.currPw.current.value,
+			action
+		if (username !== '' &&  password !== '') {
+			const opts = {
+				username,
+				password,
+			}
 
-    this.props.login(opts)
-      .then((data) => {
-        if (data && this.props.userAuth.accessToken) this.props.history.push(`/`)
-      })
-    //if (!this.props.newUser) this.props.login(opts)
-    //if (this.props.newUser && (!this.props.existingUsername && username !== '') && this.refs.confirmPassword.input.value == password) this.props.userSignup(opts)
+			if (!this.state.freshUser) {
+				action = this.props.login
+			} else if (this.state.freshUser.validUsername && this.state.freshUser.validPw) {
+				action = this.props.userSignup
+			}
+			
+			action(opts)
+				.then(result => {
+					if (result && result.accessToken) {
+						this.setState({})
+						this.props.history.push(``)
+					}
+				})
+		}
   }
+
+	checkPw() {
+		return this.currPw.current.value === this.confirmPw.current.value
+	}
 }
 
 const mapStateToProps = (state) => ({
   userAuth: state.user.auth,
-  newUser: state.user.newUser,
-  usernameExists: state.user.usernameExists
 })
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default connect(mapStateToProps, { login, userSignup, checkUser })(withStyles(styles)(Login))
+export default connect(mapStateToProps, { 
+	login, userSignup, checkUsername
+})(withStyles(styles)(Login))

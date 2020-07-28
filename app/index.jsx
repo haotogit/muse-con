@@ -6,9 +6,7 @@ import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { AppContainer } from 'react-hot-loader'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import AppWrapper from './containers/App'
 import './vendor'
 
@@ -16,7 +14,7 @@ const middleware = [
     thunk,
 ]
 
-if(process.env.NODE_ENV === 'dev') {
+if (process.env.NODE_ENV === 'dev') {
   const logger = createLogger()
   middleware.push(logger)
 }
@@ -25,19 +23,19 @@ const initialState = {
   user: {} 
 }
 
-const builtMiddle = composeWithDevTools(applyMiddleware(...middleware))
-const store = createStore(reducer, initialState, builtMiddle)
+const store = createStore(reducer, initialState, compose(applyMiddleware(...middleware)))
+
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#3f51b5'
+      main: '#5899E2'
     },
     secondary: {
-      main: '#64ffda'
+      main: '#FFAA00'
     }
   },
   typography: { useNextVariants: true },
-});
+})
 
 render(
   <MuiThemeProvider theme={theme}>
@@ -46,8 +44,4 @@ render(
     </Provider>
   </MuiThemeProvider>,
   document.getElementById('app')
-);
-
-if (module.hot && process.env.NODE_ENV === 'dev') {
-  module.hot.accept();
-}
+)

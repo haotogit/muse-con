@@ -13,11 +13,6 @@ module.exports = webpackMerge(commonConfig, {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      },
-      {
         test: /\.(sa|sc|c)ss$/,
         use: [
           miniCssExtractPlugin.loader,
@@ -37,9 +32,6 @@ module.exports = webpackMerge(commonConfig, {
         'TICKETMASTER_KEY': JSON.stringify('MwOoif9Ac5iZFedZG7xMW368oRbghDAz'),
         'API_PROTOCOL': JSON.stringify('http'),
         'API_HOSTNAME': JSON.stringify('18.218.255.222'),
-        'SPOTIFY_CLIENT_ID': JSON.stringify('967d0ee071fc41c99fcd12d6dc5718c0'),
-        'SPOTIFY_CLIENT_SECRET': JSON.stringify('caf7a40f87d342ac8735618a93b3a44d'),
-        'SPOTIFY_REDIRECT_URI': JSON.stringify('http://18.218.255.222:8087/api/v1/authSpotify/callback'),
       }
     }),
   ],

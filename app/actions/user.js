@@ -1,14 +1,12 @@
-import popsicle from 'popsicle'
-import { push } from 'react-router-redux'
 import urlLib from 'url'
 import rp from 'request-promise'
-import promise from 'bluebird';
+import promise from 'bluebird'
 import alertify from 'alertify.js'
 import { popWrap } from '../helpers'
 import { loadedEvents } from './events'
 import config from '../../config/app.config'
 
-const BASE_PATH = urlLib.format(config.app.api);
+const BASE_PATH = urlLib.format(config.app.api)
 
 function login(opts){
   const options = {
@@ -18,37 +16,24 @@ function login(opts){
       username: opts.username,
       password: opts.password 
     }
-  };
+  }
 
   return (dispatch) => {
     dispatch(loginRequest(options.body))
 
-    return popWrap(options, dispatch, loginSuccess);
+		return popWrap(options, dispatch, loginSuccess)
   }
 }
 
-function checkUser (username, user) {
+function checkUsername (username) {
   return (dispatch) => {
-    popWrap({
+    return popWrap({
       method: 'POST',
       url: `${BASE_PATH}/username`,
-      body: username,
-      headers: {
-        Authorization: `Bearer ${user.accessToken}`
-      }
+			body: {
+				username
+			}
     }, dispatch)
-    .then(res => {
-      let payload = res.body ? false : true;
-
-      dispatch({ type: 'USERNAME_EXISTS', payload });
-    });
-  }
-}
-
-function newUser (payload) {
-  return {
-    type: 'NEW_USER',
-    payload
   }
 }
 
@@ -56,17 +41,11 @@ function userSignup (obj) {
   return (dispatch) => {
     dispatch(newSignup(obj))
 
-    popWrap({
+    return popWrap({
       method: 'POST',
       url: `${BASE_PATH}/users`,
       body: obj
-    }, dispatch)
-    .then(res => {
-      if (res) {
-        dispatch(loginSuccess(res.body))
-        dispatch(push(''))
-      }   
-    })
+    }, dispatch, loginSuccess)
   }
 }
 
@@ -133,30 +112,30 @@ function saveEvent(user, ev, events, key, index) {
         Authorization: `Bearer ${user.accessToken}`,
       },
       json: true,
-    };
-  let condition = events && Array.isArray(events) && events.find(ea => ea.id === ev.id);
+    }
+  let condition = events && Array.isArray(events) && events.find(ea => ea.id === ev.id)
 
-  ev.userId = user.id;
-  ev.externalId = ev.id;
+  ev.userId = user.id
+  ev.externalId = ev.id
   //if deleting
   if (condition) {
-    opts.method = 'DELETE';
-    opts.url = `${BASE_PATH}/events/${ev._id}`;
-    //searchEvents = [];
+    opts.method = 'DELETE'
+    opts.url = `${BASE_PATH}/events/${ev._id}`
+    //searchEvents = []
   } else {
-    opts.method = 'POST';
-    opts.url = `${BASE_PATH}/events`;
-    opts.body = ev;
-    opts.body.externalId = ev.id;
-    opts.body.userId = user.id;
-    delete opts.body.id;
-    events[key].splice(index, 1);
-    searchEvents = Object.assign({}, events);
+    opts.method = 'POST'
+    opts.url = `${BASE_PATH}/events`
+    opts.body = ev
+    opts.body.externalId = ev.id
+    opts.body.userId = user.id
+    delete opts.body.id
+    events[key].splice(index, 1)
+    searchEvents = Object.assign({}, events)
   }
 
   return (dispatch) => {
     //if deleting
-    dispatch({ type: 'LOADING', payload: true });
+    dispatch({ type: 'LOADING', payload: true })
     if (condition) {
       return rp(opts)
         .then(data => {
@@ -166,26 +145,26 @@ function saveEvent(user, ev, events, key, index) {
             headers: {
               Authorization: `Bearer ${user.accessToken}`
             }
-          };
+          }
 
-          return popWrap(getOpts, dispatch, loadedUserEvents);
+          return popWrap(getOpts, dispatch, loadedUserEvents)
         })
         .catch(err => {
-          alertify.alert(err.message);
-          dispatch({ type: 'FAILED REQUEST', payload: err });
-          dispatch({ type: 'LOADING', payload: false });
-        });
+          alertify.alert(err.message)
+          dispatch({ type: 'FAILED REQUEST', payload: err })
+          dispatch({ type: 'LOADING', payload: false })
+        })
     } else {
-      dispatch(loadedEvents(searchEvents));
+      dispatch(loadedEvents(searchEvents))
       return rp(opts)
         .then(res => {
-          dispatch({ type: 'LOADING', payload: false });
+          dispatch({ type: 'LOADING', payload: false })
         })
         .catch(err => {
-          alertify.alert(err.message);
-          dispatch({ type: 'FAILED REQUEST', payload: err });
-          dispatch({ type: 'LOADING', payload: false });
-        });
+          alertify.alert(err.message)
+          dispatch({ type: 'FAILED REQUEST', payload: err })
+          dispatch({ type: 'LOADING', payload: false })
+        })
     }
   }
 }
@@ -204,11 +183,28 @@ function getUserEvents(user) {
     headers: {
       Authorization: `Bearer ${user.accessToken}`
     }
-  };
+  }
 
   return (dispatch) => {
-    return popWrap(opts, dispatch, loadedUserEvents);
+    return popWrap(opts, dispatch, loadedUserEvents)
   }
 }
 
-export { login, logout, locationFound, checkUser, userSignup, userUpdate, saveEvent, newUser, getUserEvents }
+function updateNewUser(payload) {
+	return dispatch => {
+		dispatch({ type: 'UPDATE_NEW_USER', payload })
+	}
+}
+
+function updateCreds(payload) {
+	return dispatch => {
+		dispatch({ type: 'UPDATE_CREDS', payload })
+		return Promise.resolve()
+	}
+}
+
+export { 
+	login, logout, locationFound, checkUsername,
+	userUpdate, saveEvent, getUserEvents,
+	updateCreds, updateNewUser, userSignup
+}

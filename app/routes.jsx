@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { 
   BrowserRouter as Router,
   Switch,
   Route
 } from 'react-router-dom'
-import { Container } from '@material-ui/core';
+import { Container } from '@material-ui/core'
+
 import Dashboard from './containers/Dashboard'
 import Login from './containers/Login'
 import EventContain from './containers/EventContain'
@@ -16,13 +17,12 @@ import Navigation from './containers/Navigation'
 export default () => {
   return (
     <Router>
-			<Container fixed>
+			<Container>
 				<Navigation />
 				<Switch>
-					<Route path="/" exact={true} component={Authorizer(Dashboard)} />
+					<Route exact={true} path="/" component={Authorizer(Dashboard)} />
 					<Route path="/user" component={Authorizer(UserSettings)} />
-						{/*<Route path="/explore" component={Authorizer(EventContain)} />
-					*/}
+					<Route path="/explore" component={Authorizer(EventContain)} />
 					<Route path="/login" component={Login} />
 				</Switch>
 			</Container>

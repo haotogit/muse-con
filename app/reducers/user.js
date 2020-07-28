@@ -18,18 +18,6 @@ export default function user(state={}, action) {
       })
     break;
 
-    case 'NEW_USER':
-      return Object.assign({}, state, {
-        newUser: action.payload
-      })
-    break;
-
-    case 'USERNAME_EXISTS':
-      return Object.assign({}, state, {
-        usernameExists: action.payload
-      })
-    break;
-
     case 'LOADED_USER_EVENTS':
       return Object.assign({}, state, {
         events: action.payload

@@ -1,4 +1,3 @@
-import popsicle from 'popsicle'
 import qString from 'query-string'
 import rp from 'request-promise'
 import alertify from 'alertify.js'
@@ -7,17 +6,18 @@ import promise from 'bluebird'
 
 function popWrap (reqArgs, dispatch, action) {
   let opts = {
-    json: true,
+		json: true,
+		resolveWithFullResponse: true
   };
 
   dispatch({ type: 'LOADING', payload: true });
   opts = Object.assign({}, opts, reqArgs);
 
   return rp(opts)
-    .then((data) => {
-      if (action) dispatch(action(data));
+    .then((resp) => {
+      if (action) dispatch(action(resp.body));
       dispatch({ type: 'LOADING', payload: false });
-      return data;
+      return resp.body;
     })
     .catch(err => {
       dispatch({ type: 'FAILED REQUEST', payload: err.message });
@@ -46,8 +46,8 @@ function locateUser (currUser) {
 
         opts.body = latLong
 
-        popsicle(opts)
-          .then(res => resolve(res.body))
+        popWrap(opts)
+          .then(res => resolve(res))
       })
     }
   })

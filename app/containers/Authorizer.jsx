@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Navigation from './Navigation'
 
 export default function Authorizer (Comp) {
   class AuthedComp extends Component {
@@ -38,7 +36,6 @@ export default function Authorizer (Comp) {
 			userAuth: state.user.auth,
 			loading: state.main.loading,
   	}, containerScope.props(state)));
-	const mapDispatchToProps = (dispatch) => containerScope.actions(dispatch);
 
-  return connect(mapStateToProps, mapDispatchToProps())(AuthedComp);
+  return connect(mapStateToProps, containerScope.actions)(AuthedComp);
 }
