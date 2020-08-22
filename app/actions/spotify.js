@@ -1,5 +1,4 @@
 import { popWrap } from '../helpers'
-import { push, routerActions } from 'react-router-redux'
 import { userUpdate } from './user'
 import urlLib from 'url'
 import qString from 'query-string'

@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
-import { CalendarTodayTwoTone } from '@material-ui/icons';
-import { Fab, Badge } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { CalendarTodayTwoTone } from '@material-ui/icons'
+import { Container } from '@material-ui/core'
 
 import { getUserEvents, saveEvent } from '../actions'
 import { locateUser } from '../helpers'
 import Lists from '../components/Lists'
 import Navbar from '../components/Navbar'
 import EventBlock from '../components/EventBlock'
+import ImgList from '../components/ImgList'
 
 class Dashboard extends Component {
 	static getContainerStateScope() {
@@ -33,15 +32,13 @@ class Dashboard extends Component {
   // then reassign to state by using same key
   
   componentDidMount() {
-    //if (!this.props.userAuth.lat || !this.props.userAuth.long) {
-    //  locateUser(this.props.userAuth)
-    //    .then(res => {
-    //      this.props.actions.locationFound(res)
-    //    })
-    //}
-    //this.props.dispatch({ type: 'LOADED_USER_EVENTS', payload: [] });
-    this.props.getUserEvents(this.props.userAuth);
+		//this.props.getUserEvents(this.props.userAuth);
+		console.log(this.props)
   }
+
+	getCurrView() {
+		return this.props.location.pathname.replace(/\//, '')
+	}
 
   render(){
     let checkUser = (user) => {
@@ -53,12 +50,7 @@ class Dashboard extends Component {
     } 
 
     return (
-      <div className='container-fluid content-container'>
-        {checkUser(this.props.userAuth)}
-        <div className='row'>
-          <EventBlock {...this.props} /> 
-        </div>
-      </div>
+			<ImgList currView={this.getCurrView()} />
     )
   }
 }

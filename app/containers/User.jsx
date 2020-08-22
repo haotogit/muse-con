@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 import Spotify from '../components/Spotify'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
-import Lists from '../components/Lists'
 import List from '../components/List'
-import d3 from 'd3';
 
 class User extends Component {
 	static getContainerStateScope() {
@@ -115,4 +113,4 @@ class User extends Component {
   }
 }
 
-export default User;
+export default User

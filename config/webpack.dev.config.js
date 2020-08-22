@@ -18,17 +18,10 @@ module.exports = webpackMerge(commonConfig, {
 		compress: true,
     inline: true,
     hot: true,
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: true,
-      chunkModules: false,
-      modules: false,
-    },
+		stats: 'minimal',
     historyApiFallback: true,
     headers: {
-      'Access-Control-Allow-Origin': 'localhost'
+      'Access-Control-Allow-Origin': '*'
     }
   },
   module: {

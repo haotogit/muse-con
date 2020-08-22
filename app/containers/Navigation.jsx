@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Navigation = ({userAuth, logout, loading}) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const routes = ['/', 'explore']
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	let history = useHistory();
@@ -68,7 +68,7 @@ const Navigation = ({userAuth, logout, loading}) => {
 
   return (
     <React.Fragment>
-      <AppBar fixed='true'>
+      <AppBar>
 				{ progress() }
         <Toolbar variant='dense'>
 					<Grid
@@ -114,6 +114,7 @@ const Navigation = ({userAuth, logout, loading}) => {
 										anchorEl={anchorEl}
 										keepMounted
 										open={Boolean(anchorEl)}
+										classes={{ root: classes.menu }}
 										onClose={() => closeMenu()}>
 										<MenuItem onClick={(ev) => closeMenu(ev)}>Profile</MenuItem>
 										<MenuItem onClick={(ev) => closeMenu(ev)}>Logout</MenuItem>

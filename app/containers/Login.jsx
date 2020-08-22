@@ -59,7 +59,7 @@ class Login extends Component {
     return (
       <Container classes={{ root: classes.mainContain }}>
         <h1 style={{textTransform:'uppercase'}}>{freshUser ? 'Sign Up' : 'Login'}</h1>
-				<a onClick={() => this.updateState(this.toggleSignup)}>{freshUser ? 'Already have an account? Login' : 'No Account? Sign up'}</a>
+				<a onClick={() => this.setState(this.toggleSignup)}>{freshUser ? 'Already have an account? Login' : 'No Account? Sign up'}</a>
 				<form id='login-form' onSubmit={(e) => this.login(e)}>
           <TextField
 						id='currUsername'
@@ -138,10 +138,6 @@ class Login extends Component {
     )
   }
 
-	updateState(toUpdate) {
-		this.setState(toUpdate)
-	}
-
 	toggleSubmit(state) {
 		return {
 			invalidLogin: ((this.currUsername.current && this.currUsername.current.value === '') || (this.currPw.current && this.currPw.current.value === '')) ||
@@ -176,7 +172,7 @@ class Login extends Component {
 			}
 		}
 
-		this.updateState(this.toggleSubmit)
+		this.setState(this.toggleSubmit)
 	}
 
   login(e) {
