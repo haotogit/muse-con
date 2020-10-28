@@ -8,11 +8,6 @@ module.exports = webpackMerge(commonConfig, {
   cache: true,
   mode: 'development',
   devtool: 'inline-source-map',
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
   devServer: {
     contentBase: path.join(__dirname, '..', 'dist'),
 		compress: true,
@@ -23,18 +18,6 @@ module.exports = webpackMerge(commonConfig, {
     headers: {
       'Access-Control-Allow-Origin': '*'
     }
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-    ]
   },
   plugins: [
     new miniCssExtractPlugin('[name].css'),

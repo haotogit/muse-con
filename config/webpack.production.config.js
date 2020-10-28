@@ -27,7 +27,7 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production'),
+        'NODE_ENV': JSON.stringify('prod'),
         'TICKETMASTER_URL': JSON.stringify('https://app.ticketmaster.com/discovery/v2'),
         'TICKETMASTER_KEY': JSON.stringify('MwOoif9Ac5iZFedZG7xMW368oRbghDAz'),
         'API_PROTOCOL': JSON.stringify('http'),

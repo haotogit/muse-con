@@ -29,6 +29,11 @@ if (process.env.NODE_ENV === 'dev') {
 
 module.exports = {
   entry: entryArray,
+	node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   output: {
     path: path.join(__dirname, '..', 'dist'),
     filename: '[name]-[hash].js',
@@ -48,6 +53,14 @@ module.exports = {
         test: /\.jsx?$/,
 				use: 'react-hot-loader/webpack',
 				include: /node_modules/
+      },
+			{
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
